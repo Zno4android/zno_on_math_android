@@ -38,8 +38,7 @@ Button add_users;
                                 .enqueue(new Callback<User>() {
                                     @Override
                                     public void onResponse(Call<User> call, Response<User> response) {
-                                        Toast.makeText(getApplicationContext(),"Успешно зарегестрировались",Toast.LENGTH_LONG)
-                                                .show();
+
                                     }
 
                                     @Override
