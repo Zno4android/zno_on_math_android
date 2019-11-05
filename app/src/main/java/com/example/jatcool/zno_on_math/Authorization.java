@@ -34,6 +34,7 @@ Button add_users;
                     public void onClick(View view) {
                         NetworService.getInstance()
                                 .getJSONApi()
+                                //.CreateUsers(new User(name.getText().toString(),email.getText().toString(),password.getText().toString(),login.getText().toString()))
                                 .CreateUsers(login.getText().toString(),name.getText().toString(),email.getText().toString(),password.getText().toString())
                                 .enqueue(new Callback<User>() {
                                     @Override

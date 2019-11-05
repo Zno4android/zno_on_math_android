@@ -7,16 +7,16 @@ public class User {
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("name")
+    @SerializedName("Name")
     @Expose
     private String name;
-    @SerializedName("email")
+    @SerializedName("Email")
     @Expose
     private String email;
-    @SerializedName("password")
+    @SerializedName("Password")
     @Expose
     String password;
-    @SerializedName("login")
+    @SerializedName("Login")
     @Expose
     String login;
 
