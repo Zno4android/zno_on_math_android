@@ -12,9 +12,9 @@ import retrofit2.http.Query;
 public interface ZnoApi {
     @GET("/allUsers")
     public Call<List<User>> getAllUsers();
-    @POST("/createUser")
-    public Call<User> CreateUsers(@Query("Login") String Login,@Query("Name") String Name,@Query("Email") String Email,@Query("Password") String Password);
-//нужно подправить
 //    @POST("/createUser")
-//    public Call<User> CreateUsers(@Body User user);
+//    public Call<User> CreateUsers(@Query("Login") String Login,@Query("Name") String Name,@Query("Email") String Email,@Query("Password") String Password);
+////нужно подправить
+    @POST("/createUser")
+    public Call<User> CreateUsers(@Body User user);
 }
