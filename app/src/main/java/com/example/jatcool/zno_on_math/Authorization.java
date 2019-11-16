@@ -29,6 +29,7 @@ Button add_users;
         name = (EditText)findViewById(R.id.name);
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
+
         add_users = (Button)findViewById(R.id.add_users);
         add_users.setOnClickListener(
                 new View.OnClickListener() {
