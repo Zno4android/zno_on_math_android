@@ -1,4 +1,12 @@
 <resources>
-    <string name="app_name">Подготовка к ЗНО</string>
+    <string name="app_name">Підготовка до ЗНО</string>
+    <string name="reg_title">Реєстрація</string>
+    <string name="avtorization_title">Авторизація</string>
+    <string name="reg_name">Ім`я</string>
+    <string name="reg_mail">Пошта</string>
+    <string name="reg_password">Пароль</string>
+    <string name="reg_re_password">Повторіть пароль</string>
+    <string name="reg_add">Зареэструватися</string>
+    <string name="avt_confirm">Увійти</string>
 
 </resources>

@@ -21,29 +21,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        t1 = (TextView)findViewById(R.id.TextView);
-        t2 = (TextView)findViewById(R.id.textView);
-        t3 = (TextView)findViewById(R.id.textView2);
-        t4 = (TextView)findViewById(R.id.textView3);
-         NetworService.getInstance()
-                 .getJSONApi()
-                 .getAllUsers()
-                 .enqueue(new Callback<List<User>>() {
-                     @Override
-                     public void onResponse(Call<List<User>> call, Response<List<User>> response) {
-                         List<User> test = response.body();
-                         User t = test.get(0);
-                         t1.append(t.getId());
-                         t2.append(t.getName());
-                         t3.append(t.getEmail());
-                         //t4.append(t.getHz());
-                     }
 
-                     @Override
-                     public void onFailure(Call<List<User>> call, Throwable t) {
-                    t1.append(t.getMessage());
-                     }
-                 });
 
     }
 }

@@ -38,13 +38,14 @@ Button add_users;
 
                         NetworService.getInstance()
                                 .getJSONApi()
-                                .CreateUsers(new User(name.getText().toString(),email.getText().toString(),md5Custom(password.getText().toString())))
+                                .CreateUsers(new User(name.getText().toString(),email.getText().toString(),password.getText().toString()))
                                 .enqueue(new Callback<User>() {
                                     @Override
                                     public void onResponse(Call<User> call, Response<User> response) {
 
                                    //тут нужно будет добавить вывод сообщения о удачной регистрации и очищать поля
                                         // желательно еще перекидывать на активити с авторизацией
+                                        finish();
                                     }
 
                                     @Override
@@ -67,28 +68,5 @@ Button add_users;
     public boolean isEqualsPassword(String str1,String srt2){
         return  false;
     }
-    public static String md5Custom(String st) {
-        MessageDigest messageDigest = null;
-        byte[] digest = new byte[0];
 
-        try {
-            messageDigest = MessageDigest.getInstance("MD5");
-            messageDigest.reset();
-            messageDigest.update(st.getBytes());
-            digest = messageDigest.digest();
-        } catch (NoSuchAlgorithmException e) {
-            // тут можно обработать ошибку
-            // возникает она если в передаваемый алгоритм в getInstance(,,,) не существует
-            e.printStackTrace();
-        }
-
-        BigInteger bigInt = new BigInteger(1, digest);
-        String md5Hex = bigInt.toString(16);
-
-        while( md5Hex.length() < 32 ){
-            md5Hex = "0" + md5Hex;
-        }
-
-        return md5Hex;
-    }
 }

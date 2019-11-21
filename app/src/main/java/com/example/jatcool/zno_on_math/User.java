@@ -7,13 +7,13 @@ public class User {
     @SerializedName("_id")
     @Expose
     private String id;
-    @SerializedName("Name")
+    @SerializedName("name")
     @Expose
     private String name;
-    @SerializedName("Email")
+    @SerializedName("email")
     @Expose
     private String email;
-    @SerializedName("Password")
+    @SerializedName("password")
     @Expose
     String password;
 
@@ -23,6 +23,10 @@ public User( String name, String email, String password){
     this.email = email;
     this.password = password;
 
+}
+public User(String email, String password){
+    this.email = email;
+    this.password = password;
 }
     public String getId() {
         return id;
