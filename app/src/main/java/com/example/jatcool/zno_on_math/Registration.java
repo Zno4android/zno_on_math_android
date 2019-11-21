@@ -18,13 +18,13 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Authorization extends AppCompatActivity {
+public class Registration extends AppCompatActivity {
 EditText email,login,name,password,repassword;
 Button add_users;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_authorization);
+        setContentView(R.layout.activity_registration);
         email = (EditText)findViewById(R.id.email);
         name = (EditText)findViewById(R.id.name);
         password = (EditText)findViewById(R.id.password);

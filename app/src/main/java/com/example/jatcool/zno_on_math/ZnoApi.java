@@ -17,4 +17,6 @@ public interface ZnoApi {
 ////нужно подправить
     @POST("/createUser")
     public Call<User> CreateUsers(@Body User user);
+    @POST("/users")
+    public Call<User> getUser(@Body User user);
 }
