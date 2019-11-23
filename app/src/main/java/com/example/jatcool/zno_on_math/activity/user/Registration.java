@@ -30,6 +30,19 @@ public class Registration extends AppCompatActivity {
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
         add_users = (Button)findViewById(R.id.add_users);
+        email.setOnFocusChangeListener(
+                new View.OnFocusChangeListener() {
+                    @Override
+                    public void onFocusChange(View view, boolean b) {
+                        if(!b){
+                            if(Validation.isExistEmail(user.getEmail())){
+
+                            }
+                        }
+
+                    }
+                }
+        );
         add_users.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -43,12 +56,7 @@ public class Registration extends AppCompatActivity {
                                     .enqueue(new Callback<User>() {
                                         @Override
                                         public void onResponse(Call<User> call, Response<User> response) {
-                                            //user.setStatus(response.body().status);
-                                            //тут нужно будет добавить вывод сообщения о удачной регистрации и очищать поля
-                                            // желательно еще перекидывать на активити с авторизацией
-                                            if(Validation.isExistEmail(user.getEmail())){
-                                                //
-                                            }
+
                                             finish();
                                         }
 
@@ -59,6 +67,7 @@ public class Registration extends AppCompatActivity {
                                         }
                                     });
                         }
+
                     }
                 }
         );
@@ -69,15 +78,23 @@ public class Registration extends AppCompatActivity {
         boolean flag=true;
         if(!Validation.isValidEmail(email)){
             flag=false;
+            Toast.makeText(Registration.this,"Введіть коректний email",Toast.LENGTH_LONG)
+                    .show();
             //show message incorrect email
         }else if(!Validation.isValidName(name)){
             flag=false;
+            Toast.makeText(Registration.this,"Введіть коректне ім'я",Toast.LENGTH_LONG)
+                    .show();
             //show message incorrect name
         } else if(!Validation.isValidPasswor(password)){
             flag=false;
+            Toast.makeText(Registration.this,"Введіть коректний пароль",Toast.LENGTH_LONG)
+                    .show();
             //show message incorrect password
         }else if(!Validation.isEqualsPassword(password,rePassword)){
             flag=false;
+            Toast.makeText(Registration.this,"Паролі не сбігаються",Toast.LENGTH_LONG)
+                    .show();
             //show message password dont equals
         }
         return flag;
