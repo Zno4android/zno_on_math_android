@@ -21,6 +21,7 @@ import retrofit2.Response;
 public class Registration extends AppCompatActivity {
 EditText email,login,name,password,repassword;
 Button add_users;
+User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -29,20 +30,19 @@ Button add_users;
         name = (EditText)findViewById(R.id.name);
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
-
         add_users = (Button)findViewById(R.id.add_users);
         add_users.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-
+                user =  new User(name.getText().toString(),email.getText().toString(),password.getText().toString());
                         NetworService.getInstance()
                                 .getJSONApi()
-                                .CreateUsers(new User(name.getText().toString(),email.getText().toString(),password.getText().toString()))
+                                .CreateUsers(user)
                                 .enqueue(new Callback<User>() {
                                     @Override
                                     public void onResponse(Call<User> call, Response<User> response) {
-
+                                         //user.setStatus(response.body().status);
                                    //тут нужно будет добавить вывод сообщения о удачной регистрации и очищать поля
                                         // желательно еще перекидывать на активити с авторизацией
                                         finish();
@@ -63,6 +63,9 @@ Button add_users;
         return false;
     }
     public boolean isValidEmail(String str){
+        return false;
+    }
+    public boolean isValidPasswor(String str){
         return false;
     }
     public boolean isEqualsPassword(String str1,String srt2){

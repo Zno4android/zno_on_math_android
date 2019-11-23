@@ -16,9 +16,19 @@ public class User {
     @SerializedName("password")
     @Expose
     String password;
+    @SerializedName("status")
+    @Expose
+    boolean status;
 
+    public boolean isStatus() {
+        return status;
+    }
 
-public User( String name, String email, String password){
+    public void setStatus(boolean status) {
+        this.status = status;
+    }
+
+    public User(String name, String email, String password){
     this.name = name;
     this.email = email;
     this.password = password;
