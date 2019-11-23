@@ -14,5 +14,5 @@ public interface ZnoApi {
     @POST("/api/user/login")
     public Call<User> getUser(@Body User user);
     @POST ("/api/user/emailValidation")
-    public Call<User> isEmailExist(@Query ("email") String email);
+    public Call<Boolean> isEmailExist(@Query ("email") String email);
 }
