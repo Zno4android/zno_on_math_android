@@ -15,6 +15,11 @@ public class Validation {
         Matcher matcher=pattern.matcher(str);
         return matcher.find();
     }
+    public static boolean isValidName(String str){
+        Pattern pattern=Pattern.compile(RegexC.VALID_NAME);
+        Matcher matcher=pattern.matcher(str);
+        return matcher.find();
+    }
     public static boolean isValidPasswor(String str){
         Pattern pattern=Pattern.compile(RegexC.VALID_PASSWORD);
         Matcher matcher=pattern.matcher(str);
