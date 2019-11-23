@@ -1,4 +1,4 @@
-package com.example.jatcool.zno_on_math;
+package com.example.jatcool.zno_on_math.activity.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,11 +8,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.List;
+import com.example.jatcool.zno_on_math.connection.NetworService;
+import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.entity.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -59,17 +57,6 @@ User user;
         );
 
     }
-    public boolean isExistEmail(String str){
-        return false;
-    }
-    public boolean isValidEmail(String str){
-        return false;
-    }
-    public boolean isValidPasswor(String str){
-        return false;
-    }
-    public boolean isEqualsPassword(String str1,String srt2){
-        return  false;
-    }
+
 
 }

@@ -1,4 +1,4 @@
-package com.example.jatcool.zno_on_math;
+package com.example.jatcool.zno_on_math.entity;
 
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
@@ -32,7 +32,6 @@ public class User {
     this.name = name;
     this.email = email;
     this.password = password;
-
 }
 public User(String email, String password){
     this.email = email;

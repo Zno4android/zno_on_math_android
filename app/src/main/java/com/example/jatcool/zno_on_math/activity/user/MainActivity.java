@@ -1,4 +1,4 @@
-package com.example.jatcool.zno_on_math;
+package com.example.jatcool.zno_on_math.activity.user;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -6,6 +6,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import com.example.jatcool.zno_on_math.R;
 
 import java.util.List;
 

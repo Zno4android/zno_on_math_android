@@ -1,17 +1,17 @@
-package com.example.jatcool.zno_on_math;
+package com.example.jatcool.zno_on_math.activity.user;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import java.util.ArrayList;
-import java.util.List;
+import com.example.jatcool.zno_on_math.connection.NetworService;
+import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.entity.User;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -63,6 +63,6 @@ User user;
     }
 
     public void reg(View view){
-       startActivity(new Intent(this,Registration.class));
+       startActivity(new Intent(this, Registration.class));
     }
 }
