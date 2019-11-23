@@ -46,6 +46,9 @@ public class Registration extends AppCompatActivity {
                                             //user.setStatus(response.body().status);
                                             //тут нужно будет добавить вывод сообщения о удачной регистрации и очищать поля
                                             // желательно еще перекидывать на активити с авторизацией
+                                            if(Validation.isExistEmail(user.getEmail())){
+                                                //
+                                            }
                                             finish();
                                         }
 
@@ -67,16 +70,13 @@ public class Registration extends AppCompatActivity {
         if(!Validation.isValidEmail(email)){
             flag=false;
             //show message incorrect email
-        }
-        if(!Validation.isValidName(name)){
+        }else if(!Validation.isValidName(name)){
             flag=false;
             //show message incorrect name
-        }
-        if(!Validation.isValidPasswor(password)){
+        } else if(!Validation.isValidPasswor(password)){
             flag=false;
             //show message incorrect password
-        }
-        if(!Validation.isEqualsPassword(password,rePassword)){
+        }else if(!Validation.isEqualsPassword(password,rePassword)){
             flag=false;
             //show message password dont equals
         }
