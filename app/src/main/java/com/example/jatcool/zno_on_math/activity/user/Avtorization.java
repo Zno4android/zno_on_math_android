@@ -1,5 +1,6 @@
 package com.example.jatcool.zno_on_math.activity.user;
-
+import com.example.jatcool.zno_on_math.entity.*;
+import com.example.jatcool.zno_on_math.connection.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
@@ -47,13 +48,16 @@ ProgressBar waiter;
 
                                         if(response.body()!=null) {
                                             user = response.body();
-                                            Toast.makeText(Avtorization.this, user.getName(), Toast.LENGTH_LONG)
-                                            .show();
+                                            Intent in = authorization(add_btn);
+                                            in.putExtra("FirstName",user.getFirstname());
+                                            in.putExtra("LastName",user.getLastname());
                                             waiter.setVisibility(View.INVISIBLE);
+                                            startActivity(in);
+                                            finish();
                                         }
                                         else Toast.makeText(Avtorization.this,"Неверный логин или пароль",Toast.LENGTH_LONG)
                                         .show();
-
+                                            waiter.setVisibility(View.GONE);
 
                                     }
 
@@ -61,6 +65,7 @@ ProgressBar waiter;
                                     public void onFailure(Call<User> call, Throwable t) {
                                       Toast.makeText(Avtorization.this,t.getMessage(),Toast.LENGTH_LONG)
                                               .show();
+                                      waiter.setVisibility(View.GONE);
                                     }
                                 });
                     }
@@ -68,7 +73,10 @@ ProgressBar waiter;
         );
 
     }
+   public Intent authorization(View view){
+        return new Intent(this,Zno.class);
 
+   }
     public void reg(View view){
        startActivity(new Intent(this, Registration.class));
     }

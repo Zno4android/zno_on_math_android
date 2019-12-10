@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Spinner;
 import android.widget.Toast;
 
 import com.example.jatcool.zno_on_math.connection.NetworService;
@@ -22,8 +23,9 @@ public class Registration extends AppCompatActivity {
     //ошибки из-за нехватки компонентов, добавь их на форму
     //валидация исправлена в соответствии
     //а на отчество вообще нужна проверка, думаю да для украинцев делаем
-    EditText email,login,password,repassword,firstname,lastname,group;
+    EditText email,login,password,repassword,firstname,lastname,ot;
     Button add_users;
+    Spinner group;
     User user;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,7 +35,7 @@ public class Registration extends AppCompatActivity {
         lastname = (EditText)findViewById(R.id.lastname);
         firstname = (EditText)findViewById(R.id.firstname);
         ot = (EditText)findViewById(R.id.ot);
-        group = (EditText)findViewById(R.id.group);
+        group = (Spinner) findViewById(R.id.group);
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
         add_users = (Button)findViewById(R.id.add_users);
@@ -55,8 +57,8 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if(checkValdationData(email.getText().toString(),password.getText().toString(),repassword.getText().toString(),
-                                lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString()){
-                            user =  new User(email.getText().toString(),password.getText().toString(),group.getText().toString(),
+                                lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString())){
+                            user =  new User(email.getText().toString(),password.getText().toString(),group.getSelectedItem().toString(),
                                     lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString());
                             NetworService.getInstance()
                                     .getJSONApi()
@@ -64,7 +66,8 @@ public class Registration extends AppCompatActivity {
                                     .enqueue(new Callback<User>() {
                                         @Override
                                         public void onResponse(Call<User> call, Response<User> response) {
-
+                                            Toast.makeText(getApplicationContext(),"Ви успішно зареєструвались!",Toast.LENGTH_LONG)
+                                                    .show();
                                             finish();
                                         }
 
