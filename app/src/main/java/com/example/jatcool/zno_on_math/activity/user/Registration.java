@@ -35,7 +35,7 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onFocusChange(View view, boolean b) {
                         if(!b){
-                            if(Validation.isExistEmail(user.getEmail())){
+                            if(Validation.isExistEmail(email.getText().toString())){
 
                             }
                         }
