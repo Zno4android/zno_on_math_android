@@ -18,7 +18,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Registration extends AppCompatActivity {
-    EditText email,login,name,password,repassword;
+    //возможно групу лучше сделать combobox, тогда нужно еще одну таблицу добавить длля групп
+    //ошибки из-за нехватки компонентов, добавь их на форму
+    //валидация исправлена в соответствии
+    //а на отчество вообще нужна проверка, думаю да для украинцев делаем
+    EditText email,login,password,repassword,firstname,lastname,group;
     Button add_users;
     User user;
     @Override
@@ -26,7 +30,10 @@ public class Registration extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
         email = (EditText)findViewById(R.id.email);
-        name = (EditText)findViewById(R.id.name);
+        lastname = (EditText)findViewById(R.id.lastname);
+        firstname = (EditText)findViewById(R.id.firstname);
+        ot = (EditText)findViewById(R.id.ot);
+        group = (EditText)findViewById(R.id.group);
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
         add_users = (Button)findViewById(R.id.add_users);
@@ -47,9 +54,10 @@ public class Registration extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if(checkValdationData(name.getText().toString(),email.getText().toString(),password.getText().toString(),
-                                repassword.getText().toString())){
-                            user =  new User(name.getText().toString(),email.getText().toString(),password.getText().toString());
+                        if(checkValdationData(email.getText().toString(),password.getText().toString(),repassword.getText().toString(),
+                                lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString()){
+                            user =  new User(email.getText().toString(),password.getText().toString(),group.getText().toString(),
+                                    lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString());
                             NetworService.getInstance()
                                     .getJSONApi()
                                     .CreateUsers(user)
@@ -74,19 +82,14 @@ public class Registration extends AppCompatActivity {
 
 
     }
-    private boolean checkValdationData(String email,String name,String password,String rePassword){
+    private boolean checkValdationData(String email,String password,String rePassword,String lastname,String firstname,String ot){
         boolean flag=true;
         if(!Validation.isValidEmail(email)){
             flag=false;
             Toast.makeText(Registration.this,"Введіть коректний email",Toast.LENGTH_LONG)
                     .show();
             //show message incorrect email
-        }else if(!Validation.isValidName(name)){
-            flag=false;
-            Toast.makeText(Registration.this,"Введіть коректне ім'я",Toast.LENGTH_LONG)
-                    .show();
-            //show message incorrect name
-        } else if(!Validation.isValidPasswor(password)){
+        }else if(!Validation.isValidPasswor(password)){
             flag=false;
             Toast.makeText(Registration.this,"Введіть коректний пароль",Toast.LENGTH_LONG)
                     .show();
@@ -96,6 +99,21 @@ public class Registration extends AppCompatActivity {
             Toast.makeText(Registration.this,"Паролі не сбігаються",Toast.LENGTH_LONG)
                     .show();
             //show message password dont equals
+        }else if(!Validation.isValidName(lastname)){
+            flag=false;
+            Toast.makeText(Registration.this,"Введіть коректне ім'я",Toast.LENGTH_LONG)
+                    .show();
+            //show message incorrect name
+        }else if(!Validation.isValidName(firstname)){
+            flag=false;
+            Toast.makeText(Registration.this,"Введіть коректне ім'я",Toast.LENGTH_LONG)
+                    .show();
+            //show message incorrect name
+        }else if(!Validation.isValidName(ot)){
+            flag=false;
+            Toast.makeText(Registration.this,"Введіть коректне ім'я",Toast.LENGTH_LONG)
+                    .show();
+            //show message incorrect name
         }
         return flag;
     }

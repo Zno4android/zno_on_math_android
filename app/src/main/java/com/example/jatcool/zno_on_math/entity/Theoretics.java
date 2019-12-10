@@ -23,6 +23,11 @@ public class Theoretics extends Entity {
         this.text = text;
         this.tests = tests;
     }
+    public Theoretics(Theme theme, String text, List<Test> tests) {
+        this.theme = theme;
+        this.text = text;
+        this.tests = tests;
+    }
 
     public Theme getTheme() {
         return theme;

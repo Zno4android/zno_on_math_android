@@ -12,6 +12,9 @@ public class Theme extends Entity{
         this.setId(id);
         this.name = name;
     }
+    public Theme(String name) {
+        this.name = name;
+    }
 
     public String getName() {
         return name;

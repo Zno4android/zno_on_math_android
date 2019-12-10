@@ -27,6 +27,12 @@ public class Question extends Entity {
         this.variants = variants;
         this.correct = correct;
     }
+    public Question(Theme theme, String text, List<String> variants, String correct) {
+        this.theme = theme;
+        this.text = text;
+        this.variants = variants;
+        this.correct = correct;
+    }
 
     public Theme getTheme() {
         return theme;

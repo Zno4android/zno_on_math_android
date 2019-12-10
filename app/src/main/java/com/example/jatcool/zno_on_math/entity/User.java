@@ -90,11 +90,20 @@ public class User extends Entity {
     @Expose
     private String ot;
 
-    public User(Long id,String email, String password, int status, String group, String firstname, String lastname, String ot) {
+    public User(Long id,String email, String password, String group, String firstname, String lastname, String ot) {
         this.setId(id);
         this.email = email;
         this.password = password;
-        this.status = status;
+        this.status = 0;
+        this.group = group;
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.ot = ot;
+    }
+    public User(String email, String password, String group, String firstname, String lastname, String ot) {
+        this.email = email;
+        this.password = password;
+        this.status = 0;
         this.group = group;
         this.firstname = firstname;
         this.lastname = lastname;

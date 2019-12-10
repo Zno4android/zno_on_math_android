@@ -23,6 +23,11 @@ public class Test extends Entity {
         this.theme = theme;
         this.questions = questions;
     }
+    public Test(String name, Theme theme, List<Question> questions) {
+        this.name = name;
+        this.theme = theme;
+        this.questions = questions;
+    }
 
     public String getName() {
         return name;
