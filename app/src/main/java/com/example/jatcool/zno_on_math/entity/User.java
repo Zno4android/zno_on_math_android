@@ -74,9 +74,9 @@ public class User extends Entity {
     @SerializedName("password")
     @Expose
     private String password;
-    @SerializedName("status")
-    @Expose
-    private int status;
+//    @SerializedName("status")
+//    @Expose
+//    private int status;
     @SerializedName("group")
     @Expose
     private String group;
@@ -89,12 +89,14 @@ public class User extends Entity {
     @SerializedName("ot")
     @Expose
     private String ot;
-
+    @SerializedName("token")
+    @Expose
+    private String token;
     public User(Long id,String email, String password, String group, String firstname, String lastname, String ot) {
         this.setId(id);
         this.email = email;
         this.password = password;
-        this.status = 0;
+        //this.status = 0;
         this.group = group;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -103,7 +105,7 @@ public class User extends Entity {
     public User(String email, String password, String group, String firstname, String lastname, String ot) {
         this.email = email;
         this.password = password;
-        this.status = 0;
+        //this.status = 0;
         this.group = group;
         this.firstname = firstname;
         this.lastname = lastname;
@@ -113,6 +115,15 @@ public class User extends Entity {
     this.email = email;
     this.password = password;
 }
+
+    public String getToken() {
+        return token;
+    }
+
+    public void setToken(String token) {
+        this.token = token;
+    }
+
     public String getEmail() {
         return email;
     }
@@ -129,13 +140,13 @@ public class User extends Entity {
         this.password = password;
     }
 
-    public int getStatus() {
-        return status;
-    }
-
-    public void setStatus(int status) {
-        this.status = status;
-    }
+//    public int getStatus() {
+//        return status;
+//    }
+//
+//    public void setStatus(int status) {
+//        this.status = status;
+//    }
 
     public String getGroup() {
         return group;

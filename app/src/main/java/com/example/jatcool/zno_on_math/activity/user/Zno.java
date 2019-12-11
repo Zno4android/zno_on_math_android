@@ -53,9 +53,12 @@ public class Zno extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
-        mFirstName = (TextView)findViewById(R.id.FirstName);
-        mLastName = (TextView)findViewById(R.id.lastname);
+        View headerLayout = navigationView.getHeaderView(0);
+        mFirstName = headerLayout.findViewById(R.id.FirstName);
+        mLastName = headerLayout.findViewById(R.id.LastName);
         Bundle values = getIntent().getExtras();
+
+
         mFirstName.setText(values.getString("FirstName"));
         mLastName.setText(values.getString("LastName"));
     }
