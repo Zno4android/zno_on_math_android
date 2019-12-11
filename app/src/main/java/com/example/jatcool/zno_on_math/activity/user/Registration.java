@@ -3,9 +3,11 @@ package com.example.jatcool.zno_on_math.activity.user;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
@@ -27,6 +29,8 @@ public class Registration extends AppCompatActivity {
     Button add_users;
     Spinner group;
     User user;
+    ProgressBar email_chk;
+    boolean isEmail;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -39,13 +43,36 @@ public class Registration extends AppCompatActivity {
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
         add_users = (Button)findViewById(R.id.add_users);
+        email_chk = (ProgressBar)findViewById(R.id.login_chk);
         email.setOnFocusChangeListener(
                 new View.OnFocusChangeListener() {
                     @Override
                     public void onFocusChange(View view, boolean b) {
                         if(!b){
-                            if(Validation.isExistEmail(email.getText().toString())){
+                            if(checkValidEmail(email.getText().toString())){
+                                email_chk.setVisibility(View.VISIBLE);
+                               NetworService.getInstance()
+                                       .getJSONApi()
+                                       .isEmailExist(email.getText().toString())
+                                       .enqueue(new Callback<Boolean>() {
+                                           @Override
+                                           public void onResponse(Call<Boolean> call, Response<Boolean> response) {
+                                                 isEmail = response.body();
+                                                 if(!isEmail){
+                                                     Toast.makeText(Registration.this,"Користувач з такою поштою вже існує",Toast.LENGTH_LONG)
+                                                             .show();
+                                                     email_chk.setVisibility(View.GONE);
+                                                 }
+                                           }
 
+                                           @Override
+                                           public void onFailure(Call<Boolean> call, Throwable t) {
+                                               Toast.makeText(Registration.this,t.getMessage(),Toast.LENGTH_LONG)
+                                                       .show();
+                                               Log.d("Error",t.getMessage());
+                                               email_chk.setVisibility(View.GONE);
+                                           }
+                                       });
                             }
                         }
 
@@ -57,26 +84,30 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if(checkValdationData(email.getText().toString(),password.getText().toString(),repassword.getText().toString(),
-                                lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString())){
-                            user =  new User(email.getText().toString(),password.getText().toString(),group.getSelectedItem().toString(),
-                                    lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString());
+                                lastname.getText().toString(), firstname.getText().toString(),ot.getText().toString())) {
+                            if (isEmail){
+                                user = new User(email.getText().toString(), password.getText().toString(), group.getSelectedItem().toString(),
+                                        lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString());
                             NetworService.getInstance()
                                     .getJSONApi()
                                     .CreateUsers(user)
                                     .enqueue(new Callback<User>() {
                                         @Override
                                         public void onResponse(Call<User> call, Response<User> response) {
-                                            Toast.makeText(getApplicationContext(),"Ви успішно зареєструвались!",Toast.LENGTH_LONG)
+                                            Toast.makeText(getApplicationContext(), "Ви успішно зареєструвались!", Toast.LENGTH_LONG)
                                                     .show();
                                             finish();
                                         }
 
                                         @Override
                                         public void onFailure(Call<User> call, Throwable t) {
-                                            Toast.makeText(getApplicationContext(),"Ошибка!",Toast.LENGTH_LONG)
+                                            Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_LONG)
                                                     .show();
                                         }
                                     });
+                        }
+                            else Toast.makeText(Registration.this,"Користувач з такою поштою вже існує",Toast.LENGTH_LONG)
+                            .show();
                         }
 
                     }
@@ -84,6 +115,15 @@ public class Registration extends AppCompatActivity {
         );
 
 
+    }
+    private boolean checkValidEmail(String str){
+        boolean flag=true;
+        if(!Validation.isValidEmail(str)) {
+            flag = false;
+            Toast.makeText(Registration.this, "Введіть коректний email", Toast.LENGTH_LONG)
+                    .show();
+        }
+        return flag;
     }
     private boolean checkValdationData(String email,String password,String rePassword,String lastname,String firstname,String ot){
         boolean flag=true;
