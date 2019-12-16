@@ -14,25 +14,7 @@ import retrofit2.Response;
 
 public class Validation {
     private static boolean flagEmailExist=true;
-    public static boolean isExistEmail(String str){
 
-        NetworService.getInstance()
-                .getJSONApi()
-                .isEmailExist(str)
-                .enqueue(new Callback<Boolean>() {
-                    @Override
-                    public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                        if(response.body()!=null) {
-                            flagEmailExist= response.body().booleanValue();
-                        }
-                    }
-                    @Override
-                    public void onFailure(Call<Boolean> call, Throwable t) {
-
-                    }
-                });
-        return flagEmailExist;
-    }
     public static boolean isValidEmail(String str){
         Pattern pattern=Pattern.compile(RegexC.VALID_EMAIL);
         Matcher matcher=pattern.matcher(str);

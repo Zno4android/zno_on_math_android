@@ -4,6 +4,7 @@ import com.example.jatcool.zno_on_math.connection.*;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
@@ -30,6 +31,7 @@ ProgressBar waiter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avtorization);
+        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mEmail = (EditText)findViewById(R.id.avt_email);
         mPassword = (EditText)findViewById(R.id.avt_password);
         add_btn = (Button)findViewById(R.id.avt_btn);

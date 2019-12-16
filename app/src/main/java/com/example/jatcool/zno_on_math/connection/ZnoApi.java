@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.connection;
 
 import com.example.jatcool.zno_on_math.entity.User;
+import com.example.jatcool.zno_on_math.util.MailCheck;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -15,5 +16,5 @@ public interface ZnoApi {
     @POST("/api/user/login")
     public Call<User> getUser(@Body User user);
     @GET("/api/user/verifyEmail")
-    public Call<Boolean> isEmailExist(@Query ("email") String email);
+    public Call<MailCheck> isEmailExist(@Query ("email") String email);
 }
