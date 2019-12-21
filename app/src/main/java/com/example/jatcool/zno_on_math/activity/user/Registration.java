@@ -14,6 +14,7 @@ import android.widget.Toast;
 
 import com.example.jatcool.zno_on_math.connection.NetworService;
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.util.MailCheck;
 import com.example.jatcool.zno_on_math.util.Validation;
@@ -95,7 +96,7 @@ public class Registration extends AppCompatActivity {
                             if (checkValdationData(email.getText().toString(), password.getText().toString(), repassword.getText().toString(),
                                     lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString())) {
                                 if (isEmail.isEmail()) {
-                                    user = new User(email.getText().toString(), password.getText().toString(), group.getSelectedItem().toString(),
+                                    user = new User(email.getText().toString(), password.getText().toString(), new Group(group.getSelectedItem().toString()),
                                             lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString());
                                     NetworService.getInstance()
                                             .getJSONApi()
