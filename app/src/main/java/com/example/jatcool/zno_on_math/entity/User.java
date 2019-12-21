@@ -79,7 +79,7 @@ public class User extends Entity {
 //    private int status;
     @SerializedName("group")
     @Expose
-    private Group group;
+    private String group;
     @SerializedName("firstname")
     @Expose
     private String firstname;
@@ -92,7 +92,7 @@ public class User extends Entity {
     @SerializedName("token")
     @Expose
     private String token;
-    public User(Long id,String email, String password, Group group, String firstname, String lastname, String ot) {
+    public User(Long id,String email, String password, String group, String firstname, String lastname, String ot) {
         this.setId(id);
         this.email = email;
         this.password = password;
@@ -102,7 +102,7 @@ public class User extends Entity {
         this.lastname = lastname;
         this.ot = ot;
     }
-    public User(String email, String password, Group group, String firstname, String lastname, String ot) {
+    public User(String email, String password, String group, String firstname, String lastname, String ot) {
         this.email = email;
         this.password = password;
         //this.status = 0;
@@ -148,11 +148,11 @@ public class User extends Entity {
 //        this.status = status;
 //    }
 
-    public Group getGroup() {
+    public String getGroup() {
         return group;
     }
 
-    public void setGroup(Group group) {
+    public void setGroup(String group) {
         this.group = group;
     }
 

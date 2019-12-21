@@ -6,6 +6,7 @@ import android.icu.text.UnicodeSetSpanner;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ProgressBar;
@@ -18,6 +19,9 @@ import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.util.MailCheck;
 import com.example.jatcool.zno_on_math.util.Validation;
+import com.google.gson.internal.bind.ArrayTypeAdapter;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -38,12 +42,14 @@ public class Registration extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registration);
+        group = (Spinner) findViewById(R.id.group);
+        getGroup();
          isEmail = new MailCheck();
         email = (EditText)findViewById(R.id.email);
         lastname = (EditText)findViewById(R.id.lastname);
         firstname = (EditText)findViewById(R.id.firstname);
         ot = (EditText)findViewById(R.id.ot);
-        group = (Spinner) findViewById(R.id.group);
+
         password = (EditText)findViewById(R.id.password);
         repassword = (EditText)findViewById(R.id.re_password);
         add_users = (Button)findViewById(R.id.add_users);
@@ -53,36 +59,7 @@ public class Registration extends AppCompatActivity {
                     @Override
                     public void onFocusChange(View view, boolean b) {
                         if(!b){
-                            if(checkValidEmail(email.getText().toString())){
-                                email_chk.setVisibility(View.VISIBLE);
-                               NetworService.getInstance()
-                                       .getJSONApi()
-                                       .isEmailExist(email.getText().toString())
-                                       .enqueue(new Callback<MailCheck>() {
-                                           @Override
-                                           public void onResponse(Call<MailCheck> call, Response<MailCheck> response) {
-                                                 isEmail = response.body();
-                                                 if(!isEmail.isEmail()){
-                                                     Toast.makeText(Registration.this,"Користувач з такою поштою вже існує",Toast.LENGTH_LONG)
-                                                             .show();
-                                                     email_chk.setVisibility(View.GONE);
-                                                 }
-                                                 else {
-                                                     Toast.makeText(Registration.this,"Пошта вільна",Toast.LENGTH_SHORT)
-                                                             .show();
-                                                     email_chk.setVisibility(View.GONE);
-                                                 }
-                                           }
-
-                                           @Override
-                                           public void onFailure(Call<MailCheck> call, Throwable t) {
-                                               Toast.makeText(Registration.this,t.getMessage(),Toast.LENGTH_LONG)
-                                                       .show();
-                                               Log.d("Error",t.getMessage());
-                                               email_chk.setVisibility(View.GONE);
-                                           }
-                                       });
-                            }
+                            checkEmail();
                         }
 
                     }
@@ -92,40 +69,90 @@ public class Registration extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (email_chk.isShown()) {
-                            if (checkValdationData(email.getText().toString(), password.getText().toString(), repassword.getText().toString(),
-                                    lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString())) {
-                                if (isEmail.isEmail()) {
-                                    user = new User(email.getText().toString(), password.getText().toString(), new Group(group.getSelectedItem().toString()),
-                                            lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString());
-                                    NetworService.getInstance()
-                                            .getJSONApi()
-                                            .CreateUsers(user)
-                                            .enqueue(new Callback<User>() {
-                                                @Override
-                                                public void onResponse(Call<User> call, Response<User> response) {
-                                                    Toast.makeText(getApplicationContext(), "Ви успішно зареєструвались!", Toast.LENGTH_LONG)
-                                                            .show();
-                                                    finish();
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<User> call, Throwable t) {
-                                                    Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_LONG)
-                                                            .show();
-                                                }
-                                            });
-                                } else
-                                    Toast.makeText(Registration.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
-                                            .show();
-                            }
-
-                        }
-                        else Toast.makeText(Registration.this,"Почекайте", Toast.LENGTH_SHORT)
-                        .show();
+                        newUer();
                     }
                 }
         );
+
+
+    }
+    private void getGroup(){
+        NetworService.getInstance()
+                .getJSONApi()
+                .GetGroup()
+                .enqueue(new Callback<Group>() {
+                    @Override
+                    public void onResponse(Call<Group> call, Response<Group> response) {
+                        ArrayAdapter<String> adapter = new ArrayAdapter<String>(Registration.this, android.R.layout.simple_spinner_item, response.body().getName());
+                        adapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+                        group.setAdapter(adapter);
+                    }
+
+                    @Override
+                    public void onFailure(Call<Group> call, Throwable t) {
+
+                    }
+                });
+    }
+    private void checkEmail(){
+        if(checkValidEmail(email.getText().toString())){
+            email_chk.setVisibility(View.VISIBLE);
+            NetworService.getInstance()
+                    .getJSONApi()
+                    .isEmailExist(email.getText().toString())
+                    .enqueue(new Callback<MailCheck>() {
+                        @Override
+                        public void onResponse(Call<MailCheck> call, Response<MailCheck> response) {
+                            isEmail = response.body();
+                            if(!isEmail.isEmail()){
+                                Toast.makeText(Registration.this,"Користувач з такою поштою вже існує",Toast.LENGTH_LONG)
+                                        .show();
+                                email_chk.setVisibility(View.GONE);
+                            }
+                            else {
+                                Toast.makeText(Registration.this,"Пошта вільна",Toast.LENGTH_SHORT)
+                                        .show();
+                                email_chk.setVisibility(View.GONE);
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<MailCheck> call, Throwable t) {
+                            Toast.makeText(Registration.this,t.getMessage(),Toast.LENGTH_LONG)
+                                    .show();
+                            Log.d("Error",t.getMessage());
+                            email_chk.setVisibility(View.GONE);
+                        }
+                    });
+        }
+    }
+    private void newUer(){
+            if (checkValdationData(email.getText().toString(), password.getText().toString(), repassword.getText().toString(),
+                    lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString())) {
+                if (isEmail.isEmail()) {
+                    user = new User(email.getText().toString(), password.getText().toString(), group.getSelectedItem().toString(),
+                            lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString());
+                    NetworService.getInstance()
+                            .getJSONApi()
+                            .CreateUsers(user)
+                            .enqueue(new Callback<User>() {
+                                @Override
+                                public void onResponse(Call<User> call, Response<User> response) {
+                                    Toast.makeText(getApplicationContext(), "Ви успішно зареєструвались!", Toast.LENGTH_LONG)
+                                            .show();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<User> call, Throwable t) {
+                                    Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+                } else
+                    Toast.makeText(Registration.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
+                            .show();
+            }
 
 
     }
