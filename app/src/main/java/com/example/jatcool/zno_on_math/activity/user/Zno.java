@@ -1,11 +1,14 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
+import android.content.Intent;
 import android.os.Bundle;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
+import android.view.MenuItem;
 import android.view.View;
 
 import androidx.navigation.NavController;
@@ -22,6 +25,8 @@ import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
 import android.widget.TextView;
+
+import java.io.File;
 
 public class Zno extends AppCompatActivity {
 
@@ -67,6 +72,18 @@ public class Zno extends AppCompatActivity {
         // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.zno, menu);
         return true;
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()){
+            case R.id.action_log_out:{
+                new File(ConstFile.SHARED_PREFENCES_START_PATH+ConstFile.FILE_NAME).delete();
+                startActivity(new Intent(Zno.this,Avtorization.class));
+                return true;
+            }
+
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     @Override
