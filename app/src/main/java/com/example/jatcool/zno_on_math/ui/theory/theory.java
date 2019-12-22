@@ -22,8 +22,6 @@ public class theory extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_theory, container, false);
-        t = (TextView)view.findViewById(R.id.hi);
-        t.setText("Это фрагмент с теорией");
         return view;
     }
 

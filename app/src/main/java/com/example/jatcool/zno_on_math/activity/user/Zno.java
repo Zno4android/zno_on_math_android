@@ -31,7 +31,7 @@ import java.io.File;
 public class Zno extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-     private TextView mFirstName,mLastName;
+     private TextView mFirstName,mLastName,mGroup;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,11 +60,13 @@ public class Zno extends AppCompatActivity {
         View headerLayout = navigationView.getHeaderView(0);
         mFirstName = headerLayout.findViewById(R.id.FirstName);
         mLastName = headerLayout.findViewById(R.id.LastName);
+        mGroup = headerLayout.findViewById(R.id.GroupText);
         Bundle values = getIntent().getExtras();
 
 
         mFirstName.setText(values.getString("FirstName"));
         mLastName.setText(values.getString("LastName"));
+        mGroup.setText(values.getString("Group"));
     }
 
     @Override
