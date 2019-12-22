@@ -30,6 +30,13 @@
     <string name="menu_share">Share</string>
     <string name="menu_send">Send</string>
 
+    <string name="header_add_test">Створення тесту</string>
+    <string name="textView_add_name">Введіть назву тесту</string>
+    <string name="textView_add_theme">Виберіть тему тетсу</string>
+    <string name="textView_add_text_question">Введіть завдання</string>
+    <string name="textView_variants">Варіанти відповідей</string>
+    <string name="btn_add_variant">Додати відповідь</string>
+
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>
