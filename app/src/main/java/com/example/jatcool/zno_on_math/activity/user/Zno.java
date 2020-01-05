@@ -31,7 +31,8 @@ import java.io.File;
 public class Zno extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
-     private TextView mFirstName,mLastName,mGroup;
+    private TextView mFirstName, mLastName, mGroup;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,7 +52,7 @@ public class Zno extends AppCompatActivity {
         // Passing each menu ID as a set of Ids because each
         // menu should be considered as top level destinations.
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home,R.id.nav_theory)
+                R.id.nav_home, R.id.nav_theory)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -75,12 +76,13 @@ public class Zno extends AppCompatActivity {
         getMenuInflater().inflate(R.menu.zno, menu);
         return true;
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()){
-            case R.id.action_log_out:{
-                new File(ConstFile.SHARED_PREFENCES_START_PATH+ConstFile.FILE_NAME).delete();
-                startActivity(new Intent(Zno.this,Avtorization.class));
+        switch (item.getItemId()) {
+            case R.id.action_log_out: {
+                new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).delete();
+                startActivity(new Intent(Zno.this, Avtorization.class));
                 return true;
             }
 

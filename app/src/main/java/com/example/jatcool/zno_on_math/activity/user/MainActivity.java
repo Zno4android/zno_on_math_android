@@ -20,6 +20,7 @@ public class MainActivity extends AppCompatActivity {
     TextView t2;
     TextView t3;
     TextView t4;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -27,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
 
 
     }
-
 
 
 }

@@ -1,16 +1,9 @@
 package com.example.jatcool.zno_on_math.util;
 
-import android.widget.Toast;
-
 import com.example.jatcool.zno_on_math.constants.RegexC;
-import com.example.jatcool.zno_on_math.connection.*;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
 public class Validation {
     private static boolean flagEmailExist=true;
@@ -25,7 +18,7 @@ public class Validation {
         Matcher matcher=pattern.matcher(str);
         return matcher.find();
     }
-    public static boolean isValidPasswor(String str){
+    public static boolean isValidPassword(String str){
         Pattern pattern=Pattern.compile(RegexC.VALID_PASSWORD);
         Matcher matcher=pattern.matcher(str);
         return matcher.find();

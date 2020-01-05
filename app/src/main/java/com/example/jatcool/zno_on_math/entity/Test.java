@@ -17,12 +17,13 @@ public class Test extends Entity {
     @Expose
     private List<Question> questions;
 
-    public Test(Long id,String name, Theme theme, List<Question> questions) {
+    public Test(Long id, String name, Theme theme, List<Question> questions) {
         this.setId(id);
         this.name = name;
         this.theme = theme;
         this.questions = questions;
     }
+
     public Test(String name, Theme theme, List<Question> questions) {
         this.name = name;
         this.theme = theme;

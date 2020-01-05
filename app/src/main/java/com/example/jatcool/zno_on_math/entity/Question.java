@@ -20,13 +20,14 @@ public class Question extends Entity {
     @Expose
     private String correct;
 
-    public Question(Long id,Theme theme, String text, List<String> variants, String correct) {
+    public Question(Long id, Theme theme, String text, List<String> variants, String correct) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
         this.variants = variants;
         this.correct = correct;
     }
+
     public Question(Theme theme, String text, List<String> variants, String correct) {
         this.theme = theme;
         this.text = text;
@@ -65,7 +66,6 @@ public class Question extends Entity {
     public void setCorrect(String correct) {
         this.correct = correct;
     }
-
 
 
 }
