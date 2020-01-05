@@ -1,11 +1,10 @@
 package com.example.jatcool.zno_on_math.activity.user;
-import com.example.jatcool.zno_on_math.entity.*;
-import com.example.jatcool.zno_on_math.connection.*;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -16,7 +15,10 @@ import android.widget.Toast;
 
 import com.example.jatcool.zno_on_math.connection.NetworService;
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.constants.RegexC;
 import com.example.jatcool.zno_on_math.entity.User;
+
+import java.io.File;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -31,6 +33,19 @@ ProgressBar waiter;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avtorization);
+        Log.d("PathFile",ConstFile.SHARED_PREFENCES_START_PATH+ConstFile.FILE_NAME);
+        if( new File(ConstFile.SHARED_PREFENCES_START_PATH+ConstFile.FILE_NAME).exists()){
+
+            Intent in = authorization(add_btn);
+            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""),MODE_PRIVATE);
+            in.putExtra("FirstName",sharedPreferences.getString("FirstName",""));
+            in.putExtra("LastName",sharedPreferences.getString("LastName",""));
+            in.putExtra("token",sharedPreferences.getString("token",""));
+            in.putExtra("Group",sharedPreferences.getString("Group",""));
+            startActivity(in);
+            finish();
+
+        }
         setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mEmail = (EditText)findViewById(R.id.avt_email);
         mPassword = (EditText)findViewById(R.id.avt_password);
@@ -53,7 +68,17 @@ ProgressBar waiter;
                                             Intent in = authorization(add_btn);
                                             in.putExtra("FirstName",user.getFirstname());
                                             in.putExtra("LastName",user.getLastname());
+                                            in.putExtra("token",user.getToken());
+                                            in.putExtra("Group",user.getGroup());
                                             waiter.setVisibility(View.INVISIBLE);
+                                            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""),MODE_PRIVATE);
+                                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                                            editor.putString("FirstName",user.getFirstname());
+                                            editor.putString("LastName",user.getLastname());
+                                            editor.putString("token",user.getToken());
+                                            editor.putString("Group",user.getGroup());
+                                            editor.apply();
+                                            editor.commit();
                                             startActivity(in);
                                             finish();
                                         }
