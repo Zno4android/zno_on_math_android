@@ -10,6 +10,8 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ZnoApi {
@@ -22,4 +24,6 @@ public interface ZnoApi {
     public Call<MailCheck> isEmailExist(@Query ("email") String email);
     @GET("/api/user/getGroup")
     public Call<Group> GetGroup();
+    @PUT("/api/user/{id}")
+    public Call<User> update(@Path("id") int id,@Body User user);
 }
