@@ -24,6 +24,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
 import android.view.Menu;
+import android.widget.ImageView;
 import android.widget.TextView;
 
 import java.io.File;
@@ -32,7 +33,7 @@ public class Zno extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private TextView mFirstName, mLastName, mGroup;
-
+     private ImageView img;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,8 +64,15 @@ public class Zno extends AppCompatActivity {
         mLastName = headerLayout.findViewById(R.id.LastName);
         mGroup = headerLayout.findViewById(R.id.GroupText);
         Bundle values = getIntent().getExtras();
-
-
+        img = headerLayout.findViewById(R.id.imageView);
+        img.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View view) {
+                        startActivity(new Intent(Zno.this,Profile.class));
+                    }
+                }
+        );
         mFirstName.setText(values.getString("FirstName"));
         mLastName.setText(values.getString("LastName"));
         mGroup.setText(values.getString("Group"));
