@@ -9,11 +9,8 @@
             android:title="Головна сторінка" />
 
         <item
-        android:id="@id/nav_theory"
-        android:title="Головний кабінет"/>
+            android:id="@id/nav_theory"
+            android:title="Головний кабінет"/>
 
     </group>
-
-
-
 </menu>

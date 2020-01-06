@@ -16,6 +16,4 @@
         android:name="com.example.jatcool.zno_on_math.ui.theory.theory"
         android:label="Теорія"
         tools:layout="@layout/fragment_theory" />
-
-
 </navigation>

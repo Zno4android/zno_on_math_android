@@ -18,7 +18,7 @@ public class User extends Entity {
 //    String password;
 //    @SerializedName("status")
 //    @Expose
-   // boolean status;
+    // boolean status;
 
 //    public boolean isStatus() {
 //        return status;
@@ -28,7 +28,7 @@ public class User extends Entity {
 //        this.status = status;
 //    }
 
-//    public User(String name, String email, String password){
+    //    public User(String name, String email, String password){
 ////    this.name = name;
 ////    this.email = email;
 ////    this.password = password;
@@ -74,7 +74,7 @@ public class User extends Entity {
     @SerializedName("password")
     @Expose
     private String password;
-//    @SerializedName("status")
+    //    @SerializedName("status")
 //    @Expose
 //    private int status;
     @SerializedName("group")
@@ -92,7 +92,8 @@ public class User extends Entity {
     @SerializedName("token")
     @Expose
     private String token;
-    public User(Long id,String email, String password, String group, String firstname, String lastname, String ot) {
+
+    public User(Long id, String email, String password, String group, String firstname, String lastname, String ot) {
         this.setId(id);
         this.email = email;
         this.password = password;
@@ -102,6 +103,7 @@ public class User extends Entity {
         this.lastname = lastname;
         this.ot = ot;
     }
+
     public User(String email, String password, String group, String firstname, String lastname, String ot) {
         this.email = email;
         this.password = password;
@@ -111,10 +113,11 @@ public class User extends Entity {
         this.lastname = lastname;
         this.ot = ot;
     }
-    public User(String email, String password){
-    this.email = email;
-    this.password = password;
-}
+
+    public User(String email, String password) {
+        this.email = email;
+        this.password = password;
+    }
 
     public String getToken() {
         return token;

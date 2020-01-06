@@ -8,9 +8,10 @@ import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
 public class NetworService {
-    private static  NetworService mInstance;
+    private static NetworService mInstance;
     private Retrofit retrofit;
-    private NetworService(){
+
+    private NetworService() {
         HttpLoggingInterceptor interceptor = new HttpLoggingInterceptor();
         interceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
         OkHttpClient.Builder client = new OkHttpClient.Builder()
@@ -21,12 +22,14 @@ public class NetworService {
                 .client(client.build())
                 .build();
     }
-    public  static  NetworService getInstance(){
-        if(mInstance==null){
+
+    public static NetworService getInstance() {
+        if (mInstance == null) {
             mInstance = new NetworService();
         }
         return mInstance;
     }
+
     public ZnoApi getJSONApi() {
         return retrofit.create(ZnoApi.class);
     }

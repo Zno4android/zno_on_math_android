@@ -18,10 +18,13 @@ public interface ZnoApi {
 
     @POST("/api/user/register")
     public Call<User> CreateUsers(@Body User user);
+
     @POST("/api/user/login")
     public Call<User> getUser(@Body User user);
+
     @GET("/api/user/verifyEmail")
-    public Call<MailCheck> isEmailExist(@Query ("email") String email);
+    public Call<MailCheck> isEmailExist(@Query("email") String email);
+
     @GET("/api/user/getGroup")
     public Call<Group> GetGroup();
     @PUT("/api/user/{id}")

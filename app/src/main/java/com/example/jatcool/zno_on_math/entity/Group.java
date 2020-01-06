@@ -8,9 +8,9 @@ import java.util.List;
 public class Group extends Entity {
     @SerializedName("group")
     @Expose
-    List<String>name;
+    List<String> name;
 
-    public Group(Long id,List<String> name) {
+    public Group(Long id, List<String> name) {
         this.setId(id);
         this.name = name;
     }
@@ -19,10 +19,16 @@ public class Group extends Entity {
     public String getNameforIndex(int index) {
         return name.get(index);
     }
-    public List<String> getName(){return name;}
+
+    public List<String> getName() {
+        return name;
+    }
 
     public void setName(List<String> name) {
         this.name = name;
     }
-    public void setName(String name){this.name.add(name);}
+
+    public void setName(String name) {
+        this.name.add(name);
+    }
 }

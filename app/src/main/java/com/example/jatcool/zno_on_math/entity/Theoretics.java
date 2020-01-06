@@ -17,12 +17,13 @@ public class Theoretics extends Entity {
     @Expose
     private List<Test> tests;
 
-    public Theoretics(Long id,Theme theme, String text, List<Test> tests) {
+    public Theoretics(Long id, Theme theme, String text, List<Test> tests) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
         this.tests = tests;
     }
+
     public Theoretics(Theme theme, String text, List<Test> tests) {
         this.theme = theme;
         this.text = text;
