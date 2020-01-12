@@ -1,9 +1,5 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
-import com.example.jatcool.zno_on_math.constants.ConstFile;
-
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -15,9 +11,11 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
-import com.example.jatcool.zno_on_math.connection.NetworService;
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.jatcool.zno_on_math.R;
-import com.example.jatcool.zno_on_math.constants.RegexC;
+import com.example.jatcool.zno_on_math.connection.NetworkService;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.User;
 
 import java.io.File;
@@ -26,7 +24,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Avtorization extends AppCompatActivity {
+public class Authorization extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button add_btn;
     User user;
@@ -59,7 +57,7 @@ public class Avtorization extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         waiter.setVisibility(View.VISIBLE);
-                        NetworService.getInstance()
+                        NetworkService.getInstance()
                                 .getJSONApi()
                                 .getUser(new User(mEmail.getText().toString(), mPassword.getText().toString()))
                                 .enqueue(new Callback<User>() {
@@ -85,7 +83,7 @@ public class Avtorization extends AppCompatActivity {
                                             startActivity(in);
                                             finish();
                                         } else
-                                            Toast.makeText(Avtorization.this, "Неверный логин или пароль", Toast.LENGTH_LONG)
+                                            Toast.makeText(Authorization.this, "Неверный логин или пароль", Toast.LENGTH_LONG)
                                                     .show();
                                         waiter.setVisibility(View.GONE);
 
@@ -93,7 +91,7 @@ public class Avtorization extends AppCompatActivity {
 
                                     @Override
                                     public void onFailure(Call<User> call, Throwable t) {
-                                        Toast.makeText(Avtorization.this, t.getMessage(), Toast.LENGTH_LONG)
+                                        Toast.makeText(Authorization.this, t.getMessage(), Toast.LENGTH_LONG)
                                                 .show();
                                         waiter.setVisibility(View.GONE);
                                     }
