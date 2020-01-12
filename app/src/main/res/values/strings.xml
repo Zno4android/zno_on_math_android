@@ -21,6 +21,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="prName">Ім`я</string>
+    <string name="prFname">По батькові</string>
+    <string name="prLast">Фамілія</string>
+    <string name="prGroup">Група</string>
+    <string name="prChange">Змінити</string>
+    <string name="prSave">Зберігти</string>
+    <string name="prCancel">Відмінити</string>
 
 
     <string name="menu_home">Home</string>
