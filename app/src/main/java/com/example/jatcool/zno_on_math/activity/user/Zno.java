@@ -82,7 +82,7 @@ public class Zno extends AppCompatActivity {
         switch (item.getItemId()) {
             case R.id.action_log_out: {
                 new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).delete();
-                startActivity(new Intent(Zno.this, Avtorization.class));
+                startActivity(new Intent(Zno.this, Authorization.class));
                 return true;
             }
 

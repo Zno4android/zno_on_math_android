@@ -15,7 +15,7 @@
             android:name=".activity.user.Zno"
             android:label="@string/title_activity_zno"
             android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.user.Avtorization">
+        <activity android:name=".activity.user.Authorization">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 

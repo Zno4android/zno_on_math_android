@@ -12,8 +12,8 @@ import android.widget.ProgressBar;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.jatcool.zno_on_math.connection.NetworService;
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.util.MailCheck;
@@ -75,7 +75,7 @@ public class Registration extends AppCompatActivity {
     }
 
     private void getGroup() {
-        NetworService.getInstance()
+        NetworkService.getInstance()
                 .getJSONApi()
                 .GetGroup()
                 .enqueue(new Callback<Group>() {
@@ -96,7 +96,7 @@ public class Registration extends AppCompatActivity {
     private void checkEmail() {
         if (checkValidEmail(email.getText().toString())) {
             email_chk.setVisibility(View.VISIBLE);
-            NetworService.getInstance()
+            NetworkService.getInstance()
                     .getJSONApi()
                     .isEmailExist(email.getText().toString())
                     .enqueue(new Callback<MailCheck>() {
@@ -131,7 +131,7 @@ public class Registration extends AppCompatActivity {
             if (isEmail.isEmail()) {
                 user = new User(email.getText().toString(), password.getText().toString(), group.getSelectedItem().toString(),
                         lastname.getText().toString(), firstname.getText().toString(), ot.getText().toString());
-                NetworService.getInstance()
+                NetworkService.getInstance()
                         .getJSONApi()
                         .CreateUsers(user)
                         .enqueue(new Callback<User>() {
