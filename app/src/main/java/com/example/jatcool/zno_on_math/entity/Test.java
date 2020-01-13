@@ -17,7 +17,7 @@ public class Test extends Entity {
     @Expose
     private List<Question> questions;
 
-    public Test(Long id, String name, Theme theme, List<Question> questions) {
+    public Test(String id, String name, Theme theme, List<Question> questions) {
         this.setId(id);
         this.name = name;
         this.theme = theme;
@@ -52,5 +52,14 @@ public class Test extends Entity {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name:'" + name + '\'' +
+                ", theme:" + theme +
+                ", questions:" + questions +
+                '}';
     }
 }

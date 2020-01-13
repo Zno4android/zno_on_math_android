@@ -8,7 +8,7 @@ public class Theme extends Entity {
     @Expose
     private String name;
 
-    public Theme(Long id, String name) {
+    public Theme(String id, String name) {
         this.setId(id);
         this.name = name;
     }
@@ -23,5 +23,12 @@ public class Theme extends Entity {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "name:'" + name + '\'' +
+                '}';
     }
 }

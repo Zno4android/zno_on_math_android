@@ -10,7 +10,7 @@ public class Group extends Entity {
     @Expose
     List<String> name;
 
-    public Group(Long id, List<String> name) {
+    public Group(String id, List<String> name) {
         this.setId(id);
         this.name = name;
     }

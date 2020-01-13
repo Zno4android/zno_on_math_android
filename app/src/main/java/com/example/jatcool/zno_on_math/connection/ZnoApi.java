@@ -4,6 +4,8 @@ import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.ResultQuestions;
 import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
+import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
 import com.example.jatcool.zno_on_math.util.MailCheck;
 
 import retrofit2.Call;
@@ -37,8 +39,8 @@ public interface ZnoApi {
     public Call<User> getUserData(@Header("auth-token") String token);
 
     @POST("/api/user/updateStatistics")
-    public Call<Statistics> updateStatistics(@Body Statistics statistics);
+    public Call<DBStatistics> updateStatistics(@Body DBStatistics statistics);
 
     @POST("/api/user/updateResultQuestion")
-    public Call<ResultQuestions> updateResultQuestion(@Body ResultQuestions resultQuestions);
+    public Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
 }

@@ -93,7 +93,7 @@ public class User extends Entity {
     @Expose
     private String token;
 
-    public User(Long id, String email, String password, String group, String firstname, String lastname, String ot) {
+    public User(String id, String email, String password, String group, String firstname, String lastname, String ot) {
         this.setId(id);
         this.email = email;
         this.password = password;
@@ -188,5 +188,17 @@ public class User extends Entity {
 
     public void setOt(String ot) {
         this.ot = ot;
+    }
+
+    @Override
+    public String toString() {
+        return "{" +
+                "email:'" + email + '\'' +
+                ", password:'" + password + '\'' +
+                ", group:'" + group + '\'' +
+                ", firstname:'" + firstname + '\'' +
+                ", lastname:'" + lastname + '\'' +
+                ", ot:'" + ot + '\'' +
+                '}';
     }
 }

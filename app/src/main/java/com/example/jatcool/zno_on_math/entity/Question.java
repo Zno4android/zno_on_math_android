@@ -20,7 +20,7 @@ public class Question extends Entity {
     @Expose
     private String correct;
 
-    public Question(Long id, Theme theme, String text, List<String> variants, String correct) {
+    public Question(String id, Theme theme, String text, List<String> variants, String correct) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
@@ -67,5 +67,13 @@ public class Question extends Entity {
         this.correct = correct;
     }
 
-
+    @Override
+    public String toString() {
+        return "{" +
+                "theme:" + theme +
+                ", text:'" + text + '\'' +
+                ", variants:" + variants +
+                ", correct:'" + correct + '\'' +
+                '}';
+    }
 }
