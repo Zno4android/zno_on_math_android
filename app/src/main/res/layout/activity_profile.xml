@@ -20,7 +20,7 @@
             android:text="@string/prFname" />
 
         <EditText
-            android:id="@+id/edLastName"
+            android:id="@+id/edFname"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -61,7 +61,7 @@
             android:text="@string/prLast" />
 
         <EditText
-            android:id="@+id/edFname"
+            android:id="@+id/edLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -114,7 +114,20 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prCancel" />
+
+        <ProgressBar
+            android:id="@+id/Timer"
+            style="?android:attr/progressBarStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:visibility="gone"
+            android:layout_weight="1" />
     </LinearLayout>
+
+    <ListView
+        android:id="@+id/ProfileResultList"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 
 </LinearLayout>

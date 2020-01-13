@@ -9,6 +9,8 @@ import com.example.jatcool.zno_on_math.util.MailCheck;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HEAD;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
@@ -20,13 +22,19 @@ public interface ZnoApi {
     public Call<User> CreateUsers(@Body User user);
 
     @POST("/api/user/login")
-    public Call<User> getUser(@Body User user);
+    public Call<User> Log_in(@Body User user);
 
     @GET("/api/user/verifyEmail")
     public Call<MailCheck> isEmailExist(@Query("email") String email);
 
     @GET("/api/user/getGroup")
     public Call<Group> GetGroup();
+
+    @PUT("/api/profile/updateUserData")
+    public Call<User> Change(@Header("auth-token") String token,@Body User user);
+
+    @GET("/api/profile/getUserData")
+    public Call<User> getUserData(@Header("auth-token") String token);
 
     @POST("/api/user/updateStatistics")
     public Call<Statistics> updateStatistics(@Body Statistics statistics);

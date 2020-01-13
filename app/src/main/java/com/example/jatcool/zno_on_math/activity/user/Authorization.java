@@ -60,29 +60,13 @@ public class Authorization extends AppCompatActivity {
                         waiter.setVisibility(View.VISIBLE);
                         NetworkService.getInstance()
                                 .getJSONApi()
-                                .getUser(new User(mEmail.getText().toString(), mPassword.getText().toString()))
+                                .Log_in(new User(mEmail.getText().toString(), mPassword.getText().toString()))
                                 .enqueue(new Callback<User>() {
                                     @Override
                                     public void onResponse(Call<User> call, Response<User> response) {
 
                                         if (response.body() != null) {
-                                            user = response.body();
-                                            Intent in = authorization(add_btn);
-                                            in.putExtra("FirstName", user.getFirstname());
-                                            in.putExtra("LastName", user.getLastname());
-                                            in.putExtra("token", user.getToken());
-                                            in.putExtra("Group", user.getGroup());
-                                            waiter.setVisibility(View.INVISIBLE);
-                                            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-                                            SharedPreferences.Editor editor = sharedPreferences.edit();
-                                            editor.putString("FirstName", user.getFirstname());
-                                            editor.putString("LastName", user.getLastname());
-                                            editor.putString("token", user.getToken());
-                                            editor.putString("Group", user.getGroup());
-                                            editor.apply();
-                                            editor.commit();
-                                            startActivity(in);
-                                            finish();
+                                            user_by_token(response.body().getToken());
                                         } else
                                             Toast.makeText(Authorization.this, "Неверный логин или пароль", Toast.LENGTH_LONG)
                                                     .show();
@@ -110,5 +94,39 @@ public class Authorization extends AppCompatActivity {
 
     public void reg(View view) {
         startActivity(new Intent(this, Registration.class));
+    }
+
+    public void user_by_token(String token){
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getUserData(token)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        user = response.body();
+                        Intent in = authorization(add_btn);
+                        in.putExtra("FirstName", user.getFirstname());
+                        in.putExtra("LastName", user.getLastname());
+                        in.putExtra("token", user.getToken());
+                        in.putExtra("Group", user.getGroup());
+                        waiter.setVisibility(View.INVISIBLE);
+                        SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("FirstName", user.getFirstname());
+                        editor.putString("Fname",user.getOt());
+                        editor.putString("LastName", user.getLastname());
+                        editor.putString("token", user.getToken());
+                        editor.putString("Group", user.getGroup());
+                        editor.apply();
+                        editor.commit();
+                        startActivity(in);
+                        finish();
+                    }
+
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+
+                    }
+                });
     }
 }

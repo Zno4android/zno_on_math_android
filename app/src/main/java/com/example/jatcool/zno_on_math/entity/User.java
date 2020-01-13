@@ -119,6 +119,13 @@ public class User extends Entity {
         this.password = password;
     }
 
+    public User(String ot,String firstname, String lastname){
+        this.firstname = firstname;
+        this.lastname = lastname;
+        this.ot = ot;
+
+    }
+
     public String getToken() {
         return token;
     }
