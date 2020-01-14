@@ -53,7 +53,7 @@ User user;
                   new View.OnClickListener() {
                       @Override
                       public void onClick(View view) {
-                          if(!Fname.getText().toString().equals(""),!Name.getText().toString().equals(""),!LastName.getText().toString().equals(""))
+                          if(!Fname.getText().toString().equals("")&&!Name.getText().toString().equals("")&&!LastName.getText().toString().equals(""))
                           {
                                user = new User(Fname.getText().toString(),Name.getText().toString(),LastName.getText().toString());
                                Change(user);
@@ -87,7 +87,7 @@ User user;
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if(response.isSuccessful()){
-                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml"),MODE_PRIVATE);
+                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""),MODE_PRIVATE);
                          SharedPreferences.Editor editor = sharedPreferences.edit();
                          editor.putString("Fname",user.getOt());
                          editor.putString("FirstName",user.getFirstname());
