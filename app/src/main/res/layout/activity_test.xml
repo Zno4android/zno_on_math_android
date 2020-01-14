@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.user.Test">
+    tools:context=".activity.user.Tests">
 
     <TextView
         android:id="@+id/Test_theme_textview"
@@ -22,6 +22,8 @@
         android:text="TextView" />
 
     <ListView
+        android:id="@+id/Test_variants"
+        android:choiceMode="singleChoice"
         android:layout_width="match_parent"
         android:layout_height="200dp"
         android:layout_weight="1" />
@@ -46,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Skip" />
 
         <Button
             android:id="@+id/Test_next_btn"
@@ -54,7 +56,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Next" />
     </LinearLayout>
 
 </LinearLayout>

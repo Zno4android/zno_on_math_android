@@ -9,7 +9,7 @@ import java.util.ArrayList;
 public class Question extends Entity {
     @SerializedName("theme")
     @Expose
-    private Theme theme;
+    private String theme;
     @SerializedName("text")
     @Expose
     private String text;
@@ -20,7 +20,7 @@ public class Question extends Entity {
     @Expose
     private String correct;
 
-    public Question(String id, Theme theme, String text, List<String> variants, String correct) {
+    public Question(String id, String theme, String text, List<String> variants, String correct) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
@@ -28,18 +28,18 @@ public class Question extends Entity {
         this.correct = correct;
     }
 
-    public Question(Theme theme, String text, List<String> variants, String correct) {
+    public Question(String theme, String text, List<String> variants, String correct) {
         this.theme = theme;
         this.text = text;
         this.variants = variants;
         this.correct = correct;
     }
 
-    public Theme getTheme() {
+    public String getTheme() {
         return theme;
     }
 
-    public void setTheme(Theme theme) {
+    public void setTheme(String theme) {
         this.theme = theme;
     }
 

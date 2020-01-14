@@ -9,10 +9,10 @@ import java.util.Date;
 public class DBResultQuestion {
     @SerializedName("token")
     @Expose
-    private int token;
-    @SerializedName("testID")
+    private String token;
+    @SerializedName("questionId")
     @Expose
-    private String testID;
+    private String questionId;
     @SerializedName("result")
     @Expose
     private boolean result;
@@ -20,9 +20,9 @@ public class DBResultQuestion {
     @Expose
     private String dateStr;
 
-    public DBResultQuestion(int token, String testID, boolean result, Date date) {
+    public DBResultQuestion(String token, String questionId, boolean result, Date date) {
         this.token = token;
-        this.testID = testID;
+        this.questionId = questionId;
         this.result = result;
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         this.dateStr = simpleDateFormat.format(date);

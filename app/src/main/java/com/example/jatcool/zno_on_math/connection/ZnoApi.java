@@ -3,6 +3,7 @@ package com.example.jatcool.zno_on_math.connection;
 import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.ResultQuestions;
 import com.example.jatcool.zno_on_math.entity.Statistics;
+import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
@@ -21,26 +22,29 @@ import retrofit2.http.Query;
 public interface ZnoApi {
 
     @POST("/api/user/register")
-    public Call<User> CreateUsers(@Body User user);
+    Call<User> CreateUsers(@Body User user);
 
     @POST("/api/user/login")
-    public Call<User> Log_in(@Body User user);
+    Call<User> Log_in(@Body User user);
 
     @GET("/api/user/verifyEmail")
-    public Call<MailCheck> isEmailExist(@Query("email") String email);
+    Call<MailCheck> isEmailExist(@Query("email") String email);
 
     @GET("/api/user/getGroup")
-    public Call<Group> GetGroup();
+    Call<Group> GetGroup();
 
     @PUT("/api/profile/updateUserData")
-    public Call<User> Change(@Header("auth-token") String token,@Body User user);
+    Call<User> Change(@Header("auth-token") String token,@Body User user);
 
     @GET("/api/profile/getUserData")
-    public Call<User> getUserData(@Header("auth-token") String token);
+    Call<User> getUserData(@Header("auth-token") String token);
 
     @POST("/api/user/updateStatistics")
-    public Call<DBStatistics> updateStatistics(@Body DBStatistics statistics);
+    Call<DBStatistics> updateStatistics(@Body DBStatistics statistics);
 
     @POST("/api/user/updateResultQuestion")
-    public Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
+    Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
+
+    @GET("/api/test/getTest")
+    Call<Test> getTest (@Query("testId") String testId);
 }

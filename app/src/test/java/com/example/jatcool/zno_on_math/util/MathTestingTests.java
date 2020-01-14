@@ -12,7 +12,7 @@ import java.util.List;
 
 import static org.junit.Assert.*;
 
-public class MathTestingTest {
+public class MathTestingTests {
     MathTesting mathTesting;
     ArrayList<Question> questions;
 
@@ -22,10 +22,10 @@ public class MathTestingTest {
         ArrayList<String> variants = new ArrayList<>();
         variants.add("так");
         variants.add("ні");
-        Question question1 = new Question(new Theme("Тотожності"), "Чи вірна тоттожність\n5=7 ?", variants, "ні");
-        Question question2 = new Question(new Theme("Тотожності"), "Чи вірна тоттожність\ntg a=sin a/cos a ?", variants, "так");
-        Question question3 = new Question(new Theme("Подобность треугольников часть 1"), "Чи вірне твердження\nЯкщо у трикутників однакові усі кути, вони подібні?", variants, "так");
-        Question question4 = new Question(new Theme("Подобность треугольников часть 2"), "Чи вірне твердження\nЯкщо дві сторони одного трикутника рівні двом сторонам другого трикутника, вони подібні?", variants, "ні");
+        Question question1 = new Question("Тотожності", "Чи вірна тоттожність\n5=7 ?", variants, "ні");
+        Question question2 = new Question("Тотожності", "Чи вірна тоттожність\ntg a=sin a/cos a ?", variants, "так");
+        Question question3 = new Question("Подобность треугольников часть 1", "Чи вірне твердження\nЯкщо у трикутників однакові усі кути, вони подібні?", variants, "так");
+        Question question4 = new Question("Подобность треугольников часть 2", "Чи вірне твердження\nЯкщо дві сторони одного трикутника рівні двом сторонам другого трикутника, вони подібні?", variants, "ні");
 
         questions.add(question1);
         questions.add(question2);

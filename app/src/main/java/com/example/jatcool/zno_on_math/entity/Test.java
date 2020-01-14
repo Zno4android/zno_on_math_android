@@ -12,19 +12,19 @@ public class Test extends Entity {
     private String name;
     @SerializedName("theme")
     @Expose
-    private Theme theme;
+    private String theme;
     @SerializedName("questions")
     @Expose
     private List<Question> questions;
 
-    public Test(String id, String name, Theme theme, List<Question> questions) {
+    public Test(String id, String name, String theme, List<Question> questions) {
         this.setId(id);
         this.name = name;
         this.theme = theme;
         this.questions = questions;
     }
 
-    public Test(String name, Theme theme, List<Question> questions) {
+    public Test(String name, String theme, List<Question> questions) {
         this.name = name;
         this.theme = theme;
         this.questions = questions;
@@ -38,11 +38,11 @@ public class Test extends Entity {
         this.name = name;
     }
 
-    public Theme getTheme() {
+    public String getTheme() {
         return theme;
     }
 
-    public void setTheme(Theme theme) {
+    public void setTheme(String theme) {
         this.theme = theme;
     }
 

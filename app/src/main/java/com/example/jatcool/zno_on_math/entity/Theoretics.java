@@ -9,7 +9,7 @@ import java.util.List;
 public class Theoretics extends Entity {
     @SerializedName("theme")
     @Expose
-    private Theme theme;
+    private String theme;
     @SerializedName("text")
     @Expose
     private String text;
@@ -17,24 +17,24 @@ public class Theoretics extends Entity {
     @Expose
     private List<Test> tests;
 
-    public Theoretics(String id, Theme theme, String text, List<Test> tests) {
+    public Theoretics(String id, String theme, String text, List<Test> tests) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
         this.tests = tests;
     }
 
-    public Theoretics(Theme theme, String text, List<Test> tests) {
+    public Theoretics(String theme, String text, List<Test> tests) {
         this.theme = theme;
         this.text = text;
         this.tests = tests;
     }
 
-    public Theme getTheme() {
+    public String getTheme() {
         return theme;
     }
 
-    public void setTheme(Theme theme) {
+    public void setTheme(String theme) {
         this.theme = theme;
     }
 

@@ -4,7 +4,7 @@ import org.junit.Test;
 
 import static org.junit.Assert.*;
 
-public class ValidationTest {
+public class ValidationTests {
 
     @Test
     public void isValidEmail() {

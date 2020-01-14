@@ -4,18 +4,19 @@ import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.exception.MathTestingException;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class MathTesting implements Testing {
-    private ArrayList<Question> questions;
-    private ArrayList<Answer> answers;
+    private List<Question> questions;
+    private List<Answer> answers;
     private int currentQuestion;
-    private ArrayList<Integer> skipQuestions;
+    private List<Integer> skipQuestions;
     private boolean passAllQuestions;
     private boolean testPass;
     private int countCorrect;
     private int countIncorrect;
 
-    public MathTesting(ArrayList<Question> questions) {
+    public MathTesting(List<Question> questions) {
         this.questions = questions;
         answers = new ArrayList<>(questions.size());
         this.currentQuestion = 0;
@@ -103,8 +104,12 @@ public class MathTesting implements Testing {
         }
     }
 
-    public ArrayList<Answer> getAnswers() {
+    public List<Answer> getAnswers() {
         return answers;
+    }
+
+    public boolean isPassAllQuestions() {
+        return passAllQuestions;
     }
 
     public boolean isTestPass() {
