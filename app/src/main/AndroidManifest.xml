@@ -11,15 +11,17 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.user.Theory"></activity>
+        <activity android:name=".activity.user.Test" />
         <activity
             android:name=".activity.user.Zno"
             android:label="@string/title_activity_zno"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
-        <activity android:name=".activity.user.Authorization"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".activity.user.Authorization"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
+
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>

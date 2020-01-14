@@ -28,6 +28,8 @@
     <string name="prChange">Змінити</string>
     <string name="prSave">Зберігти</string>
     <string name="prCancel">Відмінити</string>
+    <string name="List_Search">Пошук</string>
+    <string name="List_sort_by">Фільтрувати за:</string>
 
 
     <string name="menu_home">Home</string>

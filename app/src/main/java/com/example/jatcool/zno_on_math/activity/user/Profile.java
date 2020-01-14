@@ -31,6 +31,7 @@ User user;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
+        setTitle("Профіль");
         Fname = (EditText)findViewById(R.id.edFname);
         Name = (EditText)findViewById(R.id.edName);
         LastName = (EditText)findViewById(R.id.edLastName);

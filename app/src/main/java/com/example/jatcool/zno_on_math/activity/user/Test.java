@@ -6,11 +6,11 @@ import android.os.Bundle;
 
 import com.example.jatcool.zno_on_math.R;
 
-public class Theory extends AppCompatActivity {
+public class Test extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_theory);
+        setContentView(R.layout.activity_test);
     }
 }

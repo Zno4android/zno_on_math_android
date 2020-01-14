@@ -71,7 +71,7 @@ public class Statistics {
         questions.add(question3);
         questions.add(question4);
 
-        Test test = new Test(1l, "wqeqwe", new Theme("123"), questions);
+        Test test = new Test(String.valueOf(1l), "wqeqwe", new Theme("123"), questions);
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
