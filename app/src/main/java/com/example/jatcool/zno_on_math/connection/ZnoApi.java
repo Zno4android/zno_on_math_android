@@ -34,17 +34,17 @@ public interface ZnoApi {
     Call<Group> GetGroup();
 
     @PUT("/api/profile/updateUserData")
-    Call<User> Change(@Header("auth-token") String token,@Body User user);
+    Call<User> Change(@Header("auth-token") String token, @Body User user);
 
     @GET("/api/profile/getUserData")
     Call<User> getUserData(@Header("auth-token") String token);
 
-    @POST("/api/user/updateStatistics")
+    @POST("/api/statistics/generalStatistics")
     Call<DBStatistics> updateStatistics(@Body DBStatistics statistics);
 
-    @POST("/api/user/updateResultQuestion")
+    @POST("/api/statistics/questionStatistics")
     Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
 
     @GET("/api/test/getTest")
-    Call<Test> getTest (@Query("testId") String testId);
+    Call<Test> getTest(@Query("testId") String testId);
 }
