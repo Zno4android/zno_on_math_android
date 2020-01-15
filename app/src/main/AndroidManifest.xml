@@ -12,6 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity android:name=".activity.user.Tests" />
+        <activity android:name = ".activity.admin.add_test"/>
         <activity
             android:name=".activity.user.Zno"
             android:label="@string/title_activity_zno"

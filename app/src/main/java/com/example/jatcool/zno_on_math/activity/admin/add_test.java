@@ -2,8 +2,10 @@ package com.example.jatcool.zno_on_math.activity.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.graphics.drawable.GradientDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -50,11 +52,18 @@ public class add_test extends AppCompatActivity {
     }
     private void add_variants(int kol){
       linearLayout.removeAllViews();
-      LinearLayout.LayoutParams layoutParams = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-        RadioButton otv = new RadioButton(this);
-        EditText desc_var = new EditText(this);
-        linearLayout.addView(otv,layoutParams);
-        linearLayout.addView(desc_var,layoutParams);
+      for(int i=0;i<kol;i++) {
+          LinearLayout.LayoutParams ediText = new LinearLayout.LayoutParams(450, LinearLayout.LayoutParams.WRAP_CONTENT);
+          LinearLayout.LayoutParams radio = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+          RadioButton otv = new RadioButton(this);
+          EditText desc_var = new EditText(this);
+          LinearLayout line = new LinearLayout(this);
+          line.setOrientation(LinearLayout.HORIZONTAL);
+          line.addView(otv, radio);
+          line.addView(desc_var, ediText);
+          LinearLayout.LayoutParams r = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+          linearLayout.addView(line,r);
+      }
 
     }
 
