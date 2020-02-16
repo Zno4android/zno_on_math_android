@@ -5,5 +5,5 @@ import com.example.jatcool.zno_on_math.entity.User;
 public interface UserService {
     User getUserByToken(String token);
 
-    String getUserByEmailAndPassword(String email, String password);
+    String getUserByEmailAndPassword(String email, String password, User user);
 }

@@ -85,7 +85,7 @@ public class Authorization extends AppCompatActivity {
 //                                        waiter.setVisibility(View.GONE);
 //                                    }
 //                                });
-                        String token = userService.getUserByEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString());
+                        String token = userService.getUserByEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString(), user);
                         if (token != null) {
                             user_by_token(token);
                         } else {
@@ -145,7 +145,7 @@ public class Authorization extends AppCompatActivity {
 //
 //                    }
 //                });
-        user = userService.getUserByToken(token);
+        //user = userService.getUserByToken(token);
         Intent in = authorization(add_btn);
         in.putExtra("FirstName", user.getFirstname());
         in.putExtra("LastName", user.getLastname());
