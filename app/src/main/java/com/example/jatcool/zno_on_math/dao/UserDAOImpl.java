@@ -3,6 +3,8 @@ package com.example.jatcool.zno_on_math.dao;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.User;
 
+import java.io.IOException;
+
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -46,22 +48,37 @@ public class UserDAOImpl implements UserDAO {
         Thread thread = new Thread(new Runnable() {
             @Override
             public void run() {
-                NetworkService.getInstance()
-                        .getJSONApi()
-                        .Log_in(new User(email, password))
-                        .enqueue(new Callback<User>() {
-                            @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
-                                if (response.body() != null) {
-                                    token = response.body().getToken();
-                                }
-                            }
+//                NetworkService.getInstance()
+//                        .getJSONApi()
+//                        .Log_in(new User(email, password))
+//                        .enqueue(new Callback<User>() {
+//                            @Override
+//                            public void onResponse(Call<User> call, Response<User> response) {
+//                                if (response.body() != null) {
+//                                    token = response.body().getToken();
+//                                }
+//                            }
+//
+//                            @Override
+//                            public void onFailure(Call<User> call, Throwable t) {
+//
+//                            }
+//                        });
 
-                            @Override
-                            public void onFailure(Call<User> call, Throwable t) {
+                try {
+                    Response<User> response = NetworkService.getInstance()
+                            .getJSONApi()
+                            .Log_in(new User(email, password))
+                            .execute();
 
-                            }
-                        });
+                    if (response.body() != null) {
+                        token = response.body().getToken();
+                    }
+
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
         thread.start();
