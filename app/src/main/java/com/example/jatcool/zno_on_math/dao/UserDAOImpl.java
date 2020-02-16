@@ -5,17 +5,14 @@ import com.example.jatcool.zno_on_math.entity.User;
 
 import java.io.IOException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserDAOImpl implements UserDAO {
-    //private User user;
+    private User user;
     private String token;
 
     @Override
     public User getUserByToken(final String token) {
-        final User[] user = new User[1];
 //        NetworkService.getInstance()
 //                .getJSONApi()
 //                .getUserData(token)
@@ -40,7 +37,7 @@ public class UserDAOImpl implements UserDAO {
                             .execute();
 
                     if (response.body() != null) {
-                        user[0] = response.body();
+                        user = response.body();
                     }
 
                 } catch (IOException e) {
@@ -57,55 +54,52 @@ public class UserDAOImpl implements UserDAO {
         }
 
 
-        return user[0];
+        return user;
     }
 
     @Override
-    public String getUserByEmailAndPassword(final String email, final String password, User user) {
+    public String getUserByEmailAndPassword(final String email, final String password) {
 
-        final User[] result = {null};
-        NetworkService.getInstance()
-                .getJSONApi()
-                .Log_in(new User(email, password))
-                .enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if (response.body() != null) {
-                            token = response.body().getToken();
-                            result[0] = response.body();
-                        }
-                    }
-
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
-
-                    }
-                });
-        user = result[0];
-//        Thread thread = new Thread(new Runnable() {
-//            @Override
-//            public void run() {
-//                try {
-//                    Response<User> response = NetworkService.getInstance()
-//                            .getJSONApi()
-//                            .Log_in(new User(email, password))
-//                            .execute();
+//        NetworkService.getInstance()
+//                        .getJSONApi()
+//                        .Log_in(new User(email, password))
+//                        .enqueue(new Callback<User>() {
+//                            @Override
+//                            public void onResponse(Call<User> call, Response<User> response) {
+//                                if (response.body() != null) {
+//                                    token = response.body().getToken();
+//                                }
+//                            }
 //
-//                    if (response.body() != null) {
-//                        token = response.body().getToken();
-//                    }
-//                } catch (IOException e) {
-//                    e.printStackTrace();
-//                }
-//            }
-//        });
+//                            @Override
+//                            public void onFailure(Call<User> call, Throwable t) {
 //
-//        thread.start();
-//        try {
-//            thread.join();
-//        } catch (InterruptedException e) {
-//            e.printStackTrace();
-//        }
+//                            }
+//                        });
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response<User> response = NetworkService.getInstance()
+                            .getJSONApi()
+                            .Log_in(new User(email, password))
+                            .execute();
+
+                    if (response.body() != null) {
+                        token = response.body().getToken();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
 
         return token;
     }
