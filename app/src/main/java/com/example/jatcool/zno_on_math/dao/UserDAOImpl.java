@@ -10,7 +10,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserDAOImpl implements UserDAO {
-    //private User user;
+    User user;
     private String token;
 
     @Override
@@ -61,9 +61,7 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public String getUserByEmailAndPassword(final String email, final String password, User user) {
-
-        final User[] result = {null};
+    public String getUserByEmailAndPassword(final String email, final String password, User outuser) {
         NetworkService.getInstance()
                 .getJSONApi()
                 .Log_in(new User(email, password))
@@ -72,7 +70,7 @@ public class UserDAOImpl implements UserDAO {
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.body() != null) {
                             token = response.body().getToken();
-                            result[0] = response.body();
+                            user = response.body();
                         }
                     }
 
@@ -81,7 +79,10 @@ public class UserDAOImpl implements UserDAO {
 
                     }
                 });
-        user = result[0];
+        if (user != null) {
+            outuser = user;
+        }
+
 //        Thread thread = new Thread(new Runnable() {
 //            @Override
 //            public void run() {
