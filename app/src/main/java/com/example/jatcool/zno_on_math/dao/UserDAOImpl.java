@@ -27,20 +27,32 @@ public class UserDAOImpl implements UserDAO {
 //
 //                    }
 //                });
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response<User> response = NetworkService.getInstance()
+                            .getJSONApi()
+                            .getUserData(token)
+                            .execute();
 
-        try {
-            Response<User> response = NetworkService.getInstance()
-                    .getJSONApi()
-                    .getUserData(token)
-                    .execute();
+                    if (response.body() != null) {
+                        user = response.body();
+                    }
 
-            if (response.body() != null) {
-                user = response.body();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
+        });
 
-        } catch (IOException e) {
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
+
 
         return user;
     }
@@ -64,17 +76,28 @@ public class UserDAOImpl implements UserDAO {
 //
 //                            }
 //                        });
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    Response<User> response = NetworkService.getInstance()
+                            .getJSONApi()
+                            .Log_in(new User(email, password))
+                            .execute();
 
-        try {
-            Response<User> response = NetworkService.getInstance()
-                    .getJSONApi()
-                    .Log_in(new User(email, password))
-                    .execute();
-
-            if (response.body() != null) {
-                token = response.body().getToken();
+                    if (response.body() != null) {
+                        token = response.body().getToken();
+                    }
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
             }
-        } catch (IOException e) {
+        });
+
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
             e.printStackTrace();
         }
 
