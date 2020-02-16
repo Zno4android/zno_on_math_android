@@ -5,8 +5,6 @@ import com.example.jatcool.zno_on_math.entity.User;
 
 import java.io.IOException;
 
-import retrofit2.Call;
-import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UserDAOImpl implements UserDAO {
@@ -15,40 +13,42 @@ public class UserDAOImpl implements UserDAO {
 
     @Override
     public User getUserByToken(final String token) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                NetworkService.getInstance()
-                        .getJSONApi()
-                        .getUserData(token)
-                        .enqueue(new Callback<User>() {
-                            @Override
-                            public void onResponse(Call<User> call, Response<User> response) {
-                                user = response.body();
-                            }
+//        NetworkService.getInstance()
+//                .getJSONApi()
+//                .getUserData(token)
+//                .enqueue(new Callback<User>() {
+//                    @Override
+//                    public void onResponse(Call<User> call, Response<User> response) {
+//                        user = response.body();
+//                    }
+//
+//                    @Override
+//                    public void onFailure(Call<User> call, Throwable t) {
+//
+//                    }
+//                });
 
-                            @Override
-                            public void onFailure(Call<User> call, Throwable t) {
-
-                            }
-                        });
-            }
-        });
-        thread.start();
         try {
-            thread.join();
-        } catch (InterruptedException e) {
+            Response<User> response = NetworkService.getInstance()
+                    .getJSONApi()
+                    .getUserData(token)
+                    .execute();
+
+            if (response.body() != null) {
+                user = response.body();
+            }
+
+        } catch (IOException e) {
             e.printStackTrace();
         }
+
         return user;
     }
 
     @Override
     public String getUserByEmailAndPassword(final String email, final String password) {
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-//                NetworkService.getInstance()
+
+//        NetworkService.getInstance()
 //                        .getJSONApi()
 //                        .Log_in(new User(email, password))
 //                        .enqueue(new Callback<User>() {
@@ -65,26 +65,16 @@ public class UserDAOImpl implements UserDAO {
 //                            }
 //                        });
 
-                try {
-                    Response<User> response = NetworkService.getInstance()
-                            .getJSONApi()
-                            .Log_in(new User(email, password))
-                            .execute();
-
-                    if (response.body() != null) {
-                        token = response.body().getToken();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-
-            }
-        });
-        thread.start();
         try {
-            thread.join();
-        } catch (InterruptedException e) {
+            Response<User> response = NetworkService.getInstance()
+                    .getJSONApi()
+                    .Log_in(new User(email, password))
+                    .execute();
+
+            if (response.body() != null) {
+                token = response.body().getToken();
+            }
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
