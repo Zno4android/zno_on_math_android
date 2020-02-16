@@ -42,23 +42,35 @@ public class UserDAOImpl implements UserDAO {
     }
 
     @Override
-    public String getUserByEmailAndPassword(String email, String password) {
-        NetworkService.getInstance()
-                .getJSONApi()
-                .Log_in(new User(email, password))
-                .enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        if (response.body() != null) {
-                            token = response.body().getToken();
-                        }
-                    }
+    public String getUserByEmailAndPassword(final String email, final String password) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .Log_in(new User(email, password))
+                        .enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                if (response.body() != null) {
+                                    token = response.body().getToken();
+                                }
+                            }
 
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
 
-                    }
-                });
+                            }
+                        });
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+
         return token;
     }
 }
