@@ -12,21 +12,32 @@ public class UserDAOImpl implements UserDAO {
     private String token;
 
     @Override
-    public User getUserByToken(String token) {
-        NetworkService.getInstance()
-                .getJSONApi()
-                .getUserData(token)
-                .enqueue(new Callback<User>() {
-                    @Override
-                    public void onResponse(Call<User> call, Response<User> response) {
-                        user = response.body();
-                    }
+    public User getUserByToken(final String token) {
+        Thread thread = new Thread(new Runnable() {
+            @Override
+            public void run() {
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .getUserData(token)
+                        .enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                user = response.body();
+                            }
 
-                    @Override
-                    public void onFailure(Call<User> call, Throwable t) {
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
 
-                    }
-                });
+                            }
+                        });
+            }
+        });
+        thread.start();
+        try {
+            thread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         return user;
     }
 
