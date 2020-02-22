@@ -82,7 +82,7 @@ public class UserDAOImpl implements UserDAO {
 
                     }
                 });
-        while (!flag) ;
+
 
         if (user != null) {
             outuser = user;

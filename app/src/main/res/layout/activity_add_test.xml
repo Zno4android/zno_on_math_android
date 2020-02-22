@@ -20,18 +20,19 @@
             android:text="@string/header_add_test"/>
 
         <LinearLayout
-            android:layout_width="wrap_content"
+            android:layout_width="384dp"
             android:layout_height="wrap_content"
             android:paddingBottom="15dp">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/textView_add_name"/>
+                android:text="@string/textView_add_name" />
+
             <EditText
                 android:id="@+id/test_name"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
         </LinearLayout>
 
         <LinearLayout
@@ -42,12 +43,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/textView_add_name"
-                android:paddingRight="30dp"/>
-            <EditText
+                android:paddingRight="30dp"
+                android:text="@string/textView_add_theme" />
+
+            <Spinner
                 android:id="@+id/theme_test"
-                android:layout_width="170dp"
-                android:layout_height="wrap_content"/>
+                android:layout_width="214dp"
+                android:layout_height="wrap_content" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,12 +65,28 @@
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:orientation="vertical"
             android:paddingBottom="15dp">
 
             <EditText
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"/>
+
+            <LinearLayout
+                android:id="@+id/add_image_liner"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content">
+
+                <ImageView
+                    android:id="@+id/add_image_button"
+                    android:layout_width="30dp"
+                    android:layout_height="30dp"
+                    android:focusable="true"
+                    android:clickable="true"
+                    android:onClick="AddImageView"
+                    app:srcCompat="@mipmap/plus_solid" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"

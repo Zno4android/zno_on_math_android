@@ -2,8 +2,13 @@ package com.example.jatcool.zno_on_math.activity.admin;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.ActivityNotFoundException;
+import android.content.Intent;
+import android.graphics.Bitmap;
 import android.graphics.drawable.GradientDrawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -11,17 +16,28 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.jatcool.zno_on_math.R;
 
-public class add_test extends AppCompatActivity {
+import java.io.IOException;
 
+public class add_test extends AppCompatActivity {
+    static final int GALLERY_REQUEST = 1;
+    final int PIC_CROP = 2;
     Spinner spinnerVariants;
+    LinearLayout lin;
+    LinearLayout.LayoutParams  par;
+    ImageView img;
     LinearLayout ll_variants;
+    Bitmap thePic=null;
    String kol_variants [] = new String[]{"2","3","4","5","6"};
+   int id = 0;
     LinearLayout linearLayout;
     private int countID = 0;
 
@@ -50,6 +66,45 @@ public class add_test extends AppCompatActivity {
         spinnerVariants.setOnItemSelectedListener(itemSelectedListener);
 
     }
+    public void AddImageView(View view){
+         lin = findViewById(R.id.add_image_liner);
+         img = new ImageView(this);
+         par = new LinearLayout.LayoutParams(100,100);
+        img.setId(id);
+        id++;
+        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+        photoPickerIntent.setType("image/*");
+        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent imageReturnedIntent) {
+        super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
+
+        Bitmap bitmap = null;
+        switch(requestCode) {
+            case GALLERY_REQUEST: {
+                if (resultCode == RESULT_OK) {
+                    Uri selectedImage = imageReturnedIntent.getData();
+                    try {
+                        thePic = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
+                        if(thePic!=null) {
+                            img.setRotation(0);
+                            img.setImageBitmap(thePic);
+                            lin.addView(img, par);
+                            thePic = null;
+                            img = null;
+                        }
+                    } catch (IOException e) {
+                        e.printStackTrace();
+                    }
+
+                }
+            }
+        }
+    }
+
     private void add_variants(int kol){
       linearLayout.removeAllViews();
       for(int i=0;i<kol;i++) {
