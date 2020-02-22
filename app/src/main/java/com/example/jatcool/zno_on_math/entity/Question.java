@@ -4,12 +4,14 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.List;
-import java.util.ArrayList;
 
 public class Question extends Entity {
     @SerializedName("theme")
     @Expose
     private String theme;
+    @SerializedName("type")
+    @Expose
+    private String type;
     @SerializedName("text")
     @Expose
     private String text;
@@ -20,16 +22,18 @@ public class Question extends Entity {
     @Expose
     private String correct;
 
-    public Question(String id, String theme, String text, List<String> variants, String correct) {
+    public Question(String id, String theme, String type, String text, List<String> variants, String correct) {
         this.setId(id);
         this.theme = theme;
+        this.type = type;
         this.text = text;
         this.variants = variants;
         this.correct = correct;
     }
 
-    public Question(String theme, String text, List<String> variants, String correct) {
+    public Question(String theme, String type, String text, List<String> variants, String correct) {
         this.theme = theme;
+        this.type = type;
         this.text = text;
         this.variants = variants;
         this.correct = correct;
@@ -41,6 +45,14 @@ public class Question extends Entity {
 
     public void setTheme(String theme) {
         this.theme = theme;
+    }
+
+    public String getType() {
+        return type;
+    }
+
+    public void setType(String type) {
+        this.type = type;
     }
 
     public String getText() {
