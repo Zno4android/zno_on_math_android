@@ -95,6 +95,7 @@ public class add_test extends AppCompatActivity {
                             lin.addView(img, par);
                             thePic = null;
                             img = null;
+
                         }
                     } catch (IOException e) {
                         e.printStackTrace();
