@@ -12,12 +12,17 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.dao.UserDAO;
 import com.example.jatcool.zno_on_math.dao.UserDAOImpl;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.service.UserService;
 import com.example.jatcool.zno_on_math.service.UserServiceImpl;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class Profile extends AppCompatActivity {
     EditText Fname, Name, LastName;
@@ -88,43 +93,43 @@ public class Profile extends AppCompatActivity {
 
     public void Change(final User user) {
         pr.setVisibility(View.VISIBLE);
-//        NetworkService.getInstance()
-//                .getJSONApi()
-//                .Change(token,user)
-//                .enqueue(new Callback<User>() {
-//                    @Override
-//                    public void onResponse(Call<User> call, Response<User> response) {
-//                        if(response.isSuccessful()){
-//                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""),MODE_PRIVATE);
-//                         SharedPreferences.Editor editor = sharedPreferences.edit();
-//                         editor.putString("Fname",user.getOt());
-//                         editor.putString("FirstName",user.getFirstname());
-//                         editor.putString("LastName",user.getLastname());
-//                         editor.commit();
-//                         Toast.makeText(Profile.this,"Данні успішно змінено",Toast.LENGTH_SHORT)
-//                                 .show();
-//                         pr.setVisibility(View.GONE);
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onFailure(Call<User> call, Throwable t) {
-//                       pr.setVisibility(View.GONE);
-//                    }
-//                });
-        if (userService.changeUser(token, user)) {
-            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-            SharedPreferences.Editor editor = sharedPreferences.edit();
-            editor.putString("Fname", user.getOt());
-            editor.putString("FirstName", user.getFirstname());
-            editor.putString("LastName", user.getLastname());
-            editor.commit();
-            Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
-                    .show();
+        NetworkService.getInstance()
+                .getJSONApi()
+                .Change(token, user)
+                .enqueue(new Callback<User>() {
+                    @Override
+                    public void onResponse(Call<User> call, Response<User> response) {
+                        if (response.isSuccessful()) {
+                            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+                            SharedPreferences.Editor editor = sharedPreferences.edit();
+                            editor.putString("Fname", user.getOt());
+                            editor.putString("FirstName", user.getFirstname());
+                            editor.putString("LastName", user.getLastname());
+                            editor.commit();
+                            Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
+                                    .show();
+                            pr.setVisibility(View.GONE);
 
+                        }
+                    }
 
-        }
-        pr.setVisibility(View.GONE);
+                    @Override
+                    public void onFailure(Call<User> call, Throwable t) {
+                        pr.setVisibility(View.GONE);
+                    }
+                });
+//        if (userService.changeUser(token, user)) {
+//            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+//            SharedPreferences.Editor editor = sharedPreferences.edit();
+//            editor.putString("Fname", user.getOt());
+//            editor.putString("FirstName", user.getFirstname());
+//            editor.putString("LastName", user.getLastname());
+//            editor.commit();
+//            Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
+//                    .show();
+//
+//
+//        }
+//        pr.setVisibility(View.GONE);
     }
 }

@@ -1,5 +1,9 @@
 package com.example.jatcool.zno_on_math.dao;
 
+import android.widget.ProgressBar;
+
+import com.example.jatcool.zno_on_math.callback.getTokenByEmailCallback;
+import com.example.jatcool.zno_on_math.callback.getUserByToken;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.User;
@@ -17,57 +21,78 @@ public class UserDAOImpl implements UserDAO {
     private List<String> groups;
     private MailCheck isEmail;
     private boolean userAdded;
+    private ProgressBar waiter;
+
+    public ProgressBar getWaiter() {
+        return waiter;
+    }
+
+    public void setWaiter(ProgressBar waiter) {
+        this.waiter = waiter;
+    }
 
     @Override
-    public User getUserByToken(final String token) {
-//        NetworkService.getInstance()
+    public User getUserByToken(final String token, final ProgressBar waiter, User user) {
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getUserData(token)
+                .enqueue(new getUserByToken(user, waiter));
+
+
+        //        NetworkService.getInstance()
 //                .getJSONApi()
 //                .getUserData(token)
 //                .enqueue(new Callback<User>() {
 //                    @Override
 //                    public void onResponse(Call<User> call, Response<User> response) {
 //                        user = response.body();
+//                        waiter.setVisibility(View.GONE);
 //                    }
 //
 //                    @Override
 //                    public void onFailure(Call<User> call, Throwable t) {
-//
+//                        waiter.setVisibility(View.GONE);
 //                    }
 //                });
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Response<User> response = NetworkService.getInstance()
-                            .getJSONApi()
-                            .getUserData(token)
-                            .execute();
-
-                    if (response.body() != null) {
-                        user = response.body();
-                    }
-
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Response<User> response = NetworkService.getInstance()
+//                            .getJSONApi()
+//                            .getUserData(token)
+//                            .execute();
+//
+//                    if (response.body() != null) {
+//                        user = response.body();
+//                    }
+//
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//        try {
+//            thread.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
 
 
         return user;
     }
 
     @Override
-    public String getTokenByEmailAndPassword(final String email, final String password) {
+    public String getTokenByEmailAndPassword(final String email, final String password, final ProgressBar waiter, String token) {
 
-//
+
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getUserData(token)
+                .enqueue(new getTokenByEmailCallback(token, waiter));
+
 //        NetworkService.getInstance()
 //                .getJSONApi()
 //                .Log_in(new User(email, password))
@@ -76,42 +101,41 @@ public class UserDAOImpl implements UserDAO {
 //                    public void onResponse(Call<User> call, Response<User> response) {
 //                        if (response.body() != null) {
 //                            token = response.body().getToken();
-//                            user = response.body();
+//                            //user = response.body();
 //                        }
+//                        waiter.setVisibility(View.GONE);
 //                    }
 //
 //                    @Override
 //                    public void onFailure(Call<User> call, Throwable t) {
-//                        lock.notifyAll();
+//                        waiter.setVisibility(View.GONE);
 //                    }
 //                });
 
-
-        Thread thread = new Thread(new Runnable() {
-            @Override
-            public void run() {
-                try {
-                    Response<User> response = NetworkService.getInstance()
-                            .getJSONApi()
-                            .Log_in(new User(email, password))
-                            .execute();
-
-                    if (response.body() != null) {
-                        token = response.body().getToken();
-                    }
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
-        });
-
-        thread.start();
-        try {
-            thread.join();
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
-
+//        Thread thread = new Thread(new Runnable() {
+//            @Override
+//            public void run() {
+//                try {
+//                    Response<User> response = NetworkService.getInstance()
+//                            .getJSONApi()
+//                            .Log_in(new User(email, password))
+//                            .execute();
+//
+//                    if (response.body() != null) {
+//                        token = response.body().getToken();
+//                    }
+//                } catch (IOException e) {
+//                    e.printStackTrace();
+//                }
+//            }
+//        });
+//
+//        thread.start();
+//        try {
+//            thread.join();
+//        } catch (InterruptedException e) {
+//            e.printStackTrace();
+//        }
         return token;
     }
 

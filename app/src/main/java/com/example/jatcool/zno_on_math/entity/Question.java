@@ -22,6 +22,9 @@ public class Question extends Entity {
     @Expose
     private String correct;
 
+    public Question() {
+    }
+
     public Question(String id, String theme, String type, String text, List<String> variants, String correct) {
         this.setId(id);
         this.theme = theme;

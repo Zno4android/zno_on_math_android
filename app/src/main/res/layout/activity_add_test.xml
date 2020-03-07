@@ -69,6 +69,7 @@
             android:paddingBottom="15dp">
 
             <EditText
+                android:id="@+id/text_question"
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"/>
@@ -119,8 +120,30 @@
 
         </LinearLayout>
 
+        <Button
+            android:id="@+id/add_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
+        <Button
+            android:id="@+id/add_test"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/delete_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/next_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
+
+        <Button
+            android:id="@+id/previous_question"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
 
     </LinearLayout>
-
 </ScrollView>

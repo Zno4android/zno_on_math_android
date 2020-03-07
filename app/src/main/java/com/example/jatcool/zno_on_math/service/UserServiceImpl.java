@@ -1,5 +1,7 @@
 package com.example.jatcool.zno_on_math.service;
 
+import android.widget.ProgressBar;
+
 import com.example.jatcool.zno_on_math.dao.UserDAO;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.util.MailCheck;
@@ -14,13 +16,13 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User getUserByToken(String token) {
-        return userDAO.getUserByToken(token);
+    public User getUserByToken(String token, ProgressBar waiter, User user) {
+        return userDAO.getUserByToken(token, waiter, user);
     }
 
     @Override
-    public String getTokenByEmailAndPassword(String email, String password) {
-        return userDAO.getTokenByEmailAndPassword(email, password);
+    public String getTokenByEmailAndPassword(String email, String password, ProgressBar waiter, String token) {
+        return userDAO.getTokenByEmailAndPassword(email, password, waiter, token);
     }
 
     @Override

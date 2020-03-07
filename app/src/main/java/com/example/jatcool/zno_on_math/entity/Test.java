@@ -3,7 +3,6 @@ package com.example.jatcool.zno_on_math.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class Test extends Entity {
@@ -16,6 +15,9 @@ public class Test extends Entity {
     @SerializedName("questions")
     @Expose
     private List<Question> questions;
+    @SerializedName("owner")
+    @Expose
+    private User user;
 
     public Test(String id, String name, String theme, List<Question> questions) {
         this.setId(id);
@@ -28,6 +30,13 @@ public class Test extends Entity {
         this.name = name;
         this.theme = theme;
         this.questions = questions;
+    }
+
+    public Test(String name, String theme, List<Question> questions, User user) {
+        this.name = name;
+        this.theme = theme;
+        this.questions = questions;
+        this.user = user;
     }
 
     public String getName() {
