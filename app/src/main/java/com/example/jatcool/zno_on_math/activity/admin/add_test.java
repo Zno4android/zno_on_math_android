@@ -5,7 +5,9 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -15,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RadioButton;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -38,6 +41,10 @@ public class add_test extends AppCompatActivity {
     int id = 0;
     LinearLayout linearLayout;
     private int countID = 0;
+    Spinner spinnerType;
+    TextView hide;
+    String otvet [] = new String[] {"1","2","3","4","5"};
+    String type_test [] = new String[]{"Виберіть правельну(ні) відповідь(ді)","Відповідність","Вести відповідь",};
 
     Button btnAddQuestion;
     Button btnDeleteQuestion;
@@ -59,7 +66,49 @@ public class add_test extends AppCompatActivity {
         ll_variants = findViewById(R.id.variants);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, kol_variants);
         spinnerVariants.setAdapter(arrayAdapter);
+        hide = findViewById(R.id.text_variant_hide);
+        spinnerType = findViewById(R.id.Add_type_spinner);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this,R.layout.support_simple_spinner_dropdown_item,type_test);
+        spinnerType.setAdapter(adapter);
+        AdapterView.OnItemSelectedListener item = new AdapterView.OnItemSelectedListener() {
+            @Override
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
+                String item = (String)parent.getItemAtPosition(position);
+                if(item.equals(type_test[2])){
+                    allEds.clear();
+                    spinnerVariants.setVisibility(View.GONE);
+                    hide.setVisibility(View.GONE);
+                    linearLayout.removeAllViews();
+                    EditText t = new EditText(getApplicationContext());
+                    LinearLayout.LayoutParams radio = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+                    linearLayout.addView(t,radio);
 
+                }
+                else if(item.equals(type_test[0])){
+                    spinnerVariants.setVisibility(View.VISIBLE);
+                    hide.setVisibility(View.VISIBLE);
+                    linearLayout.removeAllViews();
+                    allEds.clear();
+                    add_variants(Integer.parseInt(spinnerVariants.getSelectedItem().toString()));
+
+                }
+                else if(item.equals(type_test[1])){
+                    linearLayout.removeAllViews();
+                    hide.setVisibility(View.GONE);
+                    spinnerVariants.setVisibility(View.GONE);
+                    linearLayout.removeAllViews();
+                    allEds.clear();
+                    addSotv();
+
+                }
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
+            }
+        };
+        spinnerType.setOnItemSelectedListener(item);
 
         btnDeleteQuestion = findViewById(R.id.delete_question);
         btnNextQuestion = findViewById(R.id.next_question);
@@ -153,6 +202,35 @@ public class add_test extends AppCompatActivity {
                 }
             }
         }
+    }
+    private void addSotv(){
+
+        for(int i=0;i<5;i++){
+            LinearLayout l = new LinearLayout(this);
+            l.setOrientation(LinearLayout.HORIZONTAL);
+            l.setLayoutParams( new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            EditText e = new EditText(this);
+            LinearLayout.LayoutParams Edparams = new LinearLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Spinner sp = new Spinner(this);
+            sp.setAdapter(new ArrayAdapter<String>(this,R.layout.support_simple_spinner_dropdown_item,otvet));
+            l.addView(e,Edparams);
+            l.addView(sp , new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            if(i==4){
+                e.setVisibility(View.INVISIBLE);
+                sp.setVisibility(View.INVISIBLE);
+            }
+            LinearLayout.LayoutParams rightText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            TextView t =new TextView(this);
+            t.setText(String.valueOf(i+1));
+            EditText ed = new EditText(this);
+            rightText.gravity = Gravity.RIGHT;
+            l.addView(t,rightText );
+            LinearLayout.LayoutParams righEd = new LinearLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT);
+            righEd.gravity = Gravity.RIGHT;
+            l.addView(ed,righEd);
+            linearLayout.addView(l);
+        }
+
     }
 
     private void add_variants(int kol) {
