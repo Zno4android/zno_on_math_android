@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +60,7 @@ public class add_test extends AppCompatActivity {
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, kol_variants);
         spinnerVariants.setAdapter(arrayAdapter);
 
-        btnAddQuestion = findViewById(R.id.add_question);
+
         btnDeleteQuestion = findViewById(R.id.delete_question);
         btnNextQuestion = findViewById(R.id.next_question);
         btnPreviousQuestion = findViewById(R.id.previous_question);
@@ -84,7 +85,7 @@ public class add_test extends AppCompatActivity {
     }
 
     private void setOnclickListenerOnButton() {
-        btnAddQuestion.setOnClickListener(new View.OnClickListener() {
+        btnNextQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 List<String> variants = new ArrayList<>();
@@ -158,7 +159,7 @@ public class add_test extends AppCompatActivity {
         linearLayout.removeAllViews();
         for (int i = 0; i < kol; i++) {
             final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
-            RadioButton radioButton = view.findViewById(R.id.checkBoxChooseAnswer);
+            CheckBox radioButton = view.findViewById(R.id.checkBoxChooseAnswer);
             EditText editText = view.findViewById(R.id.editTextChooseAnswer);
             linearLayout.addView(view);
             allEds.add(view);

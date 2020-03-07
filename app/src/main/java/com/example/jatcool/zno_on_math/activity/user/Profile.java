@@ -14,11 +14,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
-import com.example.jatcool.zno_on_math.dao.UserDAO;
-import com.example.jatcool.zno_on_math.dao.UserDAOImpl;
 import com.example.jatcool.zno_on_math.entity.User;
-import com.example.jatcool.zno_on_math.service.UserService;
-import com.example.jatcool.zno_on_math.service.UserServiceImpl;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -32,14 +28,12 @@ public class Profile extends AppCompatActivity {
     String token;
     User user;
 
-    UserService userService;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setTitle("Профіль");
-        initService();
         Fname = findViewById(R.id.edFname);
         Name = findViewById(R.id.edName);
         LastName = findViewById(R.id.edLastName);
@@ -76,10 +70,6 @@ public class Profile extends AppCompatActivity {
     }
 
 
-    private void initService() {
-        UserDAO userDAO = new UserDAOImpl();
-        userService = new UserServiceImpl(userDAO);
-    }
 
     public void setActivityData(TextView t, EditText... ed) {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
