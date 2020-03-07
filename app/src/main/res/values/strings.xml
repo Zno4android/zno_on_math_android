@@ -30,7 +30,7 @@
     <string name="prCancel">Відмінити</string>
     <string name="List_Search">Пошук</string>
     <string name="List_sort_by">Фільтрувати за:</string>
-
+    <string name="Add_type_test">Тип тесту</string>
 
     <string name="menu_home">Home</string>
     <string name="menu_gallery">Gallery</string>
@@ -43,7 +43,7 @@
     <string name="textView_add_name">Введіть назву тесту</string>
     <string name="textView_add_theme">Виберіть тему тетсу</string>
     <string name="textView_add_text_question">Введіть завдання</string>
-    <string name="textView_variants">Варіанти відповідей</string>
+    <string name="textView_variants">Варіанти відповідей:   </string>
     <string name="btn_add_variant">Додати відповідь</string>
 
     <!-- TODO: Remove or change this placeholder text -->

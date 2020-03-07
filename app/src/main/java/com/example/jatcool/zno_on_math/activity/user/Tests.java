@@ -5,11 +5,17 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RadioButton;
+import android.widget.Spinner;
 import android.widget.TextView;
 
 import com.example.jatcool.zno_on_math.R;
@@ -40,6 +46,10 @@ public class Tests extends AppCompatActivity {
     ArrayAdapter<String> adapter;
     Test test;
     MathTesting mathTesting;
+    LinearLayout testLayout;
+    String kol_variants[] = new String[]{"2", "3", "4", "5", "6"};
+    String otvet[] = new String[]{"1", "2", "3", "4", "5"};
+    String type_test[] = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,8 +61,8 @@ public class Tests extends AppCompatActivity {
         btnPrev = findViewById(R.id.Test_prev_btn);
         btnSkip = findViewById(R.id.Test_skip_btn);
         btnNext = findViewById(R.id.Test_next_btn);
-        variantsList = findViewById(R.id.Test_variants);
-
+        //variantsList = findViewById(R.id.Test_variants);
+        testLayout = findViewById(R.id.Test_liner_layout);
         Bundle values = getIntent().getExtras();
         String testId = values.getString("testId");
         test.setId(testId);
@@ -76,30 +86,30 @@ public class Tests extends AppCompatActivity {
                     }
                 });
 
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
-        variantsList.setAdapter(adapter);
-        variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-            @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String answer = adapter.getItem(position);
-                mathTesting.nextQuestion(answer);
-
-                if (mathTesting.isPassAllQuestions()) {
-                    btnSkip.setVisibility(View.GONE);
-                }
-
-                if (mathTesting.isTestPass()) {
-                    int countCorrect = mathTesting.getCountCorrect();
-                    int countIncorrect = mathTesting.getCountIncorrect();
-                    SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-                    String token = sharedPreferences.getString("token", "");
-                    List<Answer> answers = mathTesting.getAnswers();
-                    setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
-                    setDataInDBResultQuestion(token, answers);
-                    showResultTesting(countCorrect, countIncorrect);
-                }
-            }
-        });
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
+//        variantsList.setAdapter(adapter);
+//        variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String answer = adapter.getItem(position);
+//                mathTesting.nextQuestion(answer);
+//
+//                if (mathTesting.isPassAllQuestions()) {
+//                    btnSkip.setVisibility(View.GONE);
+//                }
+//
+//                if (mathTesting.isTestPass()) {
+//                    int countCorrect = mathTesting.getCountCorrect();
+//                    int countIncorrect = mathTesting.getCountIncorrect();
+//                    SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+//                    String token = sharedPreferences.getString("token", "");
+//                    List<Answer> answers = mathTesting.getAnswers();
+//                    setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
+//                    setDataInDBResultQuestion(token, answers);
+//                    showResultTesting(countCorrect, countIncorrect);
+//                }
+//            }
+//        });
 
 
         btnSkip.setOnClickListener(new View.OnClickListener() {
@@ -169,5 +179,57 @@ public class Tests extends AppCompatActivity {
         tvText.setText(question.getText());
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
         adapter.notifyDataSetChanged();
+    }
+
+    private void variant_test_type(int kol) {
+        testLayout.removeAllViews();
+        for (int i = 0; i < kol; i++) {
+            LinearLayout.LayoutParams ediText = new LinearLayout.LayoutParams(450, LinearLayout.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams radio = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, LinearLayout.LayoutParams.WRAP_CONTENT);
+            RadioButton otv = new RadioButton(this);
+            EditText desc_var = new EditText(this);
+            LinearLayout line = new LinearLayout(this);
+            line.setOrientation(LinearLayout.HORIZONTAL);
+            line.addView(otv, radio);
+            line.addView(desc_var, ediText);
+            LinearLayout.LayoutParams r = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            testLayout.addView(line, r);
+        }
+
+    }
+
+    private void repectively_test_type() {
+
+        for (int i = 0; i < 5; i++) {
+            LinearLayout l = new LinearLayout(this);
+            l.setOrientation(LinearLayout.HORIZONTAL);
+            l.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.MATCH_PARENT));
+            EditText e = new EditText(this);
+            LinearLayout.LayoutParams Edparams = new LinearLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT);
+            Spinner sp = new Spinner(this);
+            sp.setAdapter(new ArrayAdapter<String>(this, R.layout.support_simple_spinner_dropdown_item, otvet));
+            l.addView(e, Edparams);
+            l.addView(sp, new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT));
+            if (i == 4) {
+                e.setVisibility(View.INVISIBLE);
+                sp.setVisibility(View.INVISIBLE);
+            }
+            LinearLayout.LayoutParams rightText = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            TextView t = new TextView(this);
+            t.setText(String.valueOf(i + 1));
+            EditText ed = new EditText(this);
+            rightText.gravity = Gravity.RIGHT;
+            l.addView(t, rightText);
+            LinearLayout.LayoutParams righEd = new LinearLayout.LayoutParams(300, ViewGroup.LayoutParams.WRAP_CONTENT);
+            righEd.gravity = Gravity.RIGHT;
+            l.addView(ed, righEd);
+            testLayout.addView(l);
+            ;
+        }
+    }
+    private void once_answer_test_type(){
+        EditText t = new EditText(getApplicationContext());
+        LinearLayout.LayoutParams radio = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.MATCH_PARENT);
+        testLayout.addView(t,radio);
     }
 }
