@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.ui.home;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +17,9 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.add_test;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class HomeFragment extends Fragment {
 
@@ -38,7 +42,12 @@ public class HomeFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        startActivity(new Intent(getActivity(),add_test.class));
+                        Intent intent = new Intent(getActivity(), add_test.class);
+                        Bundle values = getActivity().getIntent().getExtras();
+                        // intent.putExtra("token",values.getString("token"));
+                        SharedPreferences sharedPreferences = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+                        intent.putExtra("token", sharedPreferences.getString("token", ""));
+                        startActivity(intent);
                     }
                 }
         );

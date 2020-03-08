@@ -15,15 +15,23 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Question;
+import com.example.jatcool.zno_on_math.entity.Test;
+import com.example.jatcool.zno_on_math.entity.TestDBCreation;
 
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_ANSWERS_CONFORMITY;
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_VARIANTS_CHOOSE_ANSWER;
@@ -42,10 +50,14 @@ public class add_test extends AppCompatActivity {
     String[] kol_variants = new String[]{"2", "3", "4", "5", "6"};
     String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
     int id = 0;
-    int size_test=1;
+    int size_test = 1;
+    Test test;
     LinearLayout linearLayout;
     private int countID = 0;
-    TextView hide,count_paper;
+
+    EditText txtTestName;
+
+    TextView hide, count_paper;
     Button btnDeleteQuestion;
     Button btnNextQuestion;
     Button btnPreviousQuestion;
@@ -66,7 +78,8 @@ public class add_test extends AppCompatActivity {
         ll_variants = findViewById(R.id.variants);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, kol_variants);
         spinnerVariants.setAdapter(arrayAdapter);
-         hide = findViewById(R.id.text_variant_hide);
+        txtTestName = findViewById(R.id.test_name);
+        hide = findViewById(R.id.text_variant_hide);
         btnDeleteQuestion = findViewById(R.id.delete_question);
         btnNextQuestion = findViewById(R.id.next_question);
         btnPreviousQuestion = findViewById(R.id.previous_question);
@@ -106,8 +119,6 @@ public class add_test extends AppCompatActivity {
             }
         };
         spinnerType.setOnItemSelectedListener(item);
-
-        //setOnclickListenerOnButton();
     }
 
     private void setOnclickListenerOnButton() {
@@ -115,11 +126,9 @@ public class add_test extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setQuestion();
-                if(currentQuestion>=size_test)
-                size_test = currentQuestion+1;
-                if(currentQuestion==0) count_paper.setText((currentQuestion+2)+"/"+(size_test+1));
-                else count_paper.setText((currentQuestion+1)+"/"+size_test);
+                count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
                 currentQuestion++;
+
                 if (currentQuestion < questions.size() - 1) {
                     loadQuestion(currentQuestion);
                 } else {
@@ -136,9 +145,7 @@ public class add_test extends AppCompatActivity {
                 }
 
                 setQuestion();
-                if(currentQuestion>1)
-                count_paper.setText((currentQuestion-1)+"/"+size_test);
-                else   count_paper.setText(currentQuestion+"/"+size_test);
+                count_paper.setText((currentQuestion - 1) + "/" + questions.size() + 1);
                 loadQuestion(--currentQuestion);
             }
         });
@@ -146,8 +153,16 @@ public class add_test extends AppCompatActivity {
         btnDeleteQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               if(currentQuestion>0)
-                questions.remove(currentQuestion--);
+                if (currentQuestion >= 0) {
+                    if ((currentQuestion > questions.size() - 1)) {
+                        loadQuestion(questions.size() - 1);
+                        count_paper.setText(currentQuestion + 1 + "/" + questions.size());
+                        return;
+                    } else {
+                        questions.remove(currentQuestion--);
+                    }
+                }
+
 
                 if (questions.isEmpty()) {
                     clearElements();
@@ -156,12 +171,41 @@ public class add_test extends AppCompatActivity {
                 if (currentQuestion < 0) {
                     loadQuestion(0);
                 }
-                if(size_test>1)
-                size_test--;
-                if(currentQuestion>0)
-                count_paper.setText(currentQuestion+"/"+size_test);
-                else count_paper.setText((currentQuestion+1)+"/"+size_test);
+
+                if (size_test > 1) {
+                    size_test--;
+                }
+
+                count_paper.setText((currentQuestion + 1 + 1) + "/" + questions.size() + 1);
+
                 loadQuestion(currentQuestion);
+            }
+        });
+
+        btnAddTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle values = getIntent().getExtras();
+                String token = values.getString("token");
+                fillTest();
+                TestDBCreation testDBCreation = new TestDBCreation(test);
+
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .createTest(token, testDBCreation)
+                        .enqueue(new Callback<Test>() {
+                            @Override
+                            public void onResponse(Call<Test> call, Response<Test> response) {
+                                Toast.makeText(add_test.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
+                                        .show();
+                            }
+
+                            @Override
+                            public void onFailure(Call<Test> call, Throwable t) {
+                                Toast.makeText(add_test.this, "помилка", Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        });
             }
         });
     }
@@ -227,6 +271,10 @@ public class add_test extends AppCompatActivity {
     }
 
     private void loadQuestion(int index) {
+        if (index < 0) {
+            clearElements();
+        }
+
         Question question = questions.get(index);
         ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerType.getAdapter();
         int position = adapter.getPosition(question.getType());
@@ -415,6 +463,17 @@ public class add_test extends AppCompatActivity {
         EditText editTextWriteAnswer = view.findViewById(R.id.edit_text_write_answer);
         linearLayout.addView(view);
         allEds.add(view);
+    }
+
+    private void fillTest() {
+        test = new Test();
+        //String thema = spinnerThemeQuestion.getSelectedItem().toString();
+        for (Question question : questions) {
+            //question.setTheme(thema);
+        }
+        //test.setTheme(thema);
+        test.setQuestions(questions);
+        test.setName(txtTestName.getText().toString());
     }
 
 }

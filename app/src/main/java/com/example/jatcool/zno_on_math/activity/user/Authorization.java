@@ -119,7 +119,7 @@ public class Authorization extends AppCompatActivity {
         startActivity(new Intent(this, Registration.class));
     }
 
-    public void user_by_token(String token) {
+    public void user_by_token(final String token) {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getUserData(token)
@@ -130,7 +130,7 @@ public class Authorization extends AppCompatActivity {
                         Intent in = authorization(add_btn);
                         in.putExtra("FirstName", user.getFirstname());
                         in.putExtra("LastName", user.getLastname());
-                        in.putExtra("token", user.getToken());
+                        in.putExtra("token", token);
                         in.putExtra("Group", user.getGroup());
                         waiter.setVisibility(View.INVISIBLE);
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
@@ -138,7 +138,7 @@ public class Authorization extends AppCompatActivity {
                         editor.putString("FirstName", user.getFirstname());
                         editor.putString("Fname", user.getOt());
                         editor.putString("LastName", user.getLastname());
-                        editor.putString("token", user.getToken());
+                        editor.putString("token", token);
                         editor.putString("Group", user.getGroup());
                         editor.apply();
                         editor.commit();

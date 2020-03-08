@@ -39,6 +39,10 @@ public class Test extends Entity {
         this.user = user;
     }
 
+    public Test() {
+
+    }
+
     public String getName() {
         return name;
     }

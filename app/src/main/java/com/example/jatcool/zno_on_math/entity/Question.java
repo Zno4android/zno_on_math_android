@@ -9,7 +9,7 @@ public class Question extends Entity {
     @SerializedName("theme")
     @Expose
     private String theme;
-    @SerializedName("type")
+    @SerializedName("questionType")
     @Expose
     private String type;
     @SerializedName("text")
@@ -21,6 +21,9 @@ public class Question extends Entity {
     @SerializedName("correct")
     @Expose
     private List<String> correct;
+    @SerializedName("images")
+    @Expose
+    private List<String> images;
 
     public Question() {
     }
@@ -80,6 +83,14 @@ public class Question extends Entity {
 
     public void setCorrect(List<String> correct) {
         this.correct = correct;
+    }
+
+    public List<String> getImages() {
+        return images;
+    }
+
+    public void setImages(List<String> images) {
+        this.images = images;
     }
 
     @Override

@@ -1,9 +1,8 @@
 package com.example.jatcool.zno_on_math.connection;
 
 import com.example.jatcool.zno_on_math.entity.Group;
-import com.example.jatcool.zno_on_math.entity.ResultQuestions;
-import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Test;
+import com.example.jatcool.zno_on_math.entity.TestDBCreation;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
@@ -12,11 +11,9 @@ import com.example.jatcool.zno_on_math.util.MailCheck;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
-import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ZnoApi {
@@ -47,4 +44,7 @@ public interface ZnoApi {
 
     @GET("/api/test/getTest")
     Call<Test> getTest(@Query("testId") String testId);
+
+    @POST("/api/tests/createTest")
+    Call<Test> createTest(@Header("auth-token") String token, @Body TestDBCreation testDBCreation);
 }
