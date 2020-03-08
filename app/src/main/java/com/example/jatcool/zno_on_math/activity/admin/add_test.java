@@ -117,7 +117,8 @@ public class add_test extends AppCompatActivity {
                 setQuestion();
                 if(currentQuestion>=size_test)
                 size_test = currentQuestion+1;
-                count_paper.setText((currentQuestion+1)+"/"+size_test);
+                if(currentQuestion==0) count_paper.setText((currentQuestion+2)+"/"+(size_test+1));
+                else count_paper.setText((currentQuestion+1)+"/"+size_test);
                 currentQuestion++;
                 if (currentQuestion < questions.size() - 1) {
                     loadQuestion(currentQuestion);
