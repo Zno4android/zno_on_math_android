@@ -10,6 +10,6 @@
 
     <EditText
         android:id="@+id/edit_text_choose_answer"
-        android:layout_width="50dp"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content" />
 </LinearLayout>

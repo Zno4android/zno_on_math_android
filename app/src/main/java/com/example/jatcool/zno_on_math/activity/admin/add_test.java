@@ -14,6 +14,7 @@ import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -41,9 +42,10 @@ public class add_test extends AppCompatActivity {
     String[] kol_variants = new String[]{"2", "3", "4", "5", "6"};
     String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
     int id = 0;
+    int size_test=1;
     LinearLayout linearLayout;
     private int countID = 0;
-
+    TextView hide,count_paper;
     Button btnDeleteQuestion;
     Button btnNextQuestion;
     Button btnPreviousQuestion;
@@ -64,14 +66,15 @@ public class add_test extends AppCompatActivity {
         ll_variants = findViewById(R.id.variants);
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, kol_variants);
         spinnerVariants.setAdapter(arrayAdapter);
-
+         hide = findViewById(R.id.text_variant_hide);
         btnDeleteQuestion = findViewById(R.id.delete_question);
         btnNextQuestion = findViewById(R.id.next_question);
         btnPreviousQuestion = findViewById(R.id.previous_question);
         btnAddTest = findViewById(R.id.add_test);
         txtTextQuestion = findViewById(R.id.text_question);
         spinnerThemeQuestion = findViewById(R.id.theme_test);
-
+        count_paper = findViewById(R.id.count_papers_test);
+        count_paper.setText("1/1");
         spinnerType = findViewById(R.id.Add_type_spinner);
         ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, type_test);
         spinnerType.setAdapter(adapter);
@@ -81,10 +84,16 @@ public class add_test extends AppCompatActivity {
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = (String) parent.getItemAtPosition(position);
                 if (item.equals(type_test[2])) {
+                    hide.setVisibility(View.GONE);
+                    spinnerVariants.setVisibility(View.GONE);
                     addWriteAnswer();
                 } else if (item.equals(type_test[0])) {
+                    hide.setVisibility(View.VISIBLE);
+                    spinnerVariants.setVisibility(View.VISIBLE);
                     addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
                 } else if (item.equals(type_test[1])) {
+                    hide.setVisibility(View.GONE);
+                    spinnerVariants.setVisibility(View.GONE);
                     addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
                 }
 
@@ -106,6 +115,9 @@ public class add_test extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setQuestion();
+                if(currentQuestion>=size_test)
+                size_test = currentQuestion+1;
+                count_paper.setText((currentQuestion+1)+"/"+size_test);
                 currentQuestion++;
                 if (currentQuestion < questions.size() - 1) {
                     loadQuestion(currentQuestion);
@@ -123,7 +135,9 @@ public class add_test extends AppCompatActivity {
                 }
 
                 setQuestion();
-
+                if(currentQuestion>1)
+                count_paper.setText((currentQuestion-1)+"/"+size_test);
+                else   count_paper.setText(currentQuestion+"/"+size_test);
                 loadQuestion(--currentQuestion);
             }
         });
@@ -131,6 +145,7 @@ public class add_test extends AppCompatActivity {
         btnDeleteQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               if(currentQuestion>0)
                 questions.remove(currentQuestion--);
 
                 if (questions.isEmpty()) {
@@ -140,6 +155,11 @@ public class add_test extends AppCompatActivity {
                 if (currentQuestion < 0) {
                     loadQuestion(0);
                 }
+                if(size_test>1)
+                size_test--;
+                if(currentQuestion>0)
+                count_paper.setText(currentQuestion+"/"+size_test);
+                else count_paper.setText((currentQuestion+1)+"/"+size_test);
                 loadQuestion(currentQuestion);
             }
         });
