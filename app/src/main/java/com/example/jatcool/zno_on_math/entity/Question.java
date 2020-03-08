@@ -20,12 +20,12 @@ public class Question extends Entity {
     private List<String> variants;
     @SerializedName("correct")
     @Expose
-    private String correct;
+    private List<String> correct;
 
     public Question() {
     }
 
-    public Question(String id, String theme, String type, String text, List<String> variants, String correct) {
+    public Question(String id, String theme, String type, String text, List<String> variants, List<String> correct) {
         this.setId(id);
         this.theme = theme;
         this.type = type;
@@ -34,7 +34,7 @@ public class Question extends Entity {
         this.correct = correct;
     }
 
-    public Question(String theme, String type, String text, List<String> variants, String correct) {
+    public Question(String theme, String type, String text, List<String> variants, List<String> correct) {
         this.theme = theme;
         this.type = type;
         this.text = text;
@@ -74,11 +74,11 @@ public class Question extends Entity {
         this.variants = variants;
     }
 
-    public String getCorrect() {
+    public List<String> getCorrect() {
         return correct;
     }
 
-    public void setCorrect(String correct) {
+    public void setCorrect(List<String> correct) {
         this.correct = correct;
     }
 
