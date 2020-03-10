@@ -17,6 +17,7 @@ import androidx.lifecycle.ViewModelProviders;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.add_test;
+import com.example.jatcool.zno_on_math.activity.user.Tests;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -42,7 +43,7 @@ public class HomeFragment extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), add_test.class);
+                        Intent intent = new Intent(getActivity(), Tests.class);
                         Bundle values = getActivity().getIntent().getExtras();
                         // intent.putExtra("token",values.getString("token"));
                         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
