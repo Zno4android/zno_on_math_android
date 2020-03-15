@@ -2,7 +2,7 @@ package com.example.jatcool.zno_on_math.connection;
 
 import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.Test;
-import com.example.jatcool.zno_on_math.entity.TestDBCreation;
+import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
@@ -42,9 +42,9 @@ public interface ZnoApi {
     @POST("/api/statistics/questionStatistics")
     Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
 
-    @GET("/api/test/getTest")
-    Call<Test> getTest(@Query("testId") String testId);
+    @GET("/api/tests/getTest")
+    Call<TestWrapper> getTest(@Header("auth-token") String token, @Query("name") String testId);
 
     @POST("/api/tests/createTest")
-    Call<Test> createTest(@Header("auth-token") String token, @Body TestDBCreation testDBCreation);
+    Call<Test> createTest(@Header("auth-token") String token, @Body TestWrapper testWrapper);
 }

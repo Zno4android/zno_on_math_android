@@ -17,7 +17,7 @@ public class Test extends Entity {
     private List<Question> questions;
     @SerializedName("owner")
     @Expose
-    private User user;
+    private String user;
 
     public Test(String id, String name, String theme, List<Question> questions) {
         this.setId(id);
@@ -32,7 +32,7 @@ public class Test extends Entity {
         this.questions = questions;
     }
 
-    public Test(String name, String theme, List<Question> questions, User user) {
+    public Test(String name, String theme, List<Question> questions, String user) {
         this.name = name;
         this.theme = theme;
         this.questions = questions;
@@ -65,6 +65,14 @@ public class Test extends Entity {
 
     public void setQuestions(List<Question> questions) {
         this.questions = questions;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @Override

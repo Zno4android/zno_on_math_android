@@ -23,7 +23,7 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.Test;
-import com.example.jatcool.zno_on_math.entity.TestDBCreation;
+import com.example.jatcool.zno_on_math.entity.TestWrapper;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -188,11 +188,11 @@ public class add_test extends AppCompatActivity {
                 Bundle values = getIntent().getExtras();
                 String token = values.getString("token");
                 fillTest();
-                TestDBCreation testDBCreation = new TestDBCreation(test);
+                TestWrapper testWrapper = new TestWrapper(test);
 
                 NetworkService.getInstance()
                         .getJSONApi()
-                        .createTest(token, testDBCreation)
+                        .createTest(token, testWrapper)
                         .enqueue(new Callback<Test>() {
                             @Override
                             public void onResponse(Call<Test> call, Response<Test> response) {

@@ -1,7 +1,5 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -16,11 +14,14 @@ import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.Test;
+import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
 import com.example.jatcool.zno_on_math.util.Answer;
@@ -48,13 +49,15 @@ public class Tests extends AppCompatActivity {
     Button btnNext;
     ListView variantsList;
     ArrayAdapter<String> adapter;
-    Test test;
+    TestWrapper testWrapper = new TestWrapper();
+    Test test = new Test();
     String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
     int currentQuestion = 0;
     List<Question> questions = new ArrayList<>();
     private List<View> allEds = new ArrayList<>();
     MathTesting mathTesting;
     LinearLayout passingTestL;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,15 +71,16 @@ public class Tests extends AppCompatActivity {
         passingTestL = findViewById(R.id.PassingTestLiner);
 
         Bundle values = getIntent().getExtras();
-        String testId = values.getString("testId");
-        test.setId(testId);
+        String token = values.getString("token");
+
         NetworkService.getInstance()
                 .getJSONApi()
-                .getTest(testId)
-                .enqueue(new Callback<com.example.jatcool.zno_on_math.entity.Test>() {
+                .getTest(token, "Test_11")
+                .enqueue(new Callback<TestWrapper>() {
                     @Override
-                    public void onResponse(Call<com.example.jatcool.zno_on_math.entity.Test> call, Response<com.example.jatcool.zno_on_math.entity.Test> response) {
-                        test = response.body();
+                    public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
+                        testWrapper = response.body();
+                        test = testWrapper.getTest();
                         mathTesting = new MathTesting(test.getQuestions());
                         tvTheme.setText(test.getTheme());
                         questions = test.getQuestions();
@@ -85,9 +89,10 @@ public class Tests extends AppCompatActivity {
                     }
 
                     @Override
-                    public void onFailure(Call<com.example.jatcool.zno_on_math.entity.Test> call, Throwable t) {
+                    public void onFailure(Call<TestWrapper> call, Throwable t) {
 
                     }
+
                 });
 
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
@@ -127,43 +132,43 @@ public class Tests extends AppCompatActivity {
             }
         });
     }
-        private void setOnclickListenerOnButton(){
-            btnNext.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    //setQuestion();
-                    //count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
-                    currentQuestion++;
 
-                    if (currentQuestion < questions.size() - 1) {
-                        loadQuestion(currentQuestion);
-                    } else {
-                        clearElements();
-                    }
+    private void setOnclickListenerOnButton() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //setQuestion();
+                //count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
+                currentQuestion++;
+
+                if (currentQuestion < questions.size() - 1) {
+                    loadQuestion(currentQuestion);
+                } else {
+                    clearElements();
                 }
-            });
+            }
+        });
 
-            btnPrev.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if (currentQuestion == 0) {
-                        return;
-                    }
-
-                    //setQuestion();
-                    //count_paper.setText((currentQuestion - 1) + "/" + questions.size() + 1);
-                    loadQuestion(--currentQuestion);
+        btnPrev.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (currentQuestion == 0) {
+                    return;
                 }
-            });
 
-            btnSkip.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
+                //setQuestion();
+                //count_paper.setText((currentQuestion - 1) + "/" + questions.size() + 1);
+                loadQuestion(--currentQuestion);
+            }
+        });
 
-                }
-            });
-        }
+        btnSkip.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+    }
 
 
     private void setDataInDBResultQuestion(String token, List<Answer> answers) {
@@ -263,7 +268,7 @@ public class Tests extends AppCompatActivity {
     }
 
     private void loadQuestion(int index) {
-        if (index < 0||index>=questions.size()-1) {
+        if (index < 0 || index >= questions.size() - 1) {
             return;
         }
 
@@ -323,7 +328,6 @@ public class Tests extends AppCompatActivity {
     }
 
 
-
     private void addWriteAnswer() {
         passingTestL.removeAllViews();
         allEds.clear();
@@ -344,6 +348,7 @@ public class Tests extends AppCompatActivity {
             allEds.add(view);
         }
     }
+
     private String[] setNumberArrayAnswer(int answer) {
         String[] array = new String[answer];
         for (int i = 0; i < answer; i++) {
