@@ -2,7 +2,6 @@ package com.example.jatcool.zno_on_math.activity.user;
 
 import android.content.Intent;
 import android.content.SharedPreferences;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -42,7 +41,6 @@ public class Authorization extends AppCompatActivity {
 
         Log.d("PathFile", ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME);
         if (new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).exists()) {
-
             Intent in = authorization(add_btn);
             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
             in.putExtra("FirstName", sharedPreferences.getString("FirstName", ""));
@@ -51,9 +49,8 @@ public class Authorization extends AppCompatActivity {
             in.putExtra("Group", sharedPreferences.getString("Group", ""));
             startActivity(in);
             finish();
-
         }
-        setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         mEmail = findViewById(R.id.avt_email);
         mPassword = findViewById(R.id.avt_password);
         add_btn = findViewById(R.id.avt_btn);

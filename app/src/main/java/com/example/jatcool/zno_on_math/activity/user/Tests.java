@@ -49,8 +49,8 @@ public class Tests extends AppCompatActivity {
     Button btnNext;
     ListView variantsList;
     ArrayAdapter<String> adapter;
-    TestWrapper testWrapper = new TestWrapper();
-    Test test = new Test();
+    TestWrapper testWrapper;
+    Test test;
     String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
     int currentQuestion = 0;
     List<Question> questions = new ArrayList<>();
@@ -75,7 +75,7 @@ public class Tests extends AppCompatActivity {
 
         NetworkService.getInstance()
                 .getJSONApi()
-                .getTest(token, "Test_11")
+                .getTest(token, "Неппр")
                 .enqueue(new Callback<TestWrapper>() {
                     @Override
                     public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
@@ -86,6 +86,7 @@ public class Tests extends AppCompatActivity {
                         questions = test.getQuestions();
                         tvText.setText(questions.get(0).getText());
                         loadQuestion(0);
+                        wwww();
                     }
 
                     @Override
@@ -95,8 +96,29 @@ public class Tests extends AppCompatActivity {
 
                 });
 
+//        try {
+//            Response<TestWrapper> response=NetworkService.getInstance()
+//                    .getJSONApi()
+//                    .getTest(token, "Неппр")
+//                    .execute();
+//            testWrapper = response.body();
+//            test = testWrapper.getTest();
+//            mathTesting = new MathTesting(test.getQuestions());
+//            tvTheme.setText(test.getTheme());
+//            questions = test.getQuestions();
+//            tvText.setText(questions.get(0).getText());
+//            loadQuestion(0);
+//        } catch (IOException e) {
+//            e.printStackTrace();
+//        }
+
+
+    }
+
+    private void wwww() {
         adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
         variantsList.setAdapter(adapter);
+
         variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
