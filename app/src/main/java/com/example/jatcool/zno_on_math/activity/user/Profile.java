@@ -15,6 +15,7 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -99,7 +100,6 @@ public class Profile extends AppCompatActivity {
                             Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
                                     .show();
                             pr.setVisibility(View.GONE);
-
                         }
                     }
 

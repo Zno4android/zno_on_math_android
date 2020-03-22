@@ -3,7 +3,14 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/mobile_navigation"
-    app:startDestination="@+id/nav_home">
+    app:startDestination="@id/nav_theory">
+
+    <fragment
+        android:id="@+id/nav_theory"
+        android:name="com.example.jatcool.zno_on_math.ui.theory.theory"
+        android:label="Теорія"
+        tools:layout="@layout/fragment_theory" />
+
 
     <fragment
         android:id="@+id/nav_home"
@@ -12,8 +19,15 @@
         tools:layout="@layout/fragment_home" />
 
     <fragment
-        android:id="@+id/nav_theory"
-        android:name="com.example.jatcool.zno_on_math.ui.theory.theory"
-        android:label="Теорія"
-        tools:layout="@layout/fragment_theory" />
+        android:id="@+id/nav_student"
+        android:name="com.example.jatcool.zno_on_math.ui.list_student.List_student"
+        android:label="Список студентів"
+        tools:layout="@layout/fragment_list_student" />
+
+    <activity
+        android:id="@+id/nav_add_test"
+        android:name="com.example.jatcool.zno_on_math.activity.admin.add_test"
+        android:label="Додання тесту"
+        tools:layout="@layout/activity_add_test" />
+
 </navigation>

@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 
 import com.example.jatcool.zno_on_math.R;
@@ -34,26 +35,17 @@ public class Zno extends AppCompatActivity {
     private AppBarConfiguration mAppBarConfiguration;
     private TextView mFirstName, mLastName, mGroup;
      private ImageView img;
+     private NavigationView navigationView;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zno);
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        // Passing each menu ID as a set of Ids because each
-        // menu should be considered as top level destinations.
+        navigationView = findViewById(R.id.nav_view);
         mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_home, R.id.nav_theory)
+                R.id.nav_theory,R.id.nav_home,R.id.nav_student, R.id.nav_add_test)
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
@@ -103,5 +95,16 @@ public class Zno extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        View headerLayout = navigationView.getHeaderView(0);
+        SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+        mFirstName = headerLayout.findViewById(R.id.FirstName);
+        mLastName = headerLayout.findViewById(R.id.LastName);
+        mFirstName.setText(sharedPreferences.getString("FirstName", ""));
+        mLastName.setText(sharedPreferences.getString("LastName", ""));
     }
 }
