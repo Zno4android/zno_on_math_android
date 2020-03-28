@@ -63,6 +63,10 @@ public class MathTesting implements Testing {
             throw new MathTestingException();
         }
 
+//        Answer answer = new Answer();
+//        answer.checkCorrect(questions.get(currentQuestion).getCorrect(),textAnswer);
+//        answer.setText(textAnswer);
+
         if (passAllQuestions) {
             currentQuestion = skipQuestions.get(0);
             skipQuestions.remove(0);

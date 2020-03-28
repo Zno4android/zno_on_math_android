@@ -13,9 +13,23 @@ public class Answer {
     @Expose
     private boolean correct;
 
+    public Answer() {
+    }
+
     public Answer(List<String> text, boolean correct) {
         this.text = text;
         this.correct = correct;
+    }
+
+    public void checkCorrect(List<String> correct, List<String> userAnswer) {
+        for (int i = 0; i < correct.size(); i++) {
+            if (!correct.get(i).equals(userAnswer.get(i))) {
+                this.correct = false;
+                return;
+            }
+        }
+
+        this.correct = true;
     }
 
     public List<String> getText() {

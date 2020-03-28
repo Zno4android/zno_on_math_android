@@ -72,7 +72,7 @@ public class Tests extends AppCompatActivity {
 
         NetworkService.getInstance()
                 .getJSONApi()
-                .getTest(token, "Test_11")
+                .getTest(token, "Комбинаторика2")
                 .enqueue(new Callback<TestWrapper>() {
                     @Override
                     public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
@@ -322,12 +322,6 @@ public class Tests extends AppCompatActivity {
         }
     }
 
-
-    private void loadQuestionWriteAnswer(Question question) {
-        View view = allEds.get(0);
-        ((EditText) view.findViewById(R.id.edit_text_write_answer)).setText(question.getCorrect().get(0));
-    }
-
     private void loadQuestion(int index) {
         if (index < 0 || index >= questions.size() - 1) {
             return;
@@ -342,26 +336,19 @@ public class Tests extends AppCompatActivity {
         tvText.setText(question.getText());
         if (question.getType().equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {
             addWriteAnswer();
-            loadQuestionWriteAnswer(question);
-        } else if (question.equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
+        } else if (question.getType().equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
             addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
             loadQuestionChooseAnswer(question);
-        } else if (question.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
+        } else if (question.getType().equals(QuestionType.CONFORMITY.name().toLowerCase())) {
             addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
             loadQuestionConformity(question);
         }
-
-
     }
 
     private void loadQuestionChooseAnswer(Question question) {
         for (int i = 0; i < allEds.size(); i++) {
             String variant = question.getVariants().get(i);
             ((TextView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText(variant);
-
-            if (question.getCorrect().contains(variant)) {
-                ((CheckBox) allEds.get(i).findViewById(R.id.check_box_choose_answer)).setChecked(true);
-            }
         }
     }
 
@@ -375,10 +362,8 @@ public class Tests extends AppCompatActivity {
             String[] variantArr = variantAndAnswer.split(DIVIDER_VARIANTS_CONFORMITY);
             String variant = variantArr[0];
             String answer = variantArr[1];
-            int correctPosition = Integer.parseInt(correct.get(i)) - 1;
             ((TextView) view.findViewById(R.id.tv_first_part)).setText(variant);
             ((TextView) view.findViewById(R.id.tv_second_part)).setText(answer);
-            ((Spinner) view.findViewById(R.id.spinner_variants)).setSelection(correctPosition);
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {

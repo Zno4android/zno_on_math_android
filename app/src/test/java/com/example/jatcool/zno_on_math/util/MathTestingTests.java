@@ -14,9 +14,10 @@ import static org.junit.Assert.assertTrue;
 
 public class MathTestingTests {
     MathTesting mathTesting;
-    ArrayList<Question> questions;
+    List<Question> questions;
     List<String> answer1;
     List<String> answer2;
+    List<String> answer3;
 
     @Before
     public void createTest() {
@@ -28,6 +29,7 @@ public class MathTestingTests {
         answer1.add("ні");
         answer2 = new ArrayList<>();
         answer2.add("так");
+
         Question question1 = new Question("Чи вірна тоттожність\n5=7 ?", variants, answer1);
         Question question2 = new Question("Чи вірна тоттожність\ntg a=sin a/cos a ?", variants, answer2);
         Question question3 = new Question("Чи вірне твердження\nЯкщо у трикутників однакові усі кути, вони подібні?", variants, answer2);
@@ -61,6 +63,27 @@ public class MathTestingTests {
     public void nextQuestion() {
         mathTesting.nextQuestion(answer2);
         int actualResult = mathTesting.getCurrentQuestion();
+
+        assertEquals(1, actualResult);
+    }
+
+    @Test
+    public void nextQuestionConformity() {
+        answer3 = new ArrayList<>();
+        answer3.add("ні");
+        answer3.add("так");
+
+        Question question1 = new Question("Чи вірна тоттожність\n5=7 ?", null, answer3);
+        questions = new ArrayList<>();
+        questions.add(question1);
+        mathTesting = new MathTesting(questions);
+
+        List<String> answer4 = new ArrayList<>();
+        answer4.add("так");
+        answer4.add("ні");
+
+        mathTesting.nextQuestion(answer4);
+        int actualResult = mathTesting.getCountCorrect();
 
         assertEquals(1, actualResult);
     }

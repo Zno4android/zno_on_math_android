@@ -8,10 +8,6 @@ public enum QuestionType {
     QuestionType(String name) {
         this.name = name;
     }
-//    public static Status getStatus(User user) {
-//        int statusId = user.getStatus();
-//        return Status.values()[statusId];
-//    }
 
     public static String[] getTypes() {
         String[] types = new String[QuestionType.values().length];
