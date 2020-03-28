@@ -22,6 +22,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Question;
+import com.example.jatcool.zno_on_math.entity.QuestionType;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
 
@@ -38,7 +39,7 @@ import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_V
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_VARIANTS_CONFORMITY;
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.DIVIDER_VARIANTS_CONFORMITY;
 
-public class add_test extends AppCompatActivity {
+public class AddTest extends AppCompatActivity {
     static final int GALLERY_REQUEST = 1;
     final int PIC_CROP = 2;
     Spinner spinnerVariants;
@@ -48,7 +49,6 @@ public class add_test extends AppCompatActivity {
     LinearLayout ll_variants;
     Bitmap thePic = null;
     String[] kol_variants = new String[]{"2", "3", "4", "5", "6"};
-    String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
     int id = 0;
     int size_test = 1;
     Test test;
@@ -89,22 +89,22 @@ public class add_test extends AppCompatActivity {
         count_paper = findViewById(R.id.count_papers_test);
         count_paper.setText("1/1");
         spinnerType = findViewById(R.id.Add_type_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, type_test);
+        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, QuestionType.getTypes());
         spinnerType.setAdapter(adapter);
 
         AdapterView.OnItemSelectedListener item = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String item = (String) parent.getItemAtPosition(position);
-                if (item.equals(type_test[2])) {
+                if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
                     hide.setVisibility(View.GONE);
                     spinnerVariants.setVisibility(View.GONE);
                     addWriteAnswer();
-                } else if (item.equals(type_test[0])) {
+                } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
                     hide.setVisibility(View.VISIBLE);
                     spinnerVariants.setVisibility(View.VISIBLE);
                     addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
-                } else if (item.equals(type_test[1])) {
+                } else if (item.equals(QuestionType.CONFORMITY.getName())) {
                     hide.setVisibility(View.GONE);
                     spinnerVariants.setVisibility(View.GONE);
                     addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
@@ -185,6 +185,12 @@ public class add_test extends AppCompatActivity {
         btnAddTest.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (!validateQuestion(questions)) {
+                    Toast.makeText(AddTest.this, "у одного або більше тестів текст, правильні відповідді або поля с відповідями не заповненні", Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+
                 Bundle values = getIntent().getExtras();
                 String token = values.getString("token");
                 fillTest();
@@ -196,13 +202,13 @@ public class add_test extends AppCompatActivity {
                         .enqueue(new Callback<Test>() {
                             @Override
                             public void onResponse(Call<Test> call, Response<Test> response) {
-                                Toast.makeText(add_test.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
+                                Toast.makeText(AddTest.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
                                         .show();
                             }
 
                             @Override
                             public void onFailure(Call<Test> call, Throwable t) {
-                                Toast.makeText(add_test.this, "помилка", Toast.LENGTH_LONG)
+                                Toast.makeText(AddTest.this, "помилка", Toast.LENGTH_LONG)
                                         .show();
                             }
                         });
@@ -216,26 +222,28 @@ public class add_test extends AppCompatActivity {
         List<String> correct = new ArrayList<>();
         Question question = new Question();
 
-        if (item.equals(type_test[2])) {
+        if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
             setQuestionVariantsWriteAnswer(variants, correct);
-        } else if (item.equals(type_test[0])) {
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
             setQuestionVariantsChooseAnswer(variants, correct);
-        } else if (item.equals(type_test[1])) {
+        } else if (item.equals(QuestionType.CONFORMITY.getName())) {
             setQuestionVariantsConformity(variants, correct);
         }
+
+        String textQuestion = txtTextQuestion.getText().toString();
+        String type = spinnerType.getSelectedItem().toString();
+        String questionType = QuestionType.valueOf(type).name().toLowerCase();
+
+        question.setType(questionType);
+        question.setVariants(variants);
+        question.setCorrect(correct);
+        question.setText(textQuestion);
 
         if (currentQuestion > questions.size() - 1) {
             questions.add(question);
         } else {
             questions.set(currentQuestion, question);
         }
-        String textQuestion = txtTextQuestion.getText().toString();
-        String type = spinnerType.getSelectedItem().toString();
-
-        question.setType(type);
-        question.setVariants(variants);
-        question.setCorrect(correct);
-        question.setText(textQuestion);
     }
 
     private void setQuestionVariantsChooseAnswer(List<String> variants, List<String> correct) {
@@ -282,13 +290,13 @@ public class add_test extends AppCompatActivity {
         String item = spinnerType.getSelectedItem().toString();
 
         txtTextQuestion.setText(question.getText());
-        if (item.equals(type_test[2])) {
+        if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
             addWriteAnswer();
             loadQuestionWriteAnswer(question);
-        } else if (item.equals(type_test[0])) {
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
             addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
             loadQuestionChooseAnswer(question);
-        } else if (item.equals(type_test[1])) {
+        } else if (item.equals(QuestionType.CONFORMITY.getName())) {
             addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
             loadQuestionConformity(question);
         }
@@ -335,11 +343,11 @@ public class add_test extends AppCompatActivity {
 
     private void clearElements() {
         String item = spinnerType.getSelectedItem().toString();
-        if (item.equals(type_test[2])) {
+        if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
             clearElementsWriteAnswer();
-        } else if (item.equals(type_test[0])) {
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
             clearElementsChooseAnswer();
-        } else if (item.equals(type_test[1])) {
+        } else if (item.equals(QuestionType.CONFORMITY.getName())) {
             clearElementsConformity();
         }
         txtTextQuestion.setText("");
@@ -474,6 +482,28 @@ public class add_test extends AppCompatActivity {
         //test.setTheme(thema);
         test.setQuestions(questions);
         test.setName(txtTestName.getText().toString());
+    }
+
+    private boolean validateQuestion(List<Question> questions) {
+        for (Question question : questions) {
+            if (question.getText().isEmpty() || question.getCorrect().size() < 1) {
+                return false;
+            }
+
+            for (String variant : question.getVariants()) {
+                if (variant.isEmpty()) {
+                    return false;
+                }
+            }
+
+            for (String correct : question.getCorrect()) {
+                if (correct.isEmpty()) {
+                    return false;
+                }
+            }
+        }
+
+        return true;
     }
 
 }

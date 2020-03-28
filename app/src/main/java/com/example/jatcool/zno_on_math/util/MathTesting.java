@@ -58,7 +58,7 @@ public class MathTesting implements Testing {
      * @throws MathTestingException if test is complete
      */
     @Override
-    public void nextQuestion(String textAnswer) {
+    public void nextQuestion(List<String> textAnswer) {
         if (testPass) {
             throw new MathTestingException();
         }

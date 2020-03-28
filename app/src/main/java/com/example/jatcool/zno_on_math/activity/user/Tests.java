@@ -4,13 +4,11 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -20,6 +18,7 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Question;
+import com.example.jatcool.zno_on_math.entity.QuestionType;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
@@ -47,11 +46,9 @@ public class Tests extends AppCompatActivity {
     Button btnPrev;
     Button btnSkip;
     Button btnNext;
-    ListView variantsList;
-    ArrayAdapter<String> adapter;
     TestWrapper testWrapper;
     Test test;
-    String[] type_test = new String[]{"Виберіть правельну(ні) відповідь(ді)", "Відповідність", "Вести відповідь",};
+
     int currentQuestion = 0;
     List<Question> questions = new ArrayList<>();
     private List<View> allEds = new ArrayList<>();
@@ -75,7 +72,7 @@ public class Tests extends AppCompatActivity {
 
         NetworkService.getInstance()
                 .getJSONApi()
-                .getTest(token, "Неппр")
+                .getTest(token, "Test_11")
                 .enqueue(new Callback<TestWrapper>() {
                     @Override
                     public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
@@ -116,14 +113,44 @@ public class Tests extends AppCompatActivity {
     }
 
     private void wwww() {
-        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
-        variantsList.setAdapter(adapter);
+//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
+//        variantsList.setAdapter(adapter);
 
-        variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//        variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+//            @Override
+//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                String answer = adapter.getItem(position);
+//                mathTesting.nextQuestion(answer);
+//
+//                if (mathTesting.isPassAllQuestions()) {
+//                    btnSkip.setVisibility(View.GONE);
+//                }
+//
+//                if (mathTesting.isTestPass()) {
+//                    int countCorrect = mathTesting.getCountCorrect();
+//                    int countIncorrect = mathTesting.getCountIncorrect();
+//                    SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+//                    String token = sharedPreferences.getString("token", "");
+//                    List<Answer> answers = mathTesting.getAnswers();
+//                    setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
+//                    setDataInDBResultQuestion(token, answers);
+//                    showResultTesting(countCorrect, countIncorrect);
+//                }
+//            }
+//        });
+        setOnclickListenerOnButton();
+
+    }
+
+    private void setOnclickListenerOnButton() {
+        btnNext.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                String answer = adapter.getItem(position);
-                mathTesting.nextQuestion(answer);
+            public void onClick(View v) {
+                answerQuestion();
+                //count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
+
+                loadQuestion(mathTesting.getCurrentQuestion());
+
 
                 if (mathTesting.isPassAllQuestions()) {
                     btnSkip.setVisibility(View.GONE);
@@ -138,35 +165,6 @@ public class Tests extends AppCompatActivity {
                     setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
                     setDataInDBResultQuestion(token, answers);
                     showResultTesting(countCorrect, countIncorrect);
-                }
-            }
-        });
-
-
-        btnSkip.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                mathTesting.skipQuestion();
-                //loadQuestion(test.getQuestions().get(mathTesting.getCurrentQuestion()));
-                if (mathTesting.isPassAllQuestions()) {
-                    btnSkip.setVisibility(View.GONE);
-                }
-            }
-        });
-    }
-
-    private void setOnclickListenerOnButton() {
-        btnNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //setQuestion();
-                //count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
-                currentQuestion++;
-
-                if (currentQuestion < questions.size() - 1) {
-                    loadQuestion(currentQuestion);
-                } else {
-                    clearElements();
                 }
             }
         });
@@ -187,7 +185,11 @@ public class Tests extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                mathTesting.skipQuestion();
+                loadQuestion(mathTesting.getCurrentQuestion());
+                if (mathTesting.isPassAllQuestions()) {
+                    btnSkip.setVisibility(View.GONE);
+                }
             }
         });
     }
@@ -244,6 +246,41 @@ public class Tests extends AppCompatActivity {
         return new Intent(this, ResultTest.class);
     }
 
+    private void answerQuestion() {
+        Question question = test.getQuestions().get(mathTesting.getCurrentQuestion());
+        String item = question.getType();
+        List<String> answer = new ArrayList<>();
+
+        if (item.equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {
+            answerQuestionVariantsWriteAnswer(answer);
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
+            answerQuestionVariantsChooseAnswer(answer);
+        } else if (item.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
+            answerQuestionVariantsConformity(answer);
+        }
+    }
+
+    private void answerQuestionVariantsChooseAnswer(List<String> answer) {
+        for (View view : allEds) {
+
+            if (((CheckBox) view.findViewById(R.id.check_box_choose_answer)).isChecked()) {
+                answer.add(((TextView) view.findViewById(R.id.tv_choose_answer)).getText().toString());
+            }
+        }
+    }
+
+    private void answerQuestionVariantsConformity(List<String> answer) {
+        for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
+            View view = allEds.get(i);
+            answer.add(((Spinner) view.findViewById(R.id.spinner_variants)).getSelectedItem().toString());
+        }
+    }
+
+    private void answerQuestionVariantsWriteAnswer(List<String> answer) {
+        View view = allEds.get(0);
+        answer.add(((EditText) view.findViewById(R.id.edit_text_write_answer)).getText().toString());
+    }
+
     private void clearElementsWriteAnswer() {
         View view = allEds.get(0);
         ((EditText) view.findViewById(R.id.edit_text_write_answer)).setText("");
@@ -251,12 +288,14 @@ public class Tests extends AppCompatActivity {
 
 
     private void clearElements() {
-        String item = type_test[0];
-        if (item.equals(type_test[2])) {
+        Question question = test.getQuestions().get(mathTesting.getCurrentQuestion());
+        String item = question.getType();
+
+        if (item.equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {
             clearElementsWriteAnswer();
-        } else if (item.equals(type_test[0])) {
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
             clearElementsChooseAnswer();
-        } else if (item.equals(type_test[1])) {
+        } else if (item.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
             clearElementsConformity();
         }
         tvText.setText("");
@@ -264,7 +303,7 @@ public class Tests extends AppCompatActivity {
 
     private void clearElementsChooseAnswer() {
         for (int i = 0; i < allEds.size(); i++) {
-            ((EditText) allEds.get(i).findViewById(R.id.edit_text_choose_answer)).setText("");
+            ((TextView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText("");
             ((CheckBox) allEds.get(i).findViewById(R.id.check_box_choose_answer)).setChecked(false);
         }
     }
@@ -272,14 +311,14 @@ public class Tests extends AppCompatActivity {
     private void clearElementsConformity() {
         for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            ((EditText) view.findViewById(R.id.edit_text_first_part)).setText("");
-            ((EditText) view.findViewById(R.id.edit_text_second_part)).setText("");
+            ((TextView) view.findViewById(R.id.tv_first_part)).setText("");
+            ((TextView) view.findViewById(R.id.tv_second_part)).setText("");
             ((Spinner) view.findViewById(R.id.spinner_variants)).setSelection(0);
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            ((EditText) view.findViewById(R.id.edit_text_answer_part)).setText("");
+            ((TextView) view.findViewById(R.id.tv_answer_part)).setText("");
         }
     }
 
@@ -301,13 +340,13 @@ public class Tests extends AppCompatActivity {
 //        String item = spinnerType.getSelectedItem().toString();
 
         tvText.setText(question.getText());
-        if (question.getType().equals(type_test[1])) {
+        if (question.getType().equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {
             addWriteAnswer();
             loadQuestionWriteAnswer(question);
-        } else if (question.equals(type_test[0])) {
+        } else if (question.equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
             addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
             loadQuestionChooseAnswer(question);
-        } else if (question.equals(type_test[1])) {
+        } else if (question.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
             addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
             loadQuestionConformity(question);
         }
@@ -318,7 +357,7 @@ public class Tests extends AppCompatActivity {
     private void loadQuestionChooseAnswer(Question question) {
         for (int i = 0; i < allEds.size(); i++) {
             String variant = question.getVariants().get(i);
-            ((EditText) allEds.get(i).findViewById(R.id.edit_text_choose_answer)).setText(variant);
+            ((TextView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText(variant);
 
             if (question.getCorrect().contains(variant)) {
                 ((CheckBox) allEds.get(i).findViewById(R.id.check_box_choose_answer)).setChecked(true);
@@ -337,15 +376,15 @@ public class Tests extends AppCompatActivity {
             String variant = variantArr[0];
             String answer = variantArr[1];
             int correctPosition = Integer.parseInt(correct.get(i)) - 1;
-            ((EditText) view.findViewById(R.id.edit_text_first_part)).setText(variant);
-            ((EditText) view.findViewById(R.id.edit_text_second_part)).setText(answer);
+            ((TextView) view.findViewById(R.id.tv_first_part)).setText(variant);
+            ((TextView) view.findViewById(R.id.tv_second_part)).setText(answer);
             ((Spinner) view.findViewById(R.id.spinner_variants)).setSelection(correctPosition);
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
             String variant = variants.get(i);
-            ((EditText) view.findViewById(R.id.edit_text_answer_part)).setText(variant);
+            ((TextView) view.findViewById(R.id.tv_answer_part)).setText(variant);
         }
     }
 
@@ -363,7 +402,7 @@ public class Tests extends AppCompatActivity {
         passingTestL.removeAllViews();
         allEds.clear();
         for (int i = 0; i < count; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
+            final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout_testing, null);
             CheckBox checkBox = view.findViewById(R.id.check_box_choose_answer);
             EditText editText = view.findViewById(R.id.edit_text_choose_answer);
             passingTestL.addView(view);
@@ -384,7 +423,7 @@ public class Tests extends AppCompatActivity {
         allEds.clear();
 
         for (int i = 0; i < variant; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.conformity_layout, null);
+            final View view = getLayoutInflater().inflate(R.layout.conformity_layout_testing, null);
             Spinner spinner = view.findViewById(R.id.spinner_variants);
             EditText editTextFirst = view.findViewById(R.id.edit_text_first_part);
             EditText editTextSecond = view.findViewById(R.id.edit_text_second_part);
@@ -396,7 +435,7 @@ public class Tests extends AppCompatActivity {
         }
 
         for (int i = 0; i < answer - variant; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.conformity_layout_second, null);
+            final View view = getLayoutInflater().inflate(R.layout.conformity_layout_second_testing, null);
             EditText editTextFirst = view.findViewById(R.id.edit_text_answer_part);
             passingTestL.addView(view);
             allEds.add(view);

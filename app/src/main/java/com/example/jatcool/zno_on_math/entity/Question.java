@@ -45,6 +45,12 @@ public class Question extends Entity {
         this.correct = correct;
     }
 
+    public Question(String text, List<String> variants, List<String> correct) {
+        this.text = text;
+        this.variants = variants;
+        this.correct = correct;
+    }
+
     public String getTheme() {
         return theme;
     }
