@@ -8,9 +8,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 
 public class DBStatistics {
-    @SerializedName("token")
-    @Expose
-    private String token;
     @SerializedName("testID")
     @Expose
     private String testID;
@@ -21,10 +18,9 @@ public class DBStatistics {
     @Expose
     private String dateStr;
 
-    public DBStatistics(String token, String testID, double result, Date date) {
-        this.token = token;
+    public DBStatistics(String userId, String testID, double result, Date date) {
         this.testID = testID;
-        this.result = Double.parseDouble(new DecimalFormat("#0.00").format(result));
+        this.result = Double.parseDouble(new DecimalFormat("#.##").format(result));
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
         this.dateStr = simpleDateFormat.format(date);
     }

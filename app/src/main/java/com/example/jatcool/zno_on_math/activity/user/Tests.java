@@ -1,7 +1,6 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,9 +15,9 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
-import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.QuestionType;
+import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
@@ -49,6 +48,8 @@ public class Tests extends AppCompatActivity {
     TestWrapper testWrapper;
     Test test;
 
+    String token;
+
     int currentQuestion = 0;
     List<Question> questions = new ArrayList<>();
     private List<View> allEds = new ArrayList<>();
@@ -68,7 +69,7 @@ public class Tests extends AppCompatActivity {
         passingTestL = findViewById(R.id.PassingTestLiner);
 
         Bundle values = getIntent().getExtras();
-        String token = values.getString("token");
+        token = values.getString("token");
 
         NetworkService.getInstance()
                 .getJSONApi()
@@ -90,54 +91,10 @@ public class Tests extends AppCompatActivity {
                     public void onFailure(Call<TestWrapper> call, Throwable t) {
 
                     }
-
                 });
-
-//        try {
-//            Response<TestWrapper> response=NetworkService.getInstance()
-//                    .getJSONApi()
-//                    .getTest(token, "Неппр")
-//                    .execute();
-//            testWrapper = response.body();
-//            test = testWrapper.getTest();
-//            mathTesting = new MathTesting(test.getQuestions());
-//            tvTheme.setText(test.getTheme());
-//            questions = test.getQuestions();
-//            tvText.setText(questions.get(0).getText());
-//            loadQuestion(0);
-//        } catch (IOException e) {
-//            e.printStackTrace();
-//        }
-
-
     }
 
     private void wwww() {
-//        adapter = new ArrayAdapter<>(this, android.R.layout.simple_list_item_single_choice, test.getQuestions().get(0).getVariants());
-//        variantsList.setAdapter(adapter);
-
-//        variantsList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//            @Override
-//            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-//                String answer = adapter.getItem(position);
-//                mathTesting.nextQuestion(answer);
-//
-//                if (mathTesting.isPassAllQuestions()) {
-//                    btnSkip.setVisibility(View.GONE);
-//                }
-//
-//                if (mathTesting.isTestPass()) {
-//                    int countCorrect = mathTesting.getCountCorrect();
-//                    int countIncorrect = mathTesting.getCountIncorrect();
-//                    SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-//                    String token = sharedPreferences.getString("token", "");
-//                    List<Answer> answers = mathTesting.getAnswers();
-//                    setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
-//                    setDataInDBResultQuestion(token, answers);
-//                    showResultTesting(countCorrect, countIncorrect);
-//                }
-//            }
-//        });
         setOnclickListenerOnButton();
 
     }
@@ -147,7 +104,6 @@ public class Tests extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 answerQuestion();
-                //count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
 
                 loadQuestion(mathTesting.getCurrentQuestion());
 
@@ -157,14 +113,8 @@ public class Tests extends AppCompatActivity {
                 }
 
                 if (mathTesting.isTestPass()) {
-                    int countCorrect = mathTesting.getCountCorrect();
-                    int countIncorrect = mathTesting.getCountIncorrect();
-                    SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-                    String token = sharedPreferences.getString("token", "");
                     List<Answer> answers = mathTesting.getAnswers();
-                    setDataInDBStatistics(token, test.getId(), countCorrect, countIncorrect);
-                    setDataInDBResultQuestion(token, answers);
-                    showResultTesting(countCorrect, countIncorrect);
+                    saveResult();
                 }
             }
         });
@@ -176,8 +126,6 @@ public class Tests extends AppCompatActivity {
                     return;
                 }
 
-                //setQuestion();
-                //count_paper.setText((currentQuestion - 1) + "/" + questions.size() + 1);
                 loadQuestion(--currentQuestion);
             }
         });
@@ -195,43 +143,43 @@ public class Tests extends AppCompatActivity {
     }
 
 
-    private void setDataInDBResultQuestion(String token, List<Answer> answers) {
-        for (int i = 0; i < test.getQuestions().size(); i++) {
-            DBResultQuestion dbResultQuestion = new DBResultQuestion(token, test.getQuestions().get(i).getId(), answers.get(i).isCorrect(), new Date());
-            NetworkService.getInstance()
-                    .getJSONApi()
-                    .updateResultQuestion(dbResultQuestion)
-                    .enqueue(new Callback<DBResultQuestion>() {
-                        @Override
-                        public void onResponse(Call<DBResultQuestion> call, Response<DBResultQuestion> response) {
+    private void saveResult() {
 
-                        }
+        List<Answer> answers = mathTesting.getAnswers();
+        List<DBResultQuestion> answersStatistics = new ArrayList<>();
+        Date date = new Date();
+        for (int i = 0; i < answers.size(); i++) {
+            DBResultQuestion dbResultQuestion = new DBResultQuestion();
+            dbResultQuestion.setResult(answers.get(i).isCorrect());
+            dbResultQuestion.setQuestionId(questions.get(i).getId());
 
-                        @Override
-                        public void onFailure(Call<DBResultQuestion> call, Throwable t) {
-
-                        }
-                    });
-
+            answersStatistics.add(dbResultQuestion);
         }
-    }
 
-    private void setDataInDBStatistics(String token, String testId, int countCorrect, int countIncorrect) {
-        DBStatistics dbStatistics = new DBStatistics(token, testId, (countCorrect + countIncorrect) / (double) countCorrect, new Date());
+        String testId = test.getId();
+        final int countCorrect = mathTesting.getCountCorrect();
+        final int countIncorrect = mathTesting.getCountIncorrect();
+
+        DBStatistics dbStatistics = new DBStatistics(token, testId, (double) countCorrect / (double) (countCorrect + countIncorrect), date);
+
+        StatisticsWrapper statistics = new StatisticsWrapper(dbStatistics, answersStatistics);
+
         NetworkService.getInstance()
                 .getJSONApi()
-                .updateStatistics(dbStatistics)
-                .enqueue(new Callback<DBStatistics>() {
+                .saveStatistics(token, statistics)
+                .enqueue(new Callback<StatisticsWrapper>() {
                     @Override
-                    public void onResponse(Call<DBStatistics> call, Response<DBStatistics> response) {
-
+                    public void onResponse(Call<StatisticsWrapper> call, Response<StatisticsWrapper> response) {
+                        showResultTesting(countCorrect, countIncorrect);
                     }
 
                     @Override
-                    public void onFailure(Call<DBStatistics> call, Throwable t) {
+                    public void onFailure(Call<StatisticsWrapper> call, Throwable t) {
 
                     }
                 });
+
+
     }
 
     private void showResultTesting(int countCorrect, int countIncorrect) {
@@ -258,6 +206,8 @@ public class Tests extends AppCompatActivity {
         } else if (item.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
             answerQuestionVariantsConformity(answer);
         }
+
+        mathTesting.nextQuestion(answer);
     }
 
     private void answerQuestionVariantsChooseAnswer(List<String> answer) {
@@ -286,52 +236,12 @@ public class Tests extends AppCompatActivity {
         ((EditText) view.findViewById(R.id.edit_text_write_answer)).setText("");
     }
 
-
-    private void clearElements() {
-        Question question = test.getQuestions().get(mathTesting.getCurrentQuestion());
-        String item = question.getType();
-
-        if (item.equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {
-            clearElementsWriteAnswer();
-        } else if (item.equals(QuestionType.CHOOSE_ANSWER.name().toLowerCase())) {
-            clearElementsChooseAnswer();
-        } else if (item.equals(QuestionType.CONFORMITY.name().toLowerCase())) {
-            clearElementsConformity();
-        }
-        tvText.setText("");
-    }
-
-    private void clearElementsChooseAnswer() {
-        for (int i = 0; i < allEds.size(); i++) {
-            ((TextView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText("");
-            ((CheckBox) allEds.get(i).findViewById(R.id.check_box_choose_answer)).setChecked(false);
-        }
-    }
-
-    private void clearElementsConformity() {
-        for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
-            View view = allEds.get(i);
-            ((TextView) view.findViewById(R.id.tv_first_part)).setText("");
-            ((TextView) view.findViewById(R.id.tv_second_part)).setText("");
-            ((Spinner) view.findViewById(R.id.spinner_variants)).setSelection(0);
-        }
-
-        for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
-            View view = allEds.get(i);
-            ((TextView) view.findViewById(R.id.tv_answer_part)).setText("");
-        }
-    }
-
     private void loadQuestion(int index) {
-        if (index < 0 || index >= questions.size() - 1) {
+        if (index < 0 || index > questions.size() - 1) {
             return;
         }
 
         Question question = questions.get(index);
-        //ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerType.getAdapter();
-        //int position = adapter.getPosition(question.getType());
-//        spinnerType.setSelection(position);
-//        String item = spinnerType.getSelectedItem().toString();
 
         tvText.setText(question.getText());
         if (question.getType().equals(QuestionType.WRITE_ANSWER.name().toLowerCase())) {

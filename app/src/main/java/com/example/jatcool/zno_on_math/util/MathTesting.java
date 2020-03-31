@@ -48,6 +48,10 @@ public class MathTesting implements Testing {
      */
     private void checkCountQuestion() {
         passAllQuestions = currentQuestion == questions.size();
+
+        if (passAllQuestions && !skipQuestions.isEmpty()) {
+            currentQuestion = skipQuestions.get(0);
+        }
     }
 
     /**
@@ -63,17 +67,16 @@ public class MathTesting implements Testing {
             throw new MathTestingException();
         }
 
-//        Answer answer = new Answer();
-//        answer.checkCorrect(questions.get(currentQuestion).getCorrect(),textAnswer);
-//        answer.setText(textAnswer);
+        Answer answer = new Answer(textAnswer, questions.get(currentQuestion).getCorrect().equals(textAnswer));
 
         if (passAllQuestions) {
-            currentQuestion = skipQuestions.get(0);
             skipQuestions.remove(0);
-            Answer answer = new Answer(textAnswer, questions.get(currentQuestion).getCorrect().equals(textAnswer));
             answers.set(currentQuestion, answer);
+
+            if (!skipQuestions.isEmpty()) {
+                currentQuestion = skipQuestions.get(0);
+            }
         } else {
-            Answer answer = new Answer(textAnswer, questions.get(currentQuestion).getCorrect().equals(textAnswer));
             answers.add(currentQuestion, answer);
             currentQuestion++;
             checkCountQuestion();

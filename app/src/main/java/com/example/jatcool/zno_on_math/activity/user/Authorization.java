@@ -29,15 +29,10 @@ public class Authorization extends AppCompatActivity {
     User user;
     ProgressBar waiter;
 
-    //UserService userService;
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avtorization);
-
-        //initService();
 
         Log.d("PathFile", ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME);
         if (new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).exists()) {
@@ -50,7 +45,7 @@ public class Authorization extends AppCompatActivity {
             startActivity(in);
             finish();
         }
-        //setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
+
         mEmail = findViewById(R.id.avt_email);
         mPassword = findViewById(R.id.avt_password);
         add_btn = findViewById(R.id.avt_btn);
@@ -83,29 +78,9 @@ public class Authorization extends AppCompatActivity {
                                         waiter.setVisibility(View.GONE);
                                     }
                                 });
-//                        int a = 0;
-//                        String token=null;
-//                        userService.getTokenByEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString(), waiter,token);
-//                        if (token != null) {
-//                            user_by_token(token);
-//                        } else {
-//                            Toast.makeText(Authorization.this, "Неверный логин или пароль", Toast.LENGTH_LONG)
-//                                    .show();
-//                        }
-
-//                        user = userService.getUserByEmailAndPassword(mEmail.getText().toString(), mPassword.getText().toString(),waiter);
-//                        waiter.setVisibility(View.GONE);
-
-
                     }
                 });
     }
-
-//    private void initService() {
-//        UserDAOImpl userDAO = new UserDAOImpl();
-//        userDAO.setWaiter(waiter);
-//        userService = new UserServiceImpl(userDAO);
-//    }
 
     public Intent authorization(View view) {
         return new Intent(this, Zno.class);
@@ -148,22 +123,5 @@ public class Authorization extends AppCompatActivity {
 
                     }
                 });
-//        userService.getUserByToken(token,waiter,user);
-//        Intent in = authorization(add_btn);
-//        in.putExtra("FirstName", user.getFirstname());
-//        in.putExtra("LastName", user.getLastname());
-//        in.putExtra("token", user.getToken());
-//        in.putExtra("Group", user.getGroup());
-//        waiter.setVisibility(View.INVISIBLE);
-//        SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-//        SharedPreferences.Editor editor = sharedPreferences.edit();
-//        editor.putString("FirstName", user.getFirstname());
-//        editor.putString("Fname", user.getOt());
-//        editor.putString("LastName", user.getLastname());
-//        editor.putString("token", user.getToken());
-//        editor.putString("Group", user.getGroup());
-//        editor.apply();
-//        editor.commit();
-//        startActivity(in);
     }
 }
