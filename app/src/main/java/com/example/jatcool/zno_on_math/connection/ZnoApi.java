@@ -4,9 +4,12 @@ import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
+import com.example.jatcool.zno_on_math.entity.Theoretics;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.util.MailCheck;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -47,4 +50,13 @@ public interface ZnoApi {
 
     @POST("/api/tests/createTest")
     Call<Test> createTest(@Header("auth-token") String token, @Body TestWrapper testWrapper);
+
+    @GET("api/theory")
+    Call<List<Theoretics>> getTheory (@Header("auth-token") String token);
+
+    @PUT("/api/theory/update")
+    Call<Theoretics> editTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
+
+    @POST("/api/theory/add")
+    Call<Theoretics> addTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
 }

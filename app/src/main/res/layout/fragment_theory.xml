@@ -66,7 +66,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Назад" />
 
         <Button
             android:id="@+id/Edit"
@@ -75,7 +75,7 @@
 
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Видалити" />
 
         <Button
             android:id="@+id/Delete"
@@ -84,7 +84,7 @@
             android:layout_gravity="bottom"
 
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Редагувати" />
 
         <Button
             android:id="@+id/Next"
@@ -92,7 +92,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
             android:layout_weight="1"
-            android:text="Button" />
+            android:text="Далі" />
     </LinearLayout>
 
     <LinearLayout
