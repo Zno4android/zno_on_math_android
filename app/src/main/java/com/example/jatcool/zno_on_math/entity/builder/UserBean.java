@@ -26,7 +26,7 @@ public class UserBean {
         user.setGroup(group);
         user.setFirstname(firstname);
         user.setLastname(lastname);
-        user.setOt(ot);
+        user.setFathername(ot);
         user.setPassword(password);
 
         return user;

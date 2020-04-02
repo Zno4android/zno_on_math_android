@@ -55,9 +55,13 @@ public class Authorization extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         waiter.setVisibility(View.VISIBLE);
+                        User user = new User();
+                        user.setEmail(mEmail.getText().toString());
+                        user.setPassword(mPassword.getText().toString());
+
                         NetworkService.getInstance()
                                 .getJSONApi()
-                                .Log_in(new User(mEmail.getText().toString(), mPassword.getText().toString()))
+                                .Log_in(user)
                                 .enqueue(new Callback<User>() {
                                     @Override
                                     public void onResponse(Call<User> call, Response<User> response) {
@@ -108,7 +112,7 @@ public class Authorization extends AppCompatActivity {
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
                         editor.putString("FirstName", user.getFirstname());
-                        editor.putString("Fname", user.getOt());
+                        editor.putString("Fname", user.getFathername());
                         editor.putString("LastName", user.getLastname());
                         editor.putString("token", token);
                         editor.putString("Group", user.getGroup());

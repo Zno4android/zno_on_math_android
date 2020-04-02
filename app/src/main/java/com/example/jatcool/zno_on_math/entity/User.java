@@ -19,47 +19,18 @@ public class User extends Entity {
     @SerializedName("lastname")
     @Expose
     private String lastname;
-    @SerializedName("ot")
+    @SerializedName("fathername")
     @Expose
-    private String ot;
+    private String fathername;
     @SerializedName("token")
     @Expose
     private String token;
-
-    public User(String id, String email, String password, String group, String firstname, String lastname, String ot) {
-        this.setId(id);
-        this.email = email;
-        this.password = password;
-        //this.status = 0;
-        this.group = group;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.ot = ot;
-    }
-
-    public User(String email, String password, String group, String firstname, String lastname, String ot) {
-        this.email = email;
-        this.password = password;
-        this.group = group;
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.ot = ot;
-    }
-
-    public User(String email, String password) {
-        this.email = email;
-        this.password = password;
-    }
-
-    public User(String ot,String firstname, String lastname){
-        this.firstname = firstname;
-        this.lastname = lastname;
-        this.ot = ot;
-
-    }
-
-    public User() {
-    }
+    @SerializedName("status")
+    @Expose
+    private Status status;
+    @SerializedName("verifyed")
+    @Expose
+    private boolean verifyed;
 
     public String getToken() {
         return token;
@@ -109,12 +80,28 @@ public class User extends Entity {
         this.lastname = lastname;
     }
 
-    public String getOt() {
-        return ot;
+    public String getFathername() {
+        return fathername;
     }
 
-    public void setOt(String ot) {
-        this.ot = ot;
+    public void setFathername(String fathername) {
+        this.fathername = fathername;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
+    }
+
+    public boolean isVerifyed() {
+        return verifyed;
+    }
+
+    public void setVerifyed(boolean verifyed) {
+        this.verifyed = verifyed;
     }
 
     @Override
@@ -125,7 +112,7 @@ public class User extends Entity {
                 ", group:'" + group + '\'' +
                 ", firstname:'" + firstname + '\'' +
                 ", lastname:'" + lastname + '\'' +
-                ", ot:'" + ot + '\'' +
+                ", ot:'" + fathername + '\'' +
                 '}';
     }
 }

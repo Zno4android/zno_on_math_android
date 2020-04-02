@@ -15,14 +15,13 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.User;
-import com.google.android.material.navigation.NavigationView;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class Profile extends AppCompatActivity {
-    EditText Fname, Name, LastName;
+    EditText etFartherName, etFirstname, etLastname;
     TextView group;
     Button save_btn, cancel_btn;
     ProgressBar pr;
@@ -35,11 +34,11 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setTitle("Профіль");
-        Fname = findViewById(R.id.edFname);
-        Name = findViewById(R.id.edName);
-        LastName = findViewById(R.id.edLastName);
+        etFartherName = findViewById(R.id.edFname);
+        etFirstname = findViewById(R.id.edName);
+        etLastname = findViewById(R.id.edLastName);
         group = findViewById(R.id.tvGroup);
-        setActivityData(group, Fname, Name, LastName);
+        setActivityData(group, etFartherName, etFirstname, etLastname);
         pr = findViewById(R.id.Timer);
         save_btn = findViewById(R.id.pr_save_btn);
         cancel_btn = findViewById(R.id.pr_cancel_btn);
@@ -47,7 +46,7 @@ public class Profile extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        setActivityData(group, Fname, Name, LastName);
+                        setActivityData(group, etFartherName, etFirstname, etLastname);
 
                     }
                 }
@@ -57,8 +56,11 @@ public class Profile extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        if (!Fname.getText().toString().equals("") && !Name.getText().toString().equals("") && !LastName.getText().toString().equals("")) {
-                            user = new User(Fname.getText().toString(), Name.getText().toString(), LastName.getText().toString());
+                        if (!etFartherName.getText().toString().equals("") && !etFirstname.getText().toString().equals("") && !etLastname.getText().toString().equals("")) {
+                            user = new User();
+                            user.setFathername(etFartherName.getText().toString());
+                            user.setFirstname(etFirstname.getText().toString());
+                            user.setLastname(etLastname.getText().toString());
                             Change(user);
                         } else
                             Toast.makeText(Profile.this, "Одне з полів порожнє", Toast.LENGTH_SHORT)
@@ -93,7 +95,7 @@ public class Profile extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Fname", user.getOt());
+                            editor.putString("Fname", user.getFathername());
                             editor.putString("FirstName", user.getFirstname());
                             editor.putString("LastName", user.getLastname());
                             editor.commit();
