@@ -3,7 +3,7 @@
     package="com.example.jatcool.zno_on_math">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION"/>
+    <uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />
 
     <application
         android:allowBackup="true"
@@ -12,6 +12,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.admin.EditTheory"></activity>
+        <activity android:name=".activity.user.NotAllowActivity" />
         <activity android:name=".activity.user.Tests" />
         <activity android:name=".activity.admin.AddTest" />
         <activity
@@ -30,7 +32,7 @@
         <activity android:name=".activity.user.Registration" />
         <activity android:name=".activity.user.Profile" />
         <activity android:name=".activity.user.MainActivity" />
-        <activity android:name=".activity.user.ResultTest"/>
+        <activity android:name=".activity.user.ResultTest" />
     </application>
 
 </manifest>

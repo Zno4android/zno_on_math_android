@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.User;
 
 import java.io.File;
@@ -33,15 +34,14 @@ public class Authorization extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_avtorization);
-
-        Log.d("PathFile", ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME);
         if (new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).exists()) {
-            Intent in = authorization(add_btn);
             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+            Intent in = authorization();
             in.putExtra("FirstName", sharedPreferences.getString("FirstName", ""));
             in.putExtra("LastName", sharedPreferences.getString("LastName", ""));
             in.putExtra("token", sharedPreferences.getString("token", ""));
             in.putExtra("Group", sharedPreferences.getString("Group", ""));
+            in.putExtra("status",sharedPreferences.getString("status",""));
             startActivity(in);
             finish();
         }
@@ -86,7 +86,7 @@ public class Authorization extends AppCompatActivity {
                 });
     }
 
-    public Intent authorization(View view) {
+    public Intent authorization() {
         return new Intent(this, Zno.class);
 
     }
@@ -103,11 +103,16 @@ public class Authorization extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         user = response.body();
-                        Intent in = authorization(add_btn);
+                        if(!user.isVerifyed() && user.getStatus() == Status.Teacher){
+                            startActivity(new Intent(Authorization.this, NotAllowActivity.class));
+                            finish();
+                        }
+                        Intent in = authorization();
                         in.putExtra("FirstName", user.getFirstname());
                         in.putExtra("LastName", user.getLastname());
                         in.putExtra("token", token);
                         in.putExtra("Group", user.getGroup());
+                        in.putExtra("status",user.getStatus().getName());
                         waiter.setVisibility(View.INVISIBLE);
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -116,6 +121,7 @@ public class Authorization extends AppCompatActivity {
                         editor.putString("LastName", user.getLastname());
                         editor.putString("token", token);
                         editor.putString("Group", user.getGroup());
+                        editor.putString("status",user.getStatus().getName());
                         editor.apply();
                         editor.commit();
                         startActivity(in);
@@ -129,3 +135,4 @@ public class Authorization extends AppCompatActivity {
                 });
     }
 }
+

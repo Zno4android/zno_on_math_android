@@ -49,7 +49,7 @@ public class AddTest extends AppCompatActivity {
     LinearLayout ll_variants;
     Bitmap thePic = null;
     String[] kol_variants = new String[]{"2", "3", "4", "5", "6"};
-    int id = 0;
+    int count = 0;
     int size_test = 1;
     Test test;
     LinearLayout linearLayout;
@@ -380,15 +380,15 @@ public class AddTest extends AppCompatActivity {
     }
 
     public void AddImageView(View view) {
-        lin = findViewById(R.id.add_image_liner);
-        img = new ImageView(this);
-        par = new LinearLayout.LayoutParams(100, 100);
-        img.setId(id);
-        id++;
-        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-        photoPickerIntent.setType("image/*");
-        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-
+        if(count<=3) {
+            lin = findViewById(R.id.add_image_liner);
+            View im = allEds.get(count);
+            img = ((ImageView) im.findViewById(R.id.imageTest));
+            Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+            photoPickerIntent.setType("image/*");
+            startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+            count++;
+        }
     }
 
     @Override
@@ -402,15 +402,6 @@ public class AddTest extends AppCompatActivity {
                     Uri selectedImage = imageReturnedIntent.getData();
                     try {
                         thePic = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-
-                        if (thePic != null) {
-                            img.setRotation(0);
-                            img.setImageBitmap(thePic);
-                            lin.addView(img, par);
-                            thePic = null;
-                            img = null;
-
-                        }
                     } catch (IOException e) {
                         e.printStackTrace();
                     }

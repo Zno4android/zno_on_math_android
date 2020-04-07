@@ -32,7 +32,7 @@
         android:orientation="horizontal">
 
         <SearchView
-            android:id="@+id/List_test_search_view"
+            android:id="@+id/List_student_search_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1">
@@ -40,7 +40,7 @@
         </SearchView>
 
         <Spinner
-            android:id="@+id/List_test_sort_by"
+            android:id="@+id/List_student_sort_by"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
@@ -53,7 +53,7 @@
         android:orientation="vertical">
 
         <ListView
-            android:id="@+id/List_test"
+            android:id="@+id/List_student"
             android:layout_width="match_parent"
             android:layout_height="match_parent" />
     </LinearLayout>

@@ -1,7 +1,7 @@
 package com.example.jatcool.zno_on_math.entity;
 
 public enum Status {
-    ADMIN, STUDENT, TEACHER;
+    ADMIN, Student, Teacher;
 
 //    public static Status getStatus(User user) {
 //        int statusId = user.getStatus();

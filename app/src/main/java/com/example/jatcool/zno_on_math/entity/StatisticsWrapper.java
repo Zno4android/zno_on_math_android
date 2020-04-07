@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class StatisticsWrapper {
-    @SerializedName("statisticTest")
+    @SerializedName("testStatistic")
     @Expose
     private DBStatistics testResult;
-    @SerializedName("questionArray")
+    @SerializedName("question")
     @Expose
     private List<DBResultQuestion> questionsResult;
 
