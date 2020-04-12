@@ -12,14 +12,5 @@
             android:id="@+id/nav_home"
             android:title="Головна сторінка" />
 
-        <item
-            android:id = "@+id/nav_student"
-            android:title="Список студентів" />
-
-        <item
-            android:id="@+id/nav_add_test"
-            android:title="Додання тестів"
-            android:checkable="false"/>
-
     </group>
 </menu>

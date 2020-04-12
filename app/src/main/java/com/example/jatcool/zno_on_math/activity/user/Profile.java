@@ -27,7 +27,7 @@ public class Profile extends AppCompatActivity {
     ProgressBar pr;
     String token;
     User user;
-
+    List
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

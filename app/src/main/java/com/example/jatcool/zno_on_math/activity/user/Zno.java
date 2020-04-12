@@ -6,6 +6,7 @@ import android.os.Bundle;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -43,11 +44,19 @@ public class Zno extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
+        Bundle values = getIntent().getExtras();
         navigationView = findViewById(R.id.nav_view);
-        mAppBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.nav_theory,R.id.nav_home,R.id.nav_student, R.id.nav_add_test)
-                .setDrawerLayout(drawer)
-                .build();
+        if(values.getString("status").equals(Status.Teacher.getName())) {
+            navigationView.inflateMenu(R.menu.activity_zno_drawer);
+        }
+        else {
+            navigationView.inflateMenu(R.menu.student_menu);
+        }
+            mAppBarConfiguration = new AppBarConfiguration.Builder(
+                    R.id.nav_theory, R.id.nav_home, R.id.nav_student, R.id.nav_add_test)
+                    .setDrawerLayout(drawer)
+                    .build();
+
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
@@ -55,7 +64,6 @@ public class Zno extends AppCompatActivity {
         mFirstName = headerLayout.findViewById(R.id.FirstName);
         mLastName = headerLayout.findViewById(R.id.LastName);
         mGroup = headerLayout.findViewById(R.id.GroupText);
-        Bundle values = getIntent().getExtras();
         img = headerLayout.findViewById(R.id.imageView);
         img.setOnClickListener(
                 new View.OnClickListener() {
@@ -83,6 +91,7 @@ public class Zno extends AppCompatActivity {
             case R.id.action_log_out: {
                 new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).delete();
                 startActivity(new Intent(Zno.this, Authorization.class));
+                finish();
                 return true;
             }
 

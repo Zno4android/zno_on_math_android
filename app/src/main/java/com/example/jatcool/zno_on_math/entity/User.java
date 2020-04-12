@@ -30,7 +30,18 @@ public class User extends Entity {
     private Status status;
     @SerializedName("verifyed")
     @Expose
-    private boolean verifyed;
+    private Boolean verifyed;
+    @SerializedName("image")
+    @Expose
+    private String image;
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
 
     public String getToken() {
         return token;
@@ -97,7 +108,7 @@ public class User extends Entity {
     }
 
     public boolean isVerifyed() {
-        return verifyed;
+         return verifyed;
     }
 
     public void setVerifyed(boolean verifyed) {

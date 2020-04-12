@@ -14,9 +14,11 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
+import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
+import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface ZnoApi {
@@ -59,4 +61,13 @@ public interface ZnoApi {
 
     @POST("/api/theory/add")
     Call<Theoretics> addTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
+
+    @GET("/api/students/getAllStudents")
+    Call<List<User>> getAllStudents(@Header("auth-token") String token);
+
+    @GET("/api/statistic/getStudentStatistic/{_id}")
+    Call<List<StatisticsWrapper>> getStudentStatistic(@Header("auth-token") String token, @Path("_id") String id);
+
+    @GET("/api/statistic/getMyStatistic")
+    Call<List<StatisticsWrapper>> getMyStatistic(@Header("aut-token") String token);
 }
