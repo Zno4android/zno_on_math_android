@@ -5,21 +5,28 @@
 
     <group android:checkableBehavior="single" android:id="@+id/teacherMenu">
         <item
+            android:icon="@mipmap/baseline_import_contacts_black_18dp"
             android:id="@id/nav_theory"
             android:title="Теорія"/>
 
         <item
             android:id="@+id/nav_home"
-            android:title="Головна сторінка" />
+            android:icon="@mipmap/baseline_ballot_black_18dp"
+            android:title="Тесты" />
 
         <item
+            android:icon="@mipmap/baseline_group_black_18dp"
             android:id = "@+id/nav_student"
             android:title="Список студентів" />
 
+<!--        <item-->
+<!--            android:id="@+id/nav_add_test"-->
+<!--            android:title="Додання тестів"-->
+<!--            android:checkable="false"/>-->
         <item
-            android:id="@+id/nav_add_test"
-            android:title="Додання тестів"
-            android:checkable="false"/>
+            android:id="@+id/nav_teacher_stud_stat"
+            android:title="Результати студентів"
+            android:icon="@mipmap/baseline_emoji_events_black_18dp"/>
 
     </group>
 </menu>
