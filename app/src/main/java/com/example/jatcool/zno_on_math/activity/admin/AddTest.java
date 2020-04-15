@@ -231,8 +231,8 @@ public class AddTest extends AppCompatActivity {
         }
 
         String textQuestion = txtTextQuestion.getText().toString();
-        String type = spinnerType.getSelectedItem().toString();
-        String questionType = QuestionType.valueOf(type).name().toLowerCase();
+        int type = spinnerType.getSelectedItemPosition();
+        String questionType = QuestionType.values()[type].name().toLowerCase();
 
         question.setType(questionType);
         question.setVariants(variants);
@@ -285,7 +285,7 @@ public class AddTest extends AppCompatActivity {
 
         Question question = questions.get(index);
         ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerType.getAdapter();
-        int position = adapter.getPosition(question.getType());
+        int position = adapter.getPosition(QuestionType.valueOf(question.getType().toUpperCase()).getName());
         spinnerType.setSelection(position);
         String item = spinnerType.getSelectedItem().toString();
 
@@ -383,7 +383,7 @@ public class AddTest extends AppCompatActivity {
         if(count<=3) {
             lin = findViewById(R.id.add_image_liner);
             View im = allEds.get(count);
-            img = ((ImageView) im.findViewById(R.id.imageTest));
+            img = im.findViewById(R.id.imageTest);
             Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
             photoPickerIntent.setType("image/*");
             startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
