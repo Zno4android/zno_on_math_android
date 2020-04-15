@@ -1,5 +1,6 @@
 package com.example.jatcool.zno_on_math.entity.builder;
 
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.User;
 
 import static com.example.jatcool.zno_on_math.util.Validation.isEqualsPassword;
@@ -15,6 +16,7 @@ public class UserBean {
     private String firstname;
     private String lastname;
     private String ot;
+    private Status status;
 
     public UserBean() {
     }
@@ -28,8 +30,17 @@ public class UserBean {
         user.setLastname(lastname);
         user.setFathername(ot);
         user.setPassword(password);
+        user.setStatus(status);
 
         return user;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public boolean validateEmail() {

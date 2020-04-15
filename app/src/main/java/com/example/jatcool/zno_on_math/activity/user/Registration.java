@@ -15,6 +15,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Group;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.builder.UserBean;
 import com.example.jatcool.zno_on_math.util.MailCheck;
@@ -128,15 +129,18 @@ public class Registration extends AppCompatActivity {
         String lastname = etLastname.getText().toString();
         String firstname = etFirstname.getText().toString();
         String ot = etOt.getText().toString();
+        String groups = group.getSelectedItem().toString();
 
         UserBean userBean = new UserBean();
 
         userBean.setEmail(email);
         userBean.setPassword(password);
+        userBean.setGroup(groups);
         userBean.setConfirmPassword(repassword);
         userBean.setLastname(lastname);
         userBean.setFirstname(firstname);
         userBean.setOt(ot);
+        userBean.setStatus(Status.Student);
 
         if (isEmail.isEmail()) {
             user = userBean.createUser();
