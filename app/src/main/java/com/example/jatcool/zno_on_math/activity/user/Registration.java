@@ -152,6 +152,7 @@ public class Registration extends AppCompatActivity {
                         public void onResponse(Call<User> call, Response<User> response) {
                             Toast.makeText(getApplicationContext(), "Ви успішно зареєструвались!", Toast.LENGTH_LONG)
                                     .show();
+
                             finish();
                         }
 
