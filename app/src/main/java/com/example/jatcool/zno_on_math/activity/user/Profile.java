@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,9 +13,15 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.adapters.ProfileListAdapter;
+import com.example.jatcool.zno_on_math.adapters.StudentListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Statistics;
+import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.User;
+
+import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -27,13 +34,18 @@ public class Profile extends AppCompatActivity {
     ProgressBar pr;
     String token;
     User user;
-
+    List<Statistics> mStatisticsWrappers;
+    ListView mResultList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setTitle("Профіль");
+        SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+        token = sharedPreferences.getString("token", "");
+        mResultList = findViewById(R.id.ProfileResultList);
+        GetSudentData();
         etFartherName = findViewById(R.id.edFname);
         etFirstname = findViewById(R.id.edName);
         etLastname = findViewById(R.id.edLastName);
@@ -73,6 +85,29 @@ public class Profile extends AppCompatActivity {
     }
 
 
+   public void GetSudentData(){
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getMyStatistic(token)
+                .enqueue(new Callback<List<Statistics>>() {
+                    @Override
+                    public void onResponse(Call<List<Statistics>> call, Response<List<Statistics>> response) {
+                        if(response.isSuccessful()){
+                            Toast.makeText(getApplicationContext(),"I am here",Toast.LENGTH_LONG)
+                                    .show();
+                            mStatisticsWrappers = response.body();
+                            ProfileListAdapter profileListAdapter = new ProfileListAdapter(Profile.this, R.layout.profile_list, mStatisticsWrappers);
+                            mResultList.setAdapter(profileListAdapter);
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<List<Statistics>> call, Throwable t) {
+                      t.printStackTrace();
+                    }
+                });
+   }
+
 
     public void setActivityData(TextView t, EditText... ed) {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
@@ -80,7 +115,6 @@ public class Profile extends AppCompatActivity {
         ed[1].setText(sharedPreferences.getString("FirstName", ""));
         ed[2].setText(sharedPreferences.getString("LastName", ""));
         t.setText(sharedPreferences.getString("Group", ""));
-        token = sharedPreferences.getString("token", "");
     }
 
 

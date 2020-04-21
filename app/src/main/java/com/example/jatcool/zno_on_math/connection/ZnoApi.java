@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.connection;
 
 import com.example.jatcool.zno_on_math.entity.Group;
+import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
@@ -65,9 +66,9 @@ public interface ZnoApi {
     @GET("/api/students/getAllStudents")
     Call<List<User>> getAllStudents(@Header("auth-token") String token);
 
-    @GET("/api/statistic/getStudentStatistic/{_id}")
-    Call<List<StatisticsWrapper>> getStudentStatistic(@Header("auth-token") String token, @Path("_id") String id);
+    @GET("/api/statistics/getStudentStatistic/{_id}")
+    Call<List<Statistics>> getStudentStatistic(@Header("auth-token") String token, @Path("_id") String id);
 
-    @GET("/api/statistic/getMyStatistic")
-    Call<List<StatisticsWrapper>> getMyStatistic(@Header("aut-token") String token);
+    @GET("/api/statistics/getMyStatistic")
+    Call<List<Statistics>> getMyStatistic(@Header("auth-token") String token);
 }
