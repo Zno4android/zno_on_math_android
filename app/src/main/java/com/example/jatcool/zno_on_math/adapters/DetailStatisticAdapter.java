@@ -37,7 +37,7 @@ public class DetailStatisticAdapter extends ArrayAdapter<Question> {
 
         Question q = questions.get(position);
 
-        viewHolder.question_number.setText((position+15)+"");
+        viewHolder.question_number.setText((position+1)+"");
         viewHolder.isCorrect.setText(q.getResult() ? "Правильно" : "Неправильно");
 
         return convertView;
