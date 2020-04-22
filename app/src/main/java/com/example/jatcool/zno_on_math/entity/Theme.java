@@ -4,7 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 public class Theme extends Entity {
-    @SerializedName("name")
+    @SerializedName("theme")
     @Expose
     private String name;
 
@@ -27,8 +27,6 @@ public class Theme extends Entity {
 
     @Override
     public String toString() {
-        return "{" +
-                "name:'" + name + '\'' +
-                '}';
+       return name;
     }
 }

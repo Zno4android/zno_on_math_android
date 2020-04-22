@@ -24,10 +24,10 @@
         android:label="Список студентів"
         tools:layout="@layout/fragment_list_student" />
 
-    <activity
-        android:id="@+id/nav_add_test"
-        android:name="com.example.jatcool.zno_on_math.activity.admin.AddTest"
-        android:label="Додання тесту"
-        tools:layout="@layout/activity_add_test" />
+    <fragment
+        android:id="@+id/nav_theme"
+        android:label="Теми"
+        android:name="com.example.jatcool.zno_on_math.ui.theme.Themes"
+        tools:layout="@layout/fragment_theme"/>
 
 </navigation>

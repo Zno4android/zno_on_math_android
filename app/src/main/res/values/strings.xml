@@ -7,10 +7,11 @@
     <string name="reg_password">Пароль</string>
     <string name="reg_re_password">Повторіть пароль</string>
     <string name="reg_add">Зареэструватися</string>
+    <string name="reg_add_teacher">Зареэструватися як вчитель</string>
     <string name="avt_confirm">Увійти</string>
     <string name="avt_email">Пошта</string>
     <string name="avt_password">Пароль</string>
-    <string name="avt_reg_title">Зареєструватися</string>
+    <string name="avt_reg_title">Зареєструватися як студент</string>
     <string name="avt_reg_lastName">Прізвище</string>
     <string name="avt_reg_Ot">По батькові</string>
     <string name="avt_reg_Group">Група</string>

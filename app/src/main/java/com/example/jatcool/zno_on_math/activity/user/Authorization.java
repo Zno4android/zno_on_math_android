@@ -13,6 +13,7 @@ import android.widget.Toast;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.activity.admin.TeacherRegistration;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
@@ -95,6 +96,10 @@ public class Authorization extends AppCompatActivity {
         startActivity(new Intent(this, Registration.class));
     }
 
+    public void red_teacher(View view) {
+        startActivity(new Intent(this, TeacherRegistration.class));
+    }
+
     public void user_by_token(final String token) {
         NetworkService.getInstance()
                 .getJSONApi()
@@ -103,9 +108,11 @@ public class Authorization extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         user = response.body();
-                        if(!user.isVerifyed() && user.getStatus() == Status.Teacher){
+                        boolean isTeacher = user.getStatus() == Status.Teacher;
+                        if(!user.isVerifyed() && isTeacher){
                             startActivity(new Intent(Authorization.this, NotAllowActivity.class));
                             finish();
+                            return;
                         }
                         Intent in = authorization();
                         in.putExtra("FirstName", user.getFirstname());

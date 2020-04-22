@@ -12,21 +12,21 @@
         <item
             android:id="@+id/nav_home"
             android:icon="@mipmap/baseline_ballot_black_18dp"
-            android:title="Тесты" />
+            android:title="Тести" />
 
         <item
             android:icon="@mipmap/baseline_group_black_18dp"
             android:id = "@+id/nav_student"
             android:title="Список студентів" />
 
-<!--        <item-->
-<!--            android:id="@+id/nav_add_test"-->
-<!--            android:title="Додання тестів"-->
-<!--            android:checkable="false"/>-->
         <item
             android:id="@+id/nav_teacher_stud_stat"
             android:title="Результати студентів"
             android:icon="@mipmap/baseline_emoji_events_black_18dp"/>
+        <item
+            android:id="@+id/nav_theme"
+            android:title="Теми"
+            android:icon="@mipmap/baseline_library_books_black_18dp"/>
 
     </group>
 </menu>

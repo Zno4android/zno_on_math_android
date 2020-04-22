@@ -5,6 +5,7 @@ import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.TestWrapper;
+import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
@@ -15,7 +16,6 @@ import java.util.List;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
-import retrofit2.http.HEAD;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.PUT;
@@ -71,4 +71,10 @@ public interface ZnoApi {
 
     @GET("/api/statistics/getMyStatistic")
     Call<List<Statistics>> getMyStatistic(@Header("auth-token") String token);
+
+    @GET("/api/themes/getAllThemes")
+    Call<List<Theme>> getAllTheme(@Header("auth-token") String token);
+
+    @POST("api/themes/addTheme")
+    Call<List<Theme>> addTheme(@Header("auth-token") String token, @Body Theme theme);
 }

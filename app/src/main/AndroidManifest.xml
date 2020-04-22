@@ -12,7 +12,9 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".activity.user.ProfileDetail"></activity>
+        <activity android:name=".activity.admin.Add_theme"></activity>
+        <activity android:name=".activity.admin.TeacherRegistration" />
+        <activity android:name=".activity.user.ProfileDetail" />
         <activity android:name=".activity.admin.EditTheory" />
         <activity android:name=".activity.user.NotAllowActivity" />
         <activity android:name=".activity.user.Tests" />
