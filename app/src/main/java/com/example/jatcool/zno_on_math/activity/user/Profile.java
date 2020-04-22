@@ -1,8 +1,10 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
@@ -19,8 +21,11 @@ import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
+import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.google.gson.Gson;
 
+import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
@@ -85,28 +90,24 @@ public class Profile extends AppCompatActivity {
     }
 
 
-   public void GetSudentData(){
+    public void GetSudentData() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getMyStatistic(token)
                 .enqueue(new Callback<List<Statistics>>() {
                     @Override
                     public void onResponse(Call<List<Statistics>> call, Response<List<Statistics>> response) {
-                        if(response.isSuccessful()){
-                            Toast.makeText(getApplicationContext(),"I am here",Toast.LENGTH_LONG)
-                                    .show();
-                            mStatisticsWrappers = response.body();
-                            ProfileListAdapter profileListAdapter = new ProfileListAdapter(Profile.this, R.layout.profile_list, mStatisticsWrappers);
-                            mResultList.setAdapter(profileListAdapter);
+                        if (response.isSuccessful()) {
+                            setListData(response);
                         }
                     }
 
                     @Override
                     public void onFailure(Call<List<Statistics>> call, Throwable t) {
-                      t.printStackTrace();
+                        t.printStackTrace();
                     }
                 });
-   }
+    }
 
 
     public void setActivityData(TextView t, EditText... ed) {
@@ -144,18 +145,23 @@ public class Profile extends AppCompatActivity {
                         pr.setVisibility(View.GONE);
                     }
                 });
-//        if (userService.changeUser(token, user)) {
-//            SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-//            SharedPreferences.Editor editor = sharedPreferences.edit();
-//            editor.putString("Fname", user.getOt());
-//            editor.putString("FirstName", user.getFirstname());
-//            editor.putString("LastName", user.getLastname());
-//            editor.commit();
-//            Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
-//                    .show();
-//
-//
-//        }
-//        pr.setVisibility(View.GONE);
+    }
+    private void setListData(Response<List<Statistics>> response){
+        mStatisticsWrappers = response.body();
+        ProfileListAdapter profileListAdapter = new ProfileListAdapter(Profile.this, R.layout.profile_list, mStatisticsWrappers);
+        mResultList.setAdapter(profileListAdapter);
+
+        mResultList.setOnItemClickListener(
+                new AdapterView.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                        Statistics stat = (Statistics) parent.getItemAtPosition(position);
+                        Intent detailProfile = new Intent(Profile.this, ProfileDetail.class);
+                        detailProfile.putExtra("Statistic",  new Gson().toJson(stat).toString());
+                        startActivity(detailProfile);
+                    }
+                }
+        );
     }
 }
+

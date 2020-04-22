@@ -24,6 +24,9 @@ public class Question extends Entity {
     @SerializedName("images")
     @Expose
     private List<String> images;
+    @Expose
+    @SerializedName("result")
+    private Boolean result;
 
     public Question() {
     }
@@ -49,6 +52,14 @@ public class Question extends Entity {
         this.text = text;
         this.variants = variants;
         this.correct = correct;
+    }
+
+    public Boolean getResult() {
+        return result;
+    }
+
+    public void setResult(Boolean result) {
+        this.result = result;
     }
 
     public String getTheme() {

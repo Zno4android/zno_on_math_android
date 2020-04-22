@@ -8,20 +8,18 @@ import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
 import com.example.jatcool.zno_on_math.R;
-import com.example.jatcool.zno_on_math.entity.Statistics;
-
+import com.example.jatcool.zno_on_math.entity.Question;
 
 import java.util.List;
 
-public class ProfileListAdapter extends ArrayAdapter<Statistics> {
-
+public class DetailStatisticAdapter extends ArrayAdapter<Question> {
     private LayoutInflater inflater;
     private int layout;
-    private List<Statistics> statistics;
+    private List<Question> questions;
 
-    public ProfileListAdapter(Context context, int resource, List<Statistics> statistics){
-        super(context,resource,statistics);
-        this.statistics = statistics;
+    public DetailStatisticAdapter(Context context, int resource, List<Question> questions){
+        super(context,resource,questions);
+        this.questions = questions;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
@@ -37,25 +35,22 @@ public class ProfileListAdapter extends ArrayAdapter<Statistics> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
-        Statistics st = statistics.get(position);
+        Question q = questions.get(position);
 
-        viewHolder.name_test.setText(st.getTest().getName());
-        viewHolder.corect_answer.setText(String.valueOf(st.getResult()));
-        viewHolder.isPassed.setText(st.getResult()>=50.00?"Склав":"Не склав");
+        viewHolder.question_number.setText((position+15)+"");
+        viewHolder.isCorrect.setText(q.getResult() ? "Правильно" : "Неправильно");
 
         return convertView;
     }
 
     private class ViewHolder{
-        final TextView name_test;
-        final TextView corect_answer;
-        final TextView isPassed;
+        final TextView question_number;
+        final TextView isCorrect;
+
 
         ViewHolder(View view){
-             name_test = view.findViewById(R.id.Name_Test_list);
-             corect_answer = view.findViewById(R.id.Corect_proc);
-             isPassed = view.findViewById(R.id.isPassed_list);
+            question_number = view.findViewById(R.id.questionName_DetailList);
+            isCorrect = view.findViewById(R.id.questionScore_DetailList);
         }
     }
 }
-
