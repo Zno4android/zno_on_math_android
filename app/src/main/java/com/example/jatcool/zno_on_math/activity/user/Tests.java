@@ -47,7 +47,7 @@ public class Tests extends AppCompatActivity {
     Button btnNext;
     TestWrapper testWrapper;
     Test test;
-
+    String testId;
     String token;
 
     int currentQuestion = 0;
@@ -70,10 +70,10 @@ public class Tests extends AppCompatActivity {
 
         Bundle values = getIntent().getExtras();
         token = values.getString("token");
-
+        testId = values.getString("testID");
         NetworkService.getInstance()
                 .getJSONApi()
-                .getTest(token, "Комбинаторика2")
+                .getTest(token, testId)
                 .enqueue(new Callback<TestWrapper>() {
                     @Override
                     public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {

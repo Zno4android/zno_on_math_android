@@ -49,7 +49,7 @@ public interface ZnoApi {
     Call<DBResultQuestion> updateResultQuestion(@Body DBResultQuestion resultQuestions);
 
     @GET("/api/tests/getTest")
-    Call<TestWrapper> getTest(@Header("auth-token") String token, @Query("name") String testId);
+    Call<TestWrapper> getTest(@Header("auth-token") String token, @Query("_id") String testId);
 
     @POST("/api/tests/createTest")
     Call<Test> createTest(@Header("auth-token") String token, @Body TestWrapper testWrapper);
@@ -77,4 +77,7 @@ public interface ZnoApi {
 
     @POST("api/themes/addTheme")
     Call<List<Theme>> addTheme(@Header("auth-token") String token, @Body Theme theme);
+
+    @GET("api/tests/getAllTest")
+    Call<List<Test>> getAllTest(@Header("auth-token") String token);
 }
