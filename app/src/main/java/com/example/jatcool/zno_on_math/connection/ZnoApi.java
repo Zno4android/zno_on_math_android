@@ -64,10 +64,10 @@ public interface ZnoApi {
     Call<Theoretics> addTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
 
     @GET("/api/students/getAllStudents")
-    Call<List<User>> getAllStudents(@Header("auth-token") String token);
+    Call<List<User>> getAllStudents(@Header("auth-token") String token, @Query("search") String search, @Query("group") String group);
 
-    @GET("/api/statistics/getStudentStatistic/{_id}")
-    Call<List<Statistics>> getStudentStatistic(@Header("auth-token") String token, @Path("_id") String id);
+    @GET("/api/statistics/getStudentStatistic/{id}")
+    Call<List<Statistics>> getStudentStatistic(@Header("auth-token") String token, @Path("id") String id);
 
     @GET("/api/statistics/getMyStatistic")
     Call<List<Statistics>> getMyStatistic(@Header("auth-token") String token);

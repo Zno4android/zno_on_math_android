@@ -34,7 +34,7 @@ List<Question> questions;
         questionResultList = findViewById(R.id.TestResultList_ProfileDetail);
         questions = statistics.getTest().getQuestions();
         testName.setText(statistics.getTest().getName());
-        testScore.setText("Ви відповіли на "+statistics.getResult()+"% питань правильно");
+        testScore.setText(statistics.getResult()+"%  відповідей були правильними");
         DetailStatisticAdapter adapter = new DetailStatisticAdapter(this, R.layout.detail_list_view,questions);
         questionResultList.setAdapter(adapter);
     }
