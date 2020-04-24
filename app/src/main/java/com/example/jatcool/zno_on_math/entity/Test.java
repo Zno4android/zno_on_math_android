@@ -12,7 +12,7 @@ public class Test extends Entity {
     @SerializedName("theme")
     @Expose
     private String theme;
-    @SerializedName("questions")
+    @SerializedName("question")
     @Expose
     private List<Question> questions;
     @SerializedName("owner")
