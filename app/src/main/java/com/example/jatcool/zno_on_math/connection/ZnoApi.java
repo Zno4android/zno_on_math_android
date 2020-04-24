@@ -88,6 +88,9 @@ public interface ZnoApi {
     @PUT("/api/tests/updateTestById/{id}")
     Call<String> updateTest(@Header("auth-token") String token, @Path("id") String id, @Body Test test);
 
-    @DELETE("api/")
-    Call<Theoretics> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
+    @DELETE("api/theory/delete/{id}")
+    Call<String> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
+
+    @PUT("api/tests/updateTestById/{id}")
+    Call<String> updateTheory(@Header("auth-token") String token, @Path("id") String id, @Body Theoretics theoretics);
 }

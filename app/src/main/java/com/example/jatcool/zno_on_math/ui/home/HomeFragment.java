@@ -102,8 +102,9 @@ public class HomeFragment extends Fragment {
                             }
                         }
                 );
-
-        registerForContextMenu(testList);
+            if(status.equals(Status.Teacher.getName())) {
+                registerForContextMenu(testList);
+            }
         return root;
     }
 
