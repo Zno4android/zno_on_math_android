@@ -160,7 +160,7 @@ public class Tests extends AppCompatActivity {
         final int countCorrect = mathTesting.getCountCorrect();
         final int countIncorrect = mathTesting.getCountIncorrect();
 
-        DBStatistics dbStatistics = new DBStatistics(testId, (double) countCorrect / (double) (countCorrect + countIncorrect), date);
+        DBStatistics dbStatistics = new DBStatistics(testId, (double) countCorrect / (double) (countCorrect + countIncorrect) * 100, date);
 
         StatisticsWrapper statistics = new StatisticsWrapper(dbStatistics, answersStatistics);
 
