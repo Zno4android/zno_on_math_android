@@ -1,4 +1,4 @@
-package com.example.jatcool.zno_on_math.entity;
+package com.example.jatcool.zno_on_math.entity.wrapper;
 
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
@@ -8,10 +8,10 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class StatisticsWrapper {
-    @SerializedName("testStatistic")
+    @SerializedName("statisticTest")
     @Expose
     private DBStatistics testResult;
-    @SerializedName("question")
+    @SerializedName("questionArray")
     @Expose
     private List<DBResultQuestion> questionsResult;
 

@@ -1,5 +1,6 @@
-package com.example.jatcool.zno_on_math.entity;
+package com.example.jatcool.zno_on_math.entity.wrapper;
 
+import com.example.jatcool.zno_on_math.entity.Test;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

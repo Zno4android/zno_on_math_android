@@ -2,19 +2,20 @@ package com.example.jatcool.zno_on_math.connection;
 
 import com.example.jatcool.zno_on_math.entity.Group;
 import com.example.jatcool.zno_on_math.entity.Statistics;
-import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
-import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
+import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWrapper;
+import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 import com.example.jatcool.zno_on_math.util.MailCheck;
 
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
+import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
@@ -55,13 +56,13 @@ public interface ZnoApi {
     Call<Test> createTest(@Header("auth-token") String token, @Body TestWrapper testWrapper);
 
     @GET("api/theory")
-    Call<List<Theoretics>> getTheory (@Header("auth-token") String token);
+    Call<List<Theoretics>> getTheory(@Header("auth-token") String token);
 
     @PUT("/api/theory/update")
-    Call<Theoretics> editTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
+    Call<Theoretics> editTheory(@Header("auth-token") String token, @Body Theoretics theoretics);
 
     @POST("/api/theory/add")
-    Call<Theoretics> addTheory (@Header("auth-token") String token, @Body Theoretics theoretics);
+    Call<Theoretics> addTheory(@Header("auth-token") String token, @Body Theoretics theoretics);
 
     @GET("/api/students/getAllStudents")
     Call<List<User>> getAllStudents(@Header("auth-token") String token, @Query("search") String search, @Query("group") String group);
@@ -80,4 +81,10 @@ public interface ZnoApi {
 
     @GET("api/tests/getAllTest")
     Call<List<Test>> getAllTest(@Header("auth-token") String token);
+
+    @DELETE("/api/tests/deleteTestById/{id}")
+    Call<String> deleteTest(@Header("auth-token") String token, @Path("id") String id);
+
+    @PUT("/api/tests/updateTestById/{id}")
+    Call<String> updateTest(@Header("auth-token") String token, @Path("id") String id, @Body Test test);
 }

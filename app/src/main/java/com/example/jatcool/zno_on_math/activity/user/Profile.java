@@ -16,21 +16,26 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.adapters.ProfileListAdapter;
-import com.example.jatcool.zno_on_math.adapters.StudentListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Statistics;
-import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
-import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.google.gson.Gson;
 
-import java.io.Serializable;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.PROFILE_CAN_NOT_CHANGE;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FATHERNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
+import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.PROFILE_SUCCESS_CHANGE;
 
 public class Profile extends AppCompatActivity {
     EditText etFartherName, etFirstname, etLastname;
@@ -48,7 +53,7 @@ public class Profile extends AppCompatActivity {
         setContentView(R.layout.activity_profile);
         setTitle("Профіль");
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-        token = sharedPreferences.getString("token", "");
+        token = sharedPreferences.getString(TOKEN, "");
         mResultList = findViewById(R.id.ProfileResultList);
         GetSudentData();
         etFartherName = findViewById(R.id.edFname);
@@ -112,10 +117,10 @@ public class Profile extends AppCompatActivity {
 
     public void setActivityData(TextView t, EditText... ed) {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
-        ed[0].setText(sharedPreferences.getString("Fname", ""));
-        ed[1].setText(sharedPreferences.getString("FirstName", ""));
-        ed[2].setText(sharedPreferences.getString("LastName", ""));
-        t.setText(sharedPreferences.getString("Group", ""));
+        ed[0].setText(sharedPreferences.getString(FATHERNAME, ""));
+        ed[1].setText(sharedPreferences.getString(FIRSTNAME, ""));
+        ed[2].setText(sharedPreferences.getString(LASTNAME, ""));
+        t.setText(sharedPreferences.getString(GROUP, ""));
     }
 
 
@@ -130,11 +135,11 @@ public class Profile extends AppCompatActivity {
                         if (response.isSuccessful()) {
                             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString("Fname", user.getFathername());
-                            editor.putString("FirstName", user.getFirstname());
-                            editor.putString("LastName", user.getLastname());
+                            editor.putString(FATHERNAME, user.getFathername());
+                            editor.putString(FIRSTNAME, user.getFirstname());
+                            editor.putString(LASTNAME, user.getLastname());
                             editor.commit();
-                            Toast.makeText(Profile.this, "Данні успішно змінено", Toast.LENGTH_SHORT)
+                            Toast.makeText(Profile.this, PROFILE_SUCCESS_CHANGE, Toast.LENGTH_SHORT)
                                     .show();
                             pr.setVisibility(View.GONE);
                         }
@@ -142,6 +147,8 @@ public class Profile extends AppCompatActivity {
 
                     @Override
                     public void onFailure(Call<User> call, Throwable t) {
+                        Toast.makeText(Profile.this, PROFILE_CAN_NOT_CHANGE, Toast.LENGTH_SHORT)
+                                .show();
                         pr.setVisibility(View.GONE);
                     }
                 });
@@ -157,7 +164,7 @@ public class Profile extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Statistics stat = (Statistics) parent.getItemAtPosition(position);
                         Intent detailProfile = new Intent(Profile.this, ProfileDetail.class);
-                        detailProfile.putExtra("Statistic",  new Gson().toJson(stat).toString());
+                        detailProfile.putExtra(STATISTICS, new Gson().toJson(stat));
                         startActivity(detailProfile);
                     }
                 }

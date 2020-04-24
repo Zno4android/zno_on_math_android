@@ -25,6 +25,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_CAN_NOT_REGISTRATION;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_EMAIL_ALREADY_EXIST;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_CONFIRM_PASSWORD;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_EMAIL;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_FATHERNAME;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_FIRSTNAME;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_PASSWORD;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.REGISTRATION_INPUT_CORRECT_SURNAME;
+import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.REGISTRATION_EMAIL_IS_FREE;
+import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.REGISTRATION_EMAIL_SUCCESS_REGISTRATION;
+
 public class Registration extends AppCompatActivity {
     EditText etEmail, etPassword, etRepassword, etFirstname, etLastname, etOt;
     Button addUsers;
@@ -101,11 +112,11 @@ public class Registration extends AppCompatActivity {
                         public void onResponse(Call<MailCheck> call, Response<MailCheck> response) {
                             isEmail = response.body();
                             if (!isEmail.isEmail()) {
-                                Toast.makeText(Registration.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
+                                Toast.makeText(Registration.this, REGISTRATION_EMAIL_ALREADY_EXIST, Toast.LENGTH_LONG)
                                         .show();
                                 emailChk.setVisibility(View.GONE);
                             } else {
-                                Toast.makeText(Registration.this, "Пошта вільна", Toast.LENGTH_SHORT)
+                                Toast.makeText(Registration.this, REGISTRATION_EMAIL_IS_FREE, Toast.LENGTH_SHORT)
                                         .show();
                                 emailChk.setVisibility(View.GONE);
                             }
@@ -150,7 +161,7 @@ public class Registration extends AppCompatActivity {
                     .enqueue(new Callback<User>() {
                         @Override
                         public void onResponse(Call<User> call, Response<User> response) {
-                            Toast.makeText(getApplicationContext(), "Ви успішно зареєструвались!", Toast.LENGTH_LONG)
+                            Toast.makeText(getApplicationContext(), REGISTRATION_EMAIL_SUCCESS_REGISTRATION, Toast.LENGTH_LONG)
                                     .show();
 
                             finish();
@@ -158,12 +169,12 @@ public class Registration extends AppCompatActivity {
 
                         @Override
                         public void onFailure(Call<User> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), "Ошибка!", Toast.LENGTH_LONG)
+                            Toast.makeText(getApplicationContext(), REGISTRATION_CAN_NOT_REGISTRATION, Toast.LENGTH_LONG)
                                     .show();
                         }
                     });
         } else
-            Toast.makeText(Registration.this, "Користувач з такою поштою вже існує", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_EMAIL_ALREADY_EXIST, Toast.LENGTH_LONG)
                     .show();
     }
 
@@ -171,7 +182,7 @@ public class Registration extends AppCompatActivity {
         boolean flag = true;
         if (!Validation.isValidEmail(str)) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректний email", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_EMAIL, Toast.LENGTH_LONG)
                     .show();
         }
         return flag;
@@ -182,27 +193,27 @@ public class Registration extends AppCompatActivity {
 
         if (!userBean.validateEmail()) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректний email", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_EMAIL, Toast.LENGTH_LONG)
                     .show();
         } else if (!userBean.validatePassword()) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректний пароль", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_PASSWORD, Toast.LENGTH_LONG)
                     .show();
         } else if (!userBean.validateConfirmPassword()) {
             flag = false;
-            Toast.makeText(Registration.this, "Паролі не сбігаються", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_CONFIRM_PASSWORD, Toast.LENGTH_LONG)
                     .show();
         } else if (!userBean.validateFirstname()) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректне ім'я", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_FIRSTNAME, Toast.LENGTH_LONG)
                     .show();
         } else if (!userBean.validateLastname()) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректне прізвище", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_SURNAME, Toast.LENGTH_LONG)
                     .show();
         } else if (!userBean.validateOt()) {
             flag = false;
-            Toast.makeText(Registration.this, "Введіть коректне ім'я по батькові", Toast.LENGTH_LONG)
+            Toast.makeText(Registration.this, REGISTRATION_INPUT_CORRECT_FATHERNAME, Toast.LENGTH_LONG)
                     .show();
         }
 

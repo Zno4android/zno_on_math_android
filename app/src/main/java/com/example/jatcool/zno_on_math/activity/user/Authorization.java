@@ -3,7 +3,6 @@ package com.example.jatcool.zno_on_math.activity.user;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -25,6 +24,14 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.AUTHORIZATION_INCORRECT_INPUT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FATHERNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
+
 public class Authorization extends AppCompatActivity {
     EditText mEmail, mPassword;
     Button add_btn;
@@ -38,11 +45,11 @@ public class Authorization extends AppCompatActivity {
         if (new File(ConstFile.SHARED_PREFENCES_START_PATH + ConstFile.FILE_NAME).exists()) {
             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
             Intent in = authorization();
-            in.putExtra("FirstName", sharedPreferences.getString("FirstName", ""));
-            in.putExtra("LastName", sharedPreferences.getString("LastName", ""));
-            in.putExtra("token", sharedPreferences.getString("token", ""));
-            in.putExtra("Group", sharedPreferences.getString("Group", ""));
-            in.putExtra("status",sharedPreferences.getString("status",""));
+            in.putExtra(FIRSTNAME, sharedPreferences.getString(FIRSTNAME, ""));
+            in.putExtra(LASTNAME, sharedPreferences.getString(LASTNAME, ""));
+            in.putExtra(TOKEN, sharedPreferences.getString(TOKEN, ""));
+            in.putExtra(GROUP, sharedPreferences.getString(GROUP, ""));
+            in.putExtra(STATUS, sharedPreferences.getString(STATUS, ""));
             startActivity(in);
             finish();
         }
@@ -70,7 +77,7 @@ public class Authorization extends AppCompatActivity {
                                         if (response.body() != null) {
                                             user_by_token(response.body().getToken());
                                         } else
-                                            Toast.makeText(Authorization.this, "Неверный логин или пароль", Toast.LENGTH_LONG)
+                                            Toast.makeText(Authorization.this, AUTHORIZATION_INCORRECT_INPUT, Toast.LENGTH_LONG)
                                                     .show();
                                         waiter.setVisibility(View.GONE);
 
@@ -115,20 +122,20 @@ public class Authorization extends AppCompatActivity {
                             return;
                         }
                         Intent in = authorization();
-                        in.putExtra("FirstName", user.getFirstname());
-                        in.putExtra("LastName", user.getLastname());
-                        in.putExtra("token", token);
-                        in.putExtra("Group", user.getGroup());
-                        in.putExtra("status",user.getStatus().getName());
+                        in.putExtra(FIRSTNAME, user.getFirstname());
+                        in.putExtra(LASTNAME, user.getLastname());
+                        in.putExtra(TOKEN, token);
+                        in.putExtra(GROUP, user.getGroup());
+                        in.putExtra(STATUS, user.getStatus().getName());
                         waiter.setVisibility(View.INVISIBLE);
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
-                        editor.putString("FirstName", user.getFirstname());
-                        editor.putString("Fname", user.getFathername());
-                        editor.putString("LastName", user.getLastname());
-                        editor.putString("token", token);
-                        editor.putString("Group", user.getGroup());
-                        editor.putString("status",user.getStatus().getName());
+                        editor.putString(FIRSTNAME, user.getFirstname());
+                        editor.putString(FATHERNAME, user.getFathername());
+                        editor.putString(LASTNAME, user.getLastname());
+                        editor.putString(TOKEN, token);
+                        editor.putString(GROUP, user.getGroup());
+                        editor.putString(STATUS, user.getStatus().getName());
                         editor.apply();
                         editor.commit();
                         startActivity(in);

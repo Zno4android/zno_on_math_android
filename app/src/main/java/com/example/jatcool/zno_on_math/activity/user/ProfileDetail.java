@@ -1,11 +1,10 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.os.Bundle;
-import android.util.Log;
 import android.widget.ListView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.adapters.DetailStatisticAdapter;
@@ -14,6 +13,8 @@ import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.google.gson.Gson;
 
 import java.util.List;
+
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 
 public class ProfileDetail extends AppCompatActivity {
 
@@ -26,7 +27,7 @@ List<Question> questions;
         setContentView(R.layout.activity_profile_detail);
 
         Bundle bundle = getIntent().getExtras();
-        String js = bundle.getString("Statistic");
+        String js = bundle.getString(STATISTICS);
         Statistics statistics = new Gson().fromJson(js, Statistics.class);
         questionResultList = findViewById(R.id.TestResultList_ProfileDetail);
         testName = findViewById(R.id.TestName_DetailProfile);

@@ -8,9 +8,7 @@ public class Theme extends Entity {
     @Expose
     private String name;
 
-    public Theme(String id, String name) {
-        this.setId(id);
-        this.name = name;
+    public Theme() {
     }
 
     public Theme(String name) {

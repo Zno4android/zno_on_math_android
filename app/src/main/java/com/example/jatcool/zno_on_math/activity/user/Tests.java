@@ -17,11 +17,11 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.QuestionType;
-import com.example.jatcool.zno_on_math.entity.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.Test;
-import com.example.jatcool.zno_on_math.entity.TestWrapper;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
+import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWrapper;
+import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 import com.example.jatcool.zno_on_math.util.Answer;
 import com.example.jatcool.zno_on_math.util.MathTesting;
 
@@ -37,6 +37,10 @@ import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_A
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_VARIANTS_CHOOSE_ANSWER;
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_VARIANTS_CONFORMITY;
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.DIVIDER_VARIANTS_CONFORMITY;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_CORRECT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_INCORRECT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TEST_ID;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
 public class Tests extends AppCompatActivity {
 
@@ -47,7 +51,7 @@ public class Tests extends AppCompatActivity {
     Button btnNext;
     TestWrapper testWrapper;
     Test test;
-    String testId;
+
     String token;
 
     int currentQuestion = 0;
@@ -69,8 +73,9 @@ public class Tests extends AppCompatActivity {
         passingTestL = findViewById(R.id.PassingTestLiner);
 
         Bundle values = getIntent().getExtras();
-        token = values.getString("token");
-        testId = values.getString("testID");
+        token = values.getString(TOKEN);
+        String testId = values.getString(TEST_ID);
+
         NetworkService.getInstance()
                 .getJSONApi()
                 .getTest(token, testId)
@@ -84,7 +89,7 @@ public class Tests extends AppCompatActivity {
                         questions = test.getQuestions();
                         tvText.setText(questions.get(0).getText());
                         loadQuestion(0);
-                        wwww();
+                        setOnclickListenerOnButton();
                     }
 
                     @Override
@@ -92,11 +97,6 @@ public class Tests extends AppCompatActivity {
 
                     }
                 });
-    }
-
-    private void wwww() {
-        setOnclickListenerOnButton();
-
     }
 
     private void setOnclickListenerOnButton() {
@@ -160,7 +160,7 @@ public class Tests extends AppCompatActivity {
         final int countCorrect = mathTesting.getCountCorrect();
         final int countIncorrect = mathTesting.getCountIncorrect();
 
-        DBStatistics dbStatistics = new DBStatistics(token, testId, (double) countCorrect / (double) (countCorrect + countIncorrect), date);
+        DBStatistics dbStatistics = new DBStatistics(testId, (double) countCorrect / (double) (countCorrect + countIncorrect), date);
 
         StatisticsWrapper statistics = new StatisticsWrapper(dbStatistics, answersStatistics);
 
@@ -184,8 +184,8 @@ public class Tests extends AppCompatActivity {
 
     private void showResultTesting(int countCorrect, int countIncorrect) {
         Intent intent = endTest();
-        intent.putExtra("countCorrect", countCorrect);
-        intent.putExtra("countIncorrect", countIncorrect);
+        intent.putExtra(COUNT_CORRECT, countCorrect);
+        intent.putExtra(COUNT_INCORRECT, countIncorrect);
         startActivity(intent);
         finish();
     }
@@ -288,7 +288,6 @@ public class Tests extends AppCompatActivity {
         passingTestL.removeAllViews();
         allEds.clear();
         final View view = getLayoutInflater().inflate(R.layout.write_answer_layout, null);
-        EditText editTextWriteAnswer = view.findViewById(R.id.edit_text_write_answer);
         passingTestL.addView(view);
         allEds.add(view);
     }
@@ -298,8 +297,6 @@ public class Tests extends AppCompatActivity {
         allEds.clear();
         for (int i = 0; i < count; i++) {
             final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout_testing, null);
-            CheckBox checkBox = view.findViewById(R.id.check_box_choose_answer);
-            EditText editText = view.findViewById(R.id.edit_text_choose_answer);
             passingTestL.addView(view);
             allEds.add(view);
         }
@@ -320,8 +317,6 @@ public class Tests extends AppCompatActivity {
         for (int i = 0; i < variant; i++) {
             final View view = getLayoutInflater().inflate(R.layout.conformity_layout_testing, null);
             Spinner spinner = view.findViewById(R.id.spinner_variants);
-            EditText editTextFirst = view.findViewById(R.id.edit_text_first_part);
-            EditText editTextSecond = view.findViewById(R.id.edit_text_second_part);
             String[] answers = setNumberArrayAnswer(answer);
             ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, answers);
             spinner.setAdapter(adapter);
@@ -331,7 +326,6 @@ public class Tests extends AppCompatActivity {
 
         for (int i = 0; i < answer - variant; i++) {
             final View view = getLayoutInflater().inflate(R.layout.conformity_layout_second_testing, null);
-            EditText editTextFirst = view.findViewById(R.id.edit_text_answer_part);
             passingTestL.addView(view);
             allEds.add(view);
         }

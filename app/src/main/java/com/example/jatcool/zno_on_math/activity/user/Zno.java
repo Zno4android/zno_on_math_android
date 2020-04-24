@@ -3,33 +3,31 @@ package com.example.jatcool.zno_on_math.activity.user;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
-
-import com.example.jatcool.zno_on_math.R;
-import com.example.jatcool.zno_on_math.constants.ConstFile;
-import com.example.jatcool.zno_on_math.entity.Status;
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.snackbar.Snackbar;
-
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.ImageView;
+import android.widget.TextView;
 
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.google.android.material.navigation.NavigationView;
 
-import androidx.drawerlayout.widget.DrawerLayout;
-
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-
-import android.view.Menu;
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import java.io.File;
+
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
 
 public class Zno extends AppCompatActivity {
 
@@ -46,7 +44,7 @@ public class Zno extends AppCompatActivity {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         Bundle values = getIntent().getExtras();
         navigationView = findViewById(R.id.nav_view);
-        if(values.getString("status").equals(Status.Teacher.getName())) {
+        if (values.getString(STATUS).equals(Status.Teacher.getName())) {
             navigationView.inflateMenu(R.menu.activity_zno_drawer);
         }
         else {
@@ -73,14 +71,13 @@ public class Zno extends AppCompatActivity {
                     }
                 }
         );
-        mFirstName.setText(values.getString("FirstName"));
-        mLastName.setText(values.getString("LastName"));
-        mGroup.setText(values.getString("Group"));
+        mFirstName.setText(values.getString(FIRSTNAME));
+        mLastName.setText(values.getString(LASTNAME));
+        mGroup.setText(values.getString(GROUP));
     }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
         getMenuInflater().inflate(R.menu.zno, menu);
         return true;
     }
@@ -113,7 +110,7 @@ public class Zno extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         mFirstName = headerLayout.findViewById(R.id.FirstName);
         mLastName = headerLayout.findViewById(R.id.LastName);
-        mFirstName.setText(sharedPreferences.getString("FirstName", ""));
-        mLastName.setText(sharedPreferences.getString("LastName", ""));
+        mFirstName.setText(sharedPreferences.getString(FIRSTNAME, ""));
+        mLastName.setText(sharedPreferences.getString(LASTNAME, ""));
     }
 }

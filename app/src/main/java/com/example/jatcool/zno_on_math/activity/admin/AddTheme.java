@@ -1,14 +1,13 @@
 package com.example.jatcool.zno_on_math.activity.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
@@ -21,7 +20,10 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class Add_theme extends AppCompatActivity {
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
+import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.ADD_THEME_SUCCESS_ADD_THEME;
+
+public class AddTheme extends AppCompatActivity {
 EditText editText;
 Button btn;
     @Override
@@ -38,13 +40,13 @@ Button btn;
                         if(!editText.getText().toString().equals("")){
                             NetworkService.getInstance()
                                     .getJSONApi()
-                                    .addTheme(pr.getString("token",""), new Theme(editText.getText().toString()))
+                                    .addTheme(pr.getString(TOKEN, ""), new Theme(editText.getText().toString()))
                                     .enqueue(
                                             new Callback<List<Theme>>() {
                                                 @Override
                                                 public void onResponse(Call<List<Theme>> call, Response<List<Theme>> response) {
                                                     if(response.isSuccessful()){
-                                                        Toast.makeText(getApplicationContext(),"Тему успішно доданно", Toast.LENGTH_LONG)
+                                                        Toast.makeText(getApplicationContext(), ADD_THEME_SUCCESS_ADD_THEME, Toast.LENGTH_LONG)
                                                                 .show();
                                                         finish();
                                                     }

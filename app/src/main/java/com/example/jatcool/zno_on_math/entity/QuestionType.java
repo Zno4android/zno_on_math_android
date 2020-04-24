@@ -20,6 +20,6 @@ public enum QuestionType {
     }
 
     public String getName() {
-        return name().toLowerCase();
+        return name.toLowerCase();
     }
 }

@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -73,22 +72,6 @@
                 android:layout_width="match_parent"
                 android:layout_height="300dp"
                 android:gravity="top"/>
-
-            <LinearLayout
-                android:id="@+id/add_image_liner"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
-
-                <ImageView
-                    android:id="@+id/add_image_button"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:focusable="true"
-                    android:clickable="true"
-                    android:onClick="AddImageView"
-                    app:srcCompat="@mipmap/plus_solid" />
-            </LinearLayout>
-
         </LinearLayout>
 
         <LinearLayout
@@ -105,24 +88,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
-        </LinearLayout>
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:paddingBottom="15dp">
-
-            <TextView
-                android:id="@+id/text_variant_hide"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="@string/textView_variants" />
-
-            <Spinner
-                android:id="@+id/Add_test_spinner"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_weight="1" />
-
         </LinearLayout>
         <LinearLayout
             android:id="@+id/variants"

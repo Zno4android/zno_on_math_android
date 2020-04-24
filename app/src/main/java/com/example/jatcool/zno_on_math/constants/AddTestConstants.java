@@ -8,4 +8,8 @@ public final class AddTestConstants {
     public static final int COUNT_ANSWERS_CONFORMITY = 5;
 
     public static final String DIVIDER_VARIANTS_CONFORMITY = "&";
+
+    public static final String ADD_TEST_TEXT = "Додати тест";
+
+    public static final String EDIT_TEST_TEXT = "Змінити тест";
 }

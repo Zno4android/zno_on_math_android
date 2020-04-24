@@ -17,13 +17,14 @@ import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
 
-import java.nio.file.FileAlreadyExistsException;
 import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
+
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
 
 public class theory extends Fragment {
@@ -48,7 +49,7 @@ public class theory extends Fragment {
         text = view.findViewById(R.id.Theory);
 
         SharedPreferences pr = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""), Context.MODE_PRIVATE);
-         token = pr.getString("token","");
+        token = pr.getString(TOKEN, "");
         NetworkService.getInstance()
                 .getJSONApi()
                 .getTheory(token)
