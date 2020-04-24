@@ -1,5 +1,6 @@
 package com.example.jatcool.zno_on_math.ui.home;
 
+import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -24,6 +25,7 @@ import com.example.jatcool.zno_on_math.activity.user.Tests;
 import com.example.jatcool.zno_on_math.adapters.TestListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -41,6 +43,7 @@ import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_POSITIVE_TEXT;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_TITLE;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.EDIT_TEXT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TEST_ID;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.DIALOG_DELETE_TEST_SuCCESs;
@@ -52,7 +55,9 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton addTestBtn;
     private String token;
     private Test selectedTest;
+    private String status;
 
+    @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
@@ -60,17 +65,23 @@ public class HomeFragment extends Fragment {
         addTestBtn = root.findViewById(R.id.addTestFloatBtn);
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         token = sharedPreferences.getString(TOKEN, "");
-        addTestBtn.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        Intent intent = new Intent(getActivity(), AddTest.class);
+        status = sharedPreferences.getString(STATUS, "");
+        if(status.equals(Status.Teacher.getName())) {
+            addTestBtn.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            Intent intent = new Intent(getActivity(), AddTest.class);
 
-                        intent.putExtra(TOKEN, token);
-                        startActivity(intent);
+                            intent.putExtra(TOKEN, token);
+                            startActivity(intent);
+                        }
                     }
-                }
-        );
+            );
+        }
+        else {
+            addTestBtn.setVisibility(View.GONE);
+        }
 
         NetworkService.getInstance()
                 .getJSONApi()

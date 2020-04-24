@@ -15,7 +15,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="com.example.jatcool.zno_on_math.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Список тестів"
         tools:layout="@layout/fragment_home" />
 
     <fragment

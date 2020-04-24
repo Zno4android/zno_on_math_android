@@ -5,7 +5,12 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".activity.user.Theory">
+    tools:context=".ui.theory.theory">
+
+    <Spinner
+        android:id="@+id/spinner"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content" />
 
     <TextView
         android:id="@+id/TheoryName"
@@ -41,14 +46,13 @@
                 android:id="@+id/Theory"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:layout_width="wrap_content"
+        android:src="@mipmap/edit"
+        android:layout_height="wrap_content"/>
 </ScrollView>
         </LinearLayout>
     </ScrollView>
-
-    <Spinner
-        android:id="@+id/spinner"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -88,6 +92,7 @@
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:text="Далі" />
+
     </LinearLayout>
 
 </LinearLayout>

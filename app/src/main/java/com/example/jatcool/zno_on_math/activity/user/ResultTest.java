@@ -30,6 +30,6 @@ public class ResultTest extends AppCompatActivity {
                 tvResultTest = findViewById(R.id.Result_Test);
                 answers = findViewById(R.id.Result_Test_Questions);
 
-                tvResultTest.setText(format(Locale.ENGLISH, "%.2f", countCorrect + countInCorrect / countCorrect));
+                tvResultTest.setText(format(Locale.ENGLISH, "%.2f",  countCorrect/(countCorrect + countInCorrect) ));
     }
 }

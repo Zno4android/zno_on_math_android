@@ -56,7 +56,7 @@ public interface ZnoApi {
     Call<Test> createTest(@Header("auth-token") String token, @Body TestWrapper testWrapper);
 
     @GET("api/theory")
-    Call<List<Theoretics>> getTheory(@Header("auth-token") String token);
+    Call<List<Theoretics>> getTheory(@Header("auth-token") String token, @Query("theme") String theme);
 
     @PUT("/api/theory/update")
     Call<Theoretics> editTheory(@Header("auth-token") String token, @Body Theoretics theoretics);
@@ -87,4 +87,7 @@ public interface ZnoApi {
 
     @PUT("/api/tests/updateTestById/{id}")
     Call<String> updateTest(@Header("auth-token") String token, @Path("id") String id, @Body Test test);
+
+    @DELETE("api/")
+    Call<Theoretics> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
 }

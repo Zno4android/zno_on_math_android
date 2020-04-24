@@ -1,5 +1,6 @@
 package com.example.jatcool.zno_on_math.ui.theme;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -16,6 +17,7 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.AddTheme;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -25,29 +27,37 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
 
 public class Themes extends Fragment {
 FloatingActionButton addThem;
 ListView themeList;
+String status;
 
+    @SuppressLint("RestrictedApi")
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_theme, container, false);
          addThem = view.findViewById(R.id.addTheme);
          themeList = view.findViewById(R.id.theme_list);
-         addThem.setOnClickListener(
-                 new View.OnClickListener() {
-                     @Override
-                     public void onClick(View v) {
-                         startActivity(new Intent(getActivity(), AddTheme.class));
-                     }
-                 }
-         );
         SharedPreferences s = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""), Context.MODE_PRIVATE);
-
+        status = s.getString(STATUS,"");
+        if(status.equals(Status.Teacher.getName())) {
+            addThem.setOnClickListener(
+                    new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            startActivity(new Intent(getActivity(), AddTheme.class));
+                        }
+                    }
+            );
+        }
+        else {
+            addThem.setVisibility(View.GONE);
+        }
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTheme(s.getString(TOKEN, ""))
