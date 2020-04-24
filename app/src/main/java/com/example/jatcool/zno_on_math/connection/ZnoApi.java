@@ -77,7 +77,7 @@ public interface ZnoApi {
     Call<List<Theme>> getAllTheme(@Header("auth-token") String token);
 
     @POST("api/themes/addTheme")
-    Call<List<Theme>> addTheme(@Header("auth-token") String token, @Body Theme theme);
+    Call<String> addTheme(@Header("auth-token") String token, @Body Theme theme);
 
     @GET("api/tests/getAllTest")
     Call<List<Test>> getAllTest(@Header("auth-token") String token);

@@ -55,6 +55,7 @@ public class HomeFragment extends Fragment {
     private FloatingActionButton addTestBtn;
     private String token;
     private Test selectedTest;
+    private int selectedPosition;
     private String status;
 
     @SuppressLint("RestrictedApi")
@@ -116,6 +117,7 @@ public class HomeFragment extends Fragment {
         ListView listView = (ListView) v;
         AdapterView.AdapterContextMenuInfo acmi = (AdapterView.AdapterContextMenuInfo) menuInfo;
         selectedTest = (Test) listView.getItemAtPosition(acmi.position);
+        selectedPosition = acmi.position;
         menu.add(Menu.NONE, 1, Menu.NONE, EDIT_TEXT);
         menu.add(Menu.NONE, 2, Menu.NONE, DELETE_TEXT);
     }
@@ -150,6 +152,9 @@ public class HomeFragment extends Fragment {
                                             @Override
                                             public void onResponse(Call<String> call, Response<String> response) {
                                                 if (response.isSuccessful()) {
+                                                    TestListAdapter adapter = (TestListAdapter) testList.getAdapter();
+                                                    adapter.remove(selectedPosition);
+                                                    adapter.notifyDataSetChanged();
                                                     Toast.makeText(getActivity(), DIALOG_DELETE_TEST_SuCCESs, Toast.LENGTH_LONG)
                                                             .show();
                                                 }

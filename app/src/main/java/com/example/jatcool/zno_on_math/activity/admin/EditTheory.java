@@ -1,7 +1,5 @@
 package com.example.jatcool.zno_on_math.activity.admin;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
@@ -11,12 +9,13 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AppCompatActivity;
+
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
-import com.example.jatcool.zno_on_math.entity.User;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -25,7 +24,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STUDENT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.THEORY;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
@@ -62,8 +60,6 @@ public class EditTheory extends AppCompatActivity {
                                     ArrayAdapter<String> adapter = new ArrayAdapter(getApplicationContext(),R.layout.support_simple_spinner_dropdown_item,response.body());
                                     themeSpinner.setAdapter(adapter);
                                 }
-                                Toast.makeText(getApplicationContext(), "Щось пішло не так!", Toast.LENGTH_SHORT)
-                                        .show();
                             }
 
                             @Override

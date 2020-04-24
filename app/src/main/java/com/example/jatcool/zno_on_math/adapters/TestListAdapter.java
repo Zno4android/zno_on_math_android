@@ -21,8 +21,8 @@ public class TestListAdapter extends ArrayAdapter<Test> {
     private int layout;
     private List<Test> tests;
 
-    public TestListAdapter(Context context, int resource, List<Test> tests){
-        super(context,resource,tests);
+    public TestListAdapter(Context context, int resource, List<Test> tests) {
+        super(context, resource, tests);
         this.tests = tests;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
@@ -32,12 +32,11 @@ public class TestListAdapter extends ArrayAdapter<Test> {
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
         ViewHolder viewHolder;
-        if(convertView == null){
-            convertView = inflater.inflate(this.layout,parent,false);
+        if (convertView == null) {
+            convertView = inflater.inflate(this.layout, parent, false);
             viewHolder = new ViewHolder(convertView);
             convertView.setTag(viewHolder);
-        }
-        else{
+        } else {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
@@ -48,11 +47,15 @@ public class TestListAdapter extends ArrayAdapter<Test> {
         return convertView;
     }
 
-    public class ViewHolder{
+    public void remove(int index) {
+        tests.remove(index);
+    }
+
+    public class ViewHolder {
 
         final TextView testName;
 
-        ViewHolder(View view){
+        ViewHolder(View view) {
             testName = view.findViewById(R.id.testName_test_list_view);
         }
     }

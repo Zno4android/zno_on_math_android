@@ -13,6 +13,9 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
@@ -150,12 +153,14 @@ public class AddTest extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 setQuestion();
-                count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
+
                 currentQuestion++;
 
                 if (currentQuestion < questions.size() - 1) {
+                    count_paper.setText((currentQuestion + 1) + "/" + questions.size());
                     loadQuestion(currentQuestion);
                 } else {
+                    count_paper.setText((currentQuestion + 1) + "/" + (questions.size() + 1));
                     clearElements();
                 }
             }
@@ -227,6 +232,13 @@ public class AddTest extends AppCompatActivity {
                                 public void onResponse(Call<Test> call, Response<Test> response) {
                                     Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
                                             .show();
+                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                                    FragmentManager manager = getSupportFragmentManager();
+                                    FragmentTransaction transaction = manager.beginTransaction();
+                                    transaction.detach(fragment);
+                                    transaction.attach(fragment);
+                                    transaction.commit();
+                                    finish();
                                 }
 
                                 @Override
