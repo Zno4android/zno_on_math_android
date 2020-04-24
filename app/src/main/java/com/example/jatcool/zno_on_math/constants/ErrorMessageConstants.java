@@ -32,4 +32,8 @@ public final class ErrorMessageConstants {
     public static final String PROFILE_CAN_NOT_CHANGE = "Помилка при зміні даних";
 
     public static final String DIALOG_DELETE_TEST_ERROR = "Помилка при видалені тесту";
+
+    public static final String ADD_THEORY_NOT_FILL_FIELD = "Не всі поля заповнені";
+
+    public static final String ADD_THEORY_CAN_NOT_ADD_THEORY = "Помилка при додавані теорії";
 }

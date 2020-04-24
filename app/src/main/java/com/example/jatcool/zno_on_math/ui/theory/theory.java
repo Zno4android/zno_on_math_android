@@ -105,7 +105,7 @@ public class theory extends Fragment {
                     public void onClick(View view) {
                         if(position<mTheoretics.size()-1){
                             position++;
-                            theoryName.setText(mTheoretics.get(position).getThemeName());
+                            theoryName.setText(mTheoretics.get(position).getName());
                             theme.setText(mTheoretics.get(position).getTheme());
                             text.setText(mTheoretics.get(position).getText());
                             currentID = mTheoretics.get(position).getId();
@@ -120,7 +120,7 @@ public class theory extends Fragment {
                     public void onClick(View view) {
                         if(position>0){
                             position--;
-                            theoryName.setText(mTheoretics.get(position).getThemeName());
+                            theoryName.setText(mTheoretics.get(position).getName());
                             theme.setText(mTheoretics.get(position).getTheme());
                             text.setText(mTheoretics.get(position).getText());
                             currentID = mTheoretics.get(position).getId();
@@ -183,7 +183,7 @@ private void getTheory(){
 
                     if(response.isSuccessful()){
                         mTheoretics = response.body();
-                        theoryName.setText(mTheoretics.get(position).getThemeName());
+                        theoryName.setText(mTheoretics.get(position).getName());
                         theme.setText(mTheoretics.get(position).getTheme());
                         text.setText(mTheoretics.get(position).getText());
                         currentID = mTheoretics.get(position).getId();

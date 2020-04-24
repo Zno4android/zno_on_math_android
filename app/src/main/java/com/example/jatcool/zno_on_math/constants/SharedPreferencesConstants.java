@@ -22,4 +22,6 @@ public final class SharedPreferencesConstants {
     public static final String COUNT_CORRECT = "countCorrect";
 
     public static final String COUNT_INCORRECT = "countIncorrect";
+
+    public static final String THEME = "theme";
 }

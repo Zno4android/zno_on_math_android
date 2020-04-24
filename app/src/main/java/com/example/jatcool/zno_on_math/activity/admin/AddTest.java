@@ -132,7 +132,7 @@ public class AddTest extends AppCompatActivity {
                             int position = adapter.getPosition(test.getTheme());
                             spinnerThemeQuestion.setSelection(position);
 
-                            count_paper.setText("1/" + (questions.size() + 1));
+                            count_paper.setText("1/" + questions.size());
 
                             setOnclickListenerOnButton();
                         }

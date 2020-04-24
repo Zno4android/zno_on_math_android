@@ -14,4 +14,6 @@ public final class SuccessMessageConstants {
     public static final String PROFILE_SUCCESS_CHANGE = "Дані успішно змінено";
 
     public static final String DIALOG_DELETE_TEST_SuCCESs = "Тест видаленно";
+
+    public static final String ADD_THEORY_SUCCESS_ADD_THEORY = "Статтю успішно додано";
 }
