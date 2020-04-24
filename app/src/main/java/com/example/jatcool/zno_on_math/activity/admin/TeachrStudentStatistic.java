@@ -25,6 +25,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STUDENT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
@@ -85,7 +86,7 @@ public class TeachrStudentStatistic extends AppCompatActivity {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Statistics st = (Statistics) parent.getItemAtPosition(position);
                         Intent detailProfile = new Intent(TeachrStudentStatistic.this, ProfileDetail.class);
-                        detailProfile.putExtra("Statistic", new Gson().toJson(st));
+                        detailProfile.putExtra(STATISTICS, new Gson().toJson(st));
                         startActivity(detailProfile);
                     }
                 }

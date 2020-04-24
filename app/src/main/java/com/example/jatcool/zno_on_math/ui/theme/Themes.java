@@ -16,7 +16,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.AddTheme;
-import com.example.jatcool.zno_on_math.activity.admin.AddTheory;
+
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
@@ -72,18 +72,18 @@ String status;
                                     ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(),R.layout.support_simple_spinner_dropdown_item, response.body());
                                     themeList.setAdapter(adapter);
 
-                                    themeList.setOnItemClickListener(
-                                            new AdapterView.OnItemClickListener() {
-                                                @Override
-                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                                                    Theme theme = (Theme) parent.getItemAtPosition(position);
-
-                                                    Intent passingTest = new Intent(getActivity(), AddTheory.class);
-                                                    passingTest.putExtra(THEME, theme.getName());
-                                                    startActivity(passingTest);
-                                                }
-                                            }
-                                    );
+//                                    themeList.setOnItemClickListener(
+//                                            new AdapterView.OnItemClickListener() {
+//                                                @Override
+//                                                public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+//                                                    Theme theme = (Theme) parent.getItemAtPosition(position);
+//
+//                                                    Intent passingTest = new Intent(getActivity(),.class);
+//                                                    passingTest.putExtra(THEME, theme.getName());
+//                                                    startActivity(passingTest);
+//                                                }
+//                                            }
+//                                    );
                                 }
                             }
 

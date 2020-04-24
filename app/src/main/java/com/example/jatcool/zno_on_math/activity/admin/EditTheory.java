@@ -48,7 +48,7 @@ public class EditTheory extends AppCompatActivity {
         theoryTextEdit = findViewById(R.id.theoryTextEdit);
         editBtn = findViewById(R.id.editTheoryButton);
         themeSpinner = findViewById(R.id.editTheorySpiner);
-        editTheoryEdit.setText(theory.getThemeName());
+        editTheoryEdit.setText(theory.getName());
         theoryTextEdit.setText(theory.getText());
 
         NetworkService.getInstance()
@@ -81,7 +81,7 @@ public class EditTheory extends AppCompatActivity {
                     public void onClick(View v) {
                         if(!editTheoryEdit.getText().toString().equals("") && !theoryTextEdit.getText().toString().equals("")){
                             theory.setText(theoryTextEdit.getText().toString());
-                            theory.setThemeName(editTheoryEdit.getText().toString());
+                            theory.setName(editTheoryEdit.getText().toString());
                             theory.setTheme(themeSpinner.getSelectedItem().toString());
                             NetworkService.getInstance()
                                     .getJSONApi()

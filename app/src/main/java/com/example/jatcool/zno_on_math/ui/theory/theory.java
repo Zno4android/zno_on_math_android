@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.ui.theory;
 
 import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -16,11 +17,13 @@ import android.widget.Toast;
 import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.activity.admin.EditTheory;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -30,6 +33,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.THEORY;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
 
@@ -43,6 +47,12 @@ public class theory extends Fragment {
      Spinner themeSpinner;
      String themeString;
      Context ctx;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        getTheme();
+    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -71,6 +81,19 @@ public class theory extends Fragment {
 
     private void SetBtnClickListener(){
 
+        editBtn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(!currentID.equals("")) {
+                            Intent edit = new Intent(ctx, EditTheory.class);
+                            edit.putExtra(THEORY,  new Gson().toJson(mTheoretics.get(position)));
+                            startActivity(edit);
+                        }
+                    }
+                }
+        );
+
         deleteBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -79,9 +102,9 @@ public class theory extends Fragment {
                              .getJSONApi()
                              .deleteTheory(token, currentID)
                              .enqueue(
-                                     new Callback<Theoretics>() {
+                                     new Callback<String>() {
                                          @Override
-                                         public void onResponse(Call<Theoretics> call, Response<Theoretics> response) {
+                                         public void onResponse(Call<String> call, Response<String> response) {
                                              if(response.isSuccessful()){
                                                  Toast.makeText(getContext(), "Успішно", Toast.LENGTH_LONG)
                                                          .show();
@@ -90,7 +113,7 @@ public class theory extends Fragment {
                                          }
 
                                          @Override
-                                         public void onFailure(Call<Theoretics> call, Throwable t) {
+                                         public void onFailure(Call<String> call, Throwable t) {
 
                                          }
                                      }
@@ -105,7 +128,7 @@ public class theory extends Fragment {
                     public void onClick(View view) {
                         if(position<mTheoretics.size()-1){
                             position++;
-                            theoryName.setText(mTheoretics.get(position).getThemeName());
+                            theoryName.setText(mTheoretics.get(position).getName());
                             theme.setText(mTheoretics.get(position).getTheme());
                             text.setText(mTheoretics.get(position).getText());
                             currentID = mTheoretics.get(position).getId();
@@ -120,7 +143,7 @@ public class theory extends Fragment {
                     public void onClick(View view) {
                         if(position>0){
                             position--;
-                            theoryName.setText(mTheoretics.get(position).getThemeName());
+                            theoryName.setText(mTheoretics.get(position).getName());
                             theme.setText(mTheoretics.get(position).getTheme());
                             text.setText(mTheoretics.get(position).getText());
                             currentID = mTheoretics.get(position).getId();
@@ -183,7 +206,7 @@ private void getTheory(){
 
                     if(response.isSuccessful()){
                         mTheoretics = response.body();
-                        theoryName.setText(mTheoretics.get(position).getThemeName());
+                        theoryName.setText(mTheoretics.get(position).getName());
                         theme.setText(mTheoretics.get(position).getTheme());
                         text.setText(mTheoretics.get(position).getText());
                         currentID = mTheoretics.get(position).getId();
