@@ -8,6 +8,8 @@
         <item name="colorAccent">@color/colorAccent</item>
         <item name="android:fontFamily">@font/roboto</item>
         <item name="editTextBackground">@drawable/edit_text</item>
+        <item name="actionBarTheme">@style/Theme.AppCompat.NoActionBar</item>
+        <item name="windowNoTitle">true</item>
     </style>
 
     <style name="AppTheme.NoActionBar">
