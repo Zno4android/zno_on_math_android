@@ -7,7 +7,6 @@ import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
@@ -90,8 +89,6 @@ public class AddTest extends AppCompatActivity {
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
 
-        setThemeSpinner();
-
         AdapterView.OnItemSelectedListener item = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
@@ -103,8 +100,6 @@ public class AddTest extends AppCompatActivity {
                 } else if (item.equals(QuestionType.CONFORMITY.getName())) {
                     addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
                 }
-
-                setOnclickListenerOnButton();
             }
 
             @Override
@@ -114,39 +109,8 @@ public class AddTest extends AppCompatActivity {
         };
         spinnerType.setOnItemSelectedListener(item);
 
-        Bundle values = getIntent().getExtras();
-        token = values.getString(TOKEN);
-        String testId = values.getString(TEST_ID);
-        if (testId != null) {
-            btnAddTest.setText(EDIT_TEST_TEXT);
-            NetworkService.getInstance()
-                    .getJSONApi()
-                    .getTest(token, testId)
-                    .enqueue(new Callback<TestWrapper>() {
-                        @Override
-                        public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
-                            TestWrapper testWrapper = response.body();
-                            test = testWrapper.getTest();
-
-                            questions = test.getQuestions();
-                            txtTestName.setText(test.getName());
-                            loadQuestion(0);
-
-                            ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerThemeQuestion.getAdapter();
-                            int position = adapter.getPosition(test.getTheme());
-                            spinnerThemeQuestion.setSelection(position);
-
-                            count_paper.setText("1/" + questions.size());
-
-                            setOnclickListenerOnButton();
-                        }
-
-                        @Override
-                        public void onFailure(Call<TestWrapper> call, Throwable t) {
-
-                        }
-                    });
-        }
+        setThemeSpinner();
+        setOnclickListenerOnButton();
     }
 
     private void setOnclickListenerOnButton() {
@@ -157,7 +121,7 @@ public class AddTest extends AppCompatActivity {
 
                 currentQuestion++;
 
-                if (currentQuestion < questions.size() - 1) {
+                if (currentQuestion < questions.size()) {
                     count_paper.setText((currentQuestion + 1) + "/" + questions.size());
                     loadQuestion(currentQuestion);
                 } else {
@@ -176,7 +140,7 @@ public class AddTest extends AppCompatActivity {
 
                 setQuestion();
                 loadQuestion(--currentQuestion);
-                count_paper.setText(currentQuestion + "/" + (questions.size() + 1));
+                count_paper.setText((currentQuestion + 1) + "/" + questions.size());
             }
         });
 
@@ -209,72 +173,12 @@ public class AddTest extends AppCompatActivity {
                 loadQuestion(currentQuestion);
             }
         });
-
-        btnAddTest.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                setQuestion();
-
-                if (!validateQuestion(questions)) {
-                    Toast.makeText(AddTest.this, ADD_TEST_NOT_COMPLETE_TEST, Toast.LENGTH_LONG)
-                            .show();
-                    return;
-                }
-
-                fillTest();
-                TestWrapper testWrapper = new TestWrapper(test);
-
-                if (btnAddTest.getText().toString().equals(ADD_TEST_TEXT)) {
-                    NetworkService.getInstance()
-                            .getJSONApi()
-                            .createTest(token, testWrapper)
-                            .enqueue(new Callback<Test>() {
-                                @Override
-                                public void onResponse(Call<Test> call, Response<Test> response) {
-                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
-                                            .show();
-                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                                    FragmentManager manager = getSupportFragmentManager();
-                                    FragmentTransaction transaction = manager.beginTransaction();
-                                    transaction.detach(fragment);
-                                    transaction.attach(fragment);
-                                    transaction.commit();
-                                    finish();
-                                }
-
-                                @Override
-                                public void onFailure(Call<Test> call, Throwable t) {
-                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_ADD_TEST, Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
-                } else {
-                    NetworkService.getInstance()
-                            .getJSONApi()
-                            .updateTest(token, test.getId(), test)
-                            .enqueue(new Callback<String>() {
-                                @Override
-                                public void onResponse(Call<String> call, Response<String> response) {
-                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_EDIT_TEST, Toast.LENGTH_LONG)
-                                            .show();
-                                }
-
-                                @Override
-                                public void onFailure(Call<String> call, Throwable t) {
-                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_EDIT_TEST, Toast.LENGTH_LONG)
-                                            .show();
-                                }
-                            });
-                }
-
-
-            }
-        });
     }
 
     private void setThemeSpinner() {
         Bundle values = getIntent().getExtras();
-        String token = values.getString("token");
+        token = values.getString(TOKEN);
+        final String testId = values.getString(TEST_ID);
 
         NetworkService.getInstance()
                 .getJSONApi()
@@ -285,6 +189,97 @@ public class AddTest extends AppCompatActivity {
                         List<Theme> themes = response.body();
                         ArrayAdapter<Object> arrayAdapterThemes = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, themes.toArray());
                         spinnerThemeQuestion.setAdapter(arrayAdapterThemes);
+
+                        btnAddTest.setOnClickListener(new View.OnClickListener() {
+                            @Override
+                            public void onClick(View v) {
+                                setQuestion();
+
+                                if (!validateQuestion(questions)) {
+                                    Toast.makeText(AddTest.this, ADD_TEST_NOT_COMPLETE_TEST, Toast.LENGTH_LONG)
+                                            .show();
+                                    return;
+                                }
+
+                                fillTest();
+                                TestWrapper testWrapper = new TestWrapper(test);
+
+                                if (btnAddTest.getText().toString().equals(ADD_TEST_TEXT)) {
+                                    NetworkService.getInstance()
+                                            .getJSONApi()
+                                            .createTest(token, testWrapper)
+                                            .enqueue(new Callback<Test>() {
+                                                @Override
+                                                public void onResponse(Call<Test> call, Response<Test> response) {
+                                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
+                                                            .show();
+                                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                                                    FragmentManager manager = getSupportFragmentManager();
+                                                    FragmentTransaction transaction = manager.beginTransaction();
+                                                    transaction.detach(fragment);
+                                                    transaction.attach(fragment);
+                                                    transaction.commit();
+                                                    finish();
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<Test> call, Throwable t) {
+                                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_ADD_TEST, Toast.LENGTH_LONG)
+                                                            .show();
+                                                }
+                                            });
+                                } else {
+                                    NetworkService.getInstance()
+                                            .getJSONApi()
+                                            .updateTest(token, test.getId(), test)
+                                            .enqueue(new Callback<String>() {
+                                                @Override
+                                                public void onResponse(Call<String> call, Response<String> response) {
+                                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_EDIT_TEST, Toast.LENGTH_LONG)
+                                                            .show();
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<String> call, Throwable t) {
+                                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_EDIT_TEST, Toast.LENGTH_LONG)
+                                                            .show();
+                                                }
+                                            });
+                                }
+                            }
+                        });
+
+                        if (testId != null) {
+                            btnAddTest.setText(EDIT_TEST_TEXT);
+                            NetworkService.getInstance()
+                                    .getJSONApi()
+                                    .getTest(token, testId)
+                                    .enqueue(new Callback<TestWrapper>() {
+                                        @Override
+                                        public void onResponse(Call<TestWrapper> call, Response<TestWrapper> response) {
+                                            setOnclickListenerOnButton();
+
+                                            TestWrapper testWrapper = response.body();
+                                            test = testWrapper.getTest();
+
+                                            questions = test.getQuestions();
+                                            txtTestName.setText(test.getName());
+                                            loadQuestion(0);
+
+                                            ArrayAdapter<Theme> adapter = (ArrayAdapter<Theme>) spinnerThemeQuestion.getAdapter();
+                                            int position = adapter.getPosition(new Theme(test.getTheme()));
+                                            spinnerThemeQuestion.setSelection(position);
+
+                                            count_paper.setText("1/" + questions.size());
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<TestWrapper> call, Throwable t) {
+
+                                        }
+                                    });
+                        }
+
                     }
 
                     @Override

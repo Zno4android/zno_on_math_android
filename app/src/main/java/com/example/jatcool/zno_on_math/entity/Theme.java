@@ -27,4 +27,12 @@ public class Theme extends Entity {
     public String toString() {
        return name;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Theme theme = (Theme) o;
+        return name.equals(theme.name);
+    }
 }
