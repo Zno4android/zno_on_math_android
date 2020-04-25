@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.user.ProfileDetail">
@@ -12,6 +13,7 @@
     <TextView
         android:id="@+id/TestName_DetailProfile"
         android:layout_width="wrap_content"
+        android:textColor="@color/White"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:textSize="@android:dimen/app_icon_size"
@@ -20,6 +22,7 @@
     <TextView
         android:id="@+id/TestScore_ProfileDetail"
         android:layout_width="match_parent"
+        android:textColor="@color/White"
         android:layout_height="wrap_content"
         android:text="TextView" />
 
@@ -31,6 +34,7 @@
         <TextView
             android:id="@+id/textView13"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Питання" />
@@ -38,6 +42,7 @@
         <TextView
             android:id="@+id/textView17"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="Результат" />

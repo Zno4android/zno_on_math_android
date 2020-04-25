@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:theme="@style/AppTheme"
     android:layout_height="match_parent"
     tools:context=".activity.user.Authorization">
 
@@ -34,7 +35,9 @@
     <EditText
         android:id="@+id/avt_email"
         android:layout_width="wrap_content"
+        android:background="@drawable/edit_text"
         android:layout_height="wrap_content"
+        android:hint="Пошта"
         android:ems="10"
         android:inputType="textEmailAddress"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -47,7 +50,9 @@
     <EditText
         android:id="@+id/avt_password"
         android:layout_width="wrap_content"
+        android:background="@drawable/edit_text"
         android:layout_height="wrap_content"
+        android:hint="Пароль"
         android:ems="10"
         android:inputType="textPassword"
         app:layout_constraintBottom_toBottomOf="parent"

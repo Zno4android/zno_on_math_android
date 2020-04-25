@@ -6,11 +6,9 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
         <item name="colorAccent">@color/colorAccent</item>
+        <item name="android:fontFamily">@font/roboto</item>
+        <item name="editTextBackground">@drawable/edit_text</item>
     </style>
-
-    <style name="EditTextPrimary"
-
-        ></style>
 
     <style name="AppTheme.NoActionBar">
         <item name="windowActionBar">false</item>

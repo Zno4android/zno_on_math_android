@@ -4,6 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
+    android:background="@drawable/back"
     tools:context=".ui.list_student.List_student">
 
     <LinearLayout
@@ -14,6 +15,7 @@
         <TextView
             android:id="@+id/textView22"
             android:layout_width="275dp"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/List_Search" />
@@ -21,6 +23,7 @@
         <TextView
             android:id="@+id/textView23"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/List_sort_by" />
@@ -34,6 +37,7 @@
         <SearchView
             android:id="@+id/List_student_search_view"
             android:layout_width="match_parent"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1">
 

@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     tools:context=".activity.admin.AddTheory">
 
     <LinearLayout
@@ -15,6 +16,8 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="@android:dimen/app_icon_size"
+            android:textColor="@color/White"
             android:gravity="center"
             android:text="Додати теорію" />
 
@@ -26,11 +29,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/White"
                 android:text="Тема теорії   " />
 
             <TextView
                 android:id="@+id/theme_theory"
                 android:layout_width="match_parent"
+                android:textColor="@color/White"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -43,6 +48,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:paddingRight="30dp"
+                android:textColor="@color/White"
                 android:text="Назва теорії" />
 
             <EditText
@@ -58,6 +64,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:textColor="@color/White"
                 android:layout_height="wrap_content"
                 android:text="Текст" />
 
@@ -72,6 +79,7 @@
             <EditText
                 android:id="@+id/text_theory"
                 android:layout_width="match_parent"
+                android:background="@drawable/edit_text_big"
                 android:layout_height="300dp"
                 android:gravity="top" />
         </LinearLayout>
@@ -95,7 +103,8 @@
         <Button
             android:id="@+id/add_theory"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="49dp"
+            android:background="@drawable/edit_text_big"
             android:text="Додати статтю" />
 
     </LinearLayout>

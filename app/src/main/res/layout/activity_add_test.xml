@@ -3,6 +3,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@drawable/back"
     tools:context=".activity.admin.AddTest">
 
     <LinearLayout
@@ -15,6 +17,9 @@
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textSize="20dp"
+            android:textColor="@color/White"
+            android:layout_marginBottom="10dp"
             android:gravity="center"
             android:text="@string/header_add_test"/>
 
@@ -26,11 +31,15 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:layout_marginRight="10dp"
                 android:text="@string/textView_add_name" />
 
             <EditText
                 android:id="@+id/test_name"
+                android:background="@drawable/edit_text"
                 android:layout_width="match_parent"
+                android:layout_weight="10"
                 android:layout_height="wrap_content" />
         </LinearLayout>
 
@@ -42,13 +51,16 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/White"
                 android:paddingRight="30dp"
                 android:text="@string/textView_add_theme" />
 
             <Spinner
                 android:id="@+id/theme_test"
-                android:layout_width="214dp"
-                android:layout_height="wrap_content" />
+                style="@android:style/Widget.Holo.Light.Spinner"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:spinnerMode="dialog" />
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -57,6 +69,7 @@
 
             <TextView
                 android:layout_width="wrap_content"
+                android:textColor="@color/White"
                 android:layout_height="wrap_content"
                 android:text="@string/textView_add_text_question" />
 
@@ -70,6 +83,7 @@
             <EditText
                 android:id="@+id/text_question"
                 android:layout_width="match_parent"
+                android:background="@drawable/edit_text_big"
                 android:layout_height="300dp"
                 android:gravity="top"/>
         </LinearLayout>
@@ -81,11 +95,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:textColor="@color/White"
                 android:text="Виберіть тип питання" />
 
             <Spinner
                 android:id="@+id/Add_type_spinner"
                 android:layout_width="wrap_content"
+                style="@android:style/Widget.Holo.Light.Spinner"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -105,7 +121,6 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
@@ -113,25 +128,31 @@
                     android:id="@+id/previous_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/batton"
                     android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:text="previous" />
+                    android:text="Назад"
+                    />
 
                 <Button
                     android:id="@+id/delete_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/batton"
                     android:layout_gravity="center"
                     android:layout_weight="1"
-                    android:text="delete" />
+                    android:text="Видалити" />
 
                 <Button
                     android:id="@+id/next_question"
+                    style="@style/Widget.AppCompat.ImageButton"
                     android:layout_width="wrap_content"
+                    android:background="@drawable/batton"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="end"
+                    android:layout_gravity="start"
                     android:layout_weight="1"
-                    android:text="next" />
+                    android:text="Далі"
+                   />
 
             </LinearLayout>
 
@@ -144,6 +165,8 @@
                     android:id="@+id/add_test"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:background="@drawable/batton_big"
+                    android:layout_marginTop="10dp"
                     android:text="add test" />
 
                 <TextView

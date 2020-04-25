@@ -18,6 +18,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.EditTheory;
+import com.example.jatcool.zno_on_math.adapters.SimpleAdapterTheme;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
@@ -175,7 +176,7 @@ public class theory extends Fragment {
     }
 
     private void initThemeSpinner(Response<List<Theme>> response){
-        ArrayAdapter<String> adapter = new ArrayAdapter(ctx,R.layout.support_simple_spinner_dropdown_item,response.body());
+        SimpleAdapterTheme adapter = new SimpleAdapterTheme(ctx,R.layout.simple_list_view,response.body());
         themeSpinner.setAdapter(adapter);
 
         themeSpinner.setOnItemSelectedListener(
@@ -206,11 +207,19 @@ private void getTheory(){
 
                     if(response.isSuccessful()){
                         mTheoretics = response.body();
-                        theoryName.setText(mTheoretics.get(position).getName());
-                        theme.setText(mTheoretics.get(position).getTheme());
-                        text.setText(mTheoretics.get(position).getText());
-                        currentID = mTheoretics.get(position).getId();
-                        SetBtnClickListener();
+                        if(!mTheoretics.isEmpty()) {
+                            theoryName.setText(mTheoretics.get(position).getName());
+                            theme.setText(mTheoretics.get(position).getTheme());
+                            text.setText(mTheoretics.get(position).getText());
+                            currentID = mTheoretics.get(position).getId();
+                            SetBtnClickListener();
+                        }
+                        else {
+                            theoryName.setText("");
+                            theme.setText("");
+                            text.setText("За цією темою немає теорії");
+                            currentID = "";
+                        }
                     }
                 }
 

@@ -9,13 +9,13 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
 import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.AddTheme;
+import com.example.jatcool.zno_on_math.adapters.SimpleAdapterTheme;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
@@ -68,7 +68,7 @@ public class Themes extends Fragment {
                             @Override
                             public void onResponse(Call<List<Theme>> call, Response<List<Theme>> response) {
                                 if (response.isSuccessful()) {
-                                    ArrayAdapter<String> adapter = new ArrayAdapter(getActivity(), R.layout.support_simple_spinner_dropdown_item, response.body());
+                                   SimpleAdapterTheme adapter = new SimpleAdapterTheme(getActivity(), R.layout.simple_list_view, response.body());
                                     themeList.setAdapter(adapter);
 
                                     themeList.setOnItemClickListener(

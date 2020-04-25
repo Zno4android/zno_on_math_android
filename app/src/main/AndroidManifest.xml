@@ -12,7 +12,7 @@
         android:roundIcon="@mipmap/ic_launcher"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".TheoryList"></activity>
+
         <activity android:name=".activity.admin.AddTheory" />
         <activity android:name=".activity.admin.TeachrStudentStatistic" />
         <activity android:name=".activity.admin.AddTheme" />
