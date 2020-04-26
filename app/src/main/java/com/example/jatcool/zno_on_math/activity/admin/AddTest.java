@@ -63,9 +63,12 @@ public class AddTest extends AppCompatActivity {
     Spinner spinnerThemeQuestion;
     Spinner spinnerType;
     String token;
+    String testId;
     List<Question> questions = new ArrayList<>();
     int currentQuestion = 0;
     private List<View> allEds = new ArrayList<>();
+    private AdapterView.OnItemSelectedListener selectedListener;
+    private boolean flagSelectedItemListener = true;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,16 +92,20 @@ public class AddTest extends AppCompatActivity {
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
 
-        AdapterView.OnItemSelectedListener item = new AdapterView.OnItemSelectedListener() {
+        selectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                String item = (String) parent.getItemAtPosition(position);
-                if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
-                    addWriteAnswer();
-                } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
-                    addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
-                } else if (item.equals(QuestionType.CONFORMITY.getName())) {
-                    addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
+                if (flagSelectedItemListener) {
+                    String item = (String) parent.getItemAtPosition(position);
+                    if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
+                        addWriteAnswer();
+                    } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
+                        addVariants(COUNT_VARIANTS_CHOOSE_ANSWER);
+                    } else if (item.equals(QuestionType.CONFORMITY.getName())) {
+                        addConformity(COUNT_VARIANTS_CONFORMITY, COUNT_ANSWERS_CONFORMITY);
+                    }
+                } else {
+                    flagSelectedItemListener = true;
                 }
             }
 
@@ -107,10 +114,15 @@ public class AddTest extends AppCompatActivity {
 
             }
         };
-        spinnerType.setOnItemSelectedListener(item);
+        spinnerType.setOnItemSelectedListener(selectedListener);
+
+        Bundle values = getIntent().getExtras();
+        token = values.getString(TOKEN);
+        testId = values.getString(TEST_ID);
 
         setThemeSpinner();
         setOnclickListenerOnButton();
+
     }
 
     private void setOnclickListenerOnButton() {
@@ -147,39 +159,95 @@ public class AddTest extends AppCompatActivity {
         btnDeleteQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                if (questions.size() <= 1) {
+                    clearElements();
+                    count_paper.setText((currentQuestion + 1) + "/1");
+                    questions.clear();
+                    return;
+                }
+
                 if (currentQuestion >= 0) {
                     if ((currentQuestion > questions.size() - 1)) {
-                        loadQuestion(questions.size() - 1);
-                        count_paper.setText(currentQuestion + 1 + "/" + questions.size());
+                        currentQuestion = questions.size() - 1;
+                        loadQuestion(currentQuestion);
+                        count_paper.setText(currentQuestion + "/" + questions.size());
                         return;
                     } else {
                         questions.remove(currentQuestion--);
                     }
                 }
 
-
-                if (questions.isEmpty()) {
-                    clearElements();
-                    count_paper.setText(currentQuestion + "/0");
-                }
-
                 if (currentQuestion < 0) {
-                    loadQuestion(0);
-                    count_paper.setText("0/" + (questions.size() + 1));
-                }
+                    currentQuestion = 0;
 
-                count_paper.setText((currentQuestion + 1 + 1) + "/" + (questions.size() + 1));
+                }
 
                 loadQuestion(currentQuestion);
+                count_paper.setText(currentQuestion + 1 + "/" + (questions.size()));
+            }
+        });
+
+        btnAddTest.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setQuestion();
+
+                if (!validateQuestion(questions)) {
+                    Toast.makeText(AddTest.this, ADD_TEST_NOT_COMPLETE_TEST, Toast.LENGTH_LONG)
+                            .show();
+                    return;
+                }
+
+                fillTest();
+                TestWrapper testWrapper = new TestWrapper(test);
+
+                if (btnAddTest.getText().toString().equals(ADD_TEST_TEXT)) {
+                    NetworkService.getInstance()
+                            .getJSONApi()
+                            .createTest(token, testWrapper)
+                            .enqueue(new Callback<Test>() {
+                                @Override
+                                public void onResponse(Call<Test> call, Response<Test> response) {
+                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
+                                            .show();
+                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+                                    FragmentManager manager = getSupportFragmentManager();
+                                    FragmentTransaction transaction = manager.beginTransaction();
+                                    transaction.detach(fragment);
+                                    transaction.attach(fragment);
+                                    transaction.commit();
+                                    finish();
+                                }
+
+                                @Override
+                                public void onFailure(Call<Test> call, Throwable t) {
+                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_ADD_TEST, Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+                } else {
+                    NetworkService.getInstance()
+                            .getJSONApi()
+                            .updateTest(token, test.getId(), test)
+                            .enqueue(new Callback<String>() {
+                                @Override
+                                public void onResponse(Call<String> call, Response<String> response) {
+                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_EDIT_TEST, Toast.LENGTH_LONG)
+                                            .show();
+                                }
+
+                                @Override
+                                public void onFailure(Call<String> call, Throwable t) {
+                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_EDIT_TEST, Toast.LENGTH_LONG)
+                                            .show();
+                                }
+                            });
+                }
             }
         });
     }
 
     private void setThemeSpinner() {
-        Bundle values = getIntent().getExtras();
-        token = values.getString(TOKEN);
-        final String testId = values.getString(TEST_ID);
-
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTheme(token)
@@ -189,65 +257,6 @@ public class AddTest extends AppCompatActivity {
                         List<Theme> themes = response.body();
                         ArrayAdapter<Object> arrayAdapterThemes = new ArrayAdapter<>(getApplicationContext(), R.layout.support_simple_spinner_dropdown_item, themes.toArray());
                         spinnerThemeQuestion.setAdapter(arrayAdapterThemes);
-
-                        btnAddTest.setOnClickListener(new View.OnClickListener() {
-                            @Override
-                            public void onClick(View v) {
-                                setQuestion();
-
-                                if (!validateQuestion(questions)) {
-                                    Toast.makeText(AddTest.this, ADD_TEST_NOT_COMPLETE_TEST, Toast.LENGTH_LONG)
-                                            .show();
-                                    return;
-                                }
-
-                                fillTest();
-                                TestWrapper testWrapper = new TestWrapper(test);
-
-                                if (btnAddTest.getText().toString().equals(ADD_TEST_TEXT)) {
-                                    NetworkService.getInstance()
-                                            .getJSONApi()
-                                            .createTest(token, testWrapper)
-                                            .enqueue(new Callback<Test>() {
-                                                @Override
-                                                public void onResponse(Call<Test> call, Response<Test> response) {
-                                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
-                                                            .show();
-                                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                                                    FragmentManager manager = getSupportFragmentManager();
-                                                    FragmentTransaction transaction = manager.beginTransaction();
-                                                    transaction.detach(fragment);
-                                                    transaction.attach(fragment);
-                                                    transaction.commit();
-                                                    finish();
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<Test> call, Throwable t) {
-                                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_ADD_TEST, Toast.LENGTH_LONG)
-                                                            .show();
-                                                }
-                                            });
-                                } else {
-                                    NetworkService.getInstance()
-                                            .getJSONApi()
-                                            .updateTest(token, test.getId(), test)
-                                            .enqueue(new Callback<String>() {
-                                                @Override
-                                                public void onResponse(Call<String> call, Response<String> response) {
-                                                    Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_EDIT_TEST, Toast.LENGTH_LONG)
-                                                            .show();
-                                                }
-
-                                                @Override
-                                                public void onFailure(Call<String> call, Throwable t) {
-                                                    Toast.makeText(AddTest.this, ADD_TEST_CAN_NOT_EDIT_TEST, Toast.LENGTH_LONG)
-                                                            .show();
-                                                }
-                                            });
-                                }
-                            }
-                        });
 
                         if (testId != null) {
                             btnAddTest.setText(EDIT_TEST_TEXT);
@@ -279,7 +288,6 @@ public class AddTest extends AppCompatActivity {
                                         }
                                     });
                         }
-
                     }
 
                     @Override
@@ -356,6 +364,8 @@ public class AddTest extends AppCompatActivity {
         if (index < 0) {
             clearElements();
         }
+
+        flagSelectedItemListener = false;
 
         Question question = questions.get(index);
         ArrayAdapter<CharSequence> adapter = (ArrayAdapter<CharSequence>) spinnerType.getAdapter();
@@ -437,14 +447,14 @@ public class AddTest extends AppCompatActivity {
     private void clearElementsConformity() {
         for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            ((EditText) view.findViewById(R.id.edit_text_first_part)).setText("");
-            ((EditText) view.findViewById(R.id.edit_text_second_part)).setText("");
+            ((EditText) view.findViewById(R.id.edit_text_first_part)).setText(" ");
+            ((EditText) view.findViewById(R.id.edit_text_second_part)).setText(" ");
             ((Spinner) view.findViewById(R.id.spinner_variants)).setSelection(0);
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            ((EditText) view.findViewById(R.id.edit_text_answer_part)).setText("");
+            ((EditText) view.findViewById(R.id.edit_text_answer_part)).setText(" ");
         }
     }
 

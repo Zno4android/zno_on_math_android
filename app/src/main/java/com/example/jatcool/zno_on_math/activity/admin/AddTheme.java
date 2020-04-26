@@ -21,6 +21,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.ADD_THEME_CAN_NOT_GET_THEMES;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.ADD_THEME_SUCCESS_ADD_THEME;
 
@@ -61,7 +62,8 @@ public class AddTheme extends AppCompatActivity {
 
                                                 @Override
                                                 public void onFailure(Call<String> call, Throwable t) {
-                                                    t.printStackTrace();
+                                                    Toast.makeText(getApplicationContext(), ADD_THEME_CAN_NOT_GET_THEMES, Toast.LENGTH_LONG)
+                                                            .show();
                                                 }
                                             }
                                     );

@@ -8,5 +8,6 @@
         android:id="@+id/edit_text_answer_part"
         android:layout_width="119dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="end" />
+        android:layout_gravity="end"
+        android:text=" " />
 </LinearLayout>

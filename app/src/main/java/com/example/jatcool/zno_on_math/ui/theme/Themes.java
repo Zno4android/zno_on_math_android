@@ -15,12 +15,12 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.AddTheme;
+import com.example.jatcool.zno_on_math.activity.admin.AddTheory;
 import com.example.jatcool.zno_on_math.adapters.SimpleAdapterTheme;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Theme;
-import com.example.jatcool.zno_on_math.ui.theory.theory;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
 import java.util.List;
@@ -77,9 +77,9 @@ public class Themes extends Fragment {
                                                 public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                                                     Theme theme = (Theme) parent.getItemAtPosition(position);
 
-                                                    Intent passingTest = new Intent(getActivity(), theory.class);
-                                                    passingTest.putExtra(THEME, theme.getName());
-                                                    startActivity(passingTest);
+                                                    Intent intent = new Intent(getActivity(), AddTheory.class);
+                                                    intent.putExtra(THEME, theme.getName());
+                                                    startActivity(intent);
                                                 }
                                             }
                                     );

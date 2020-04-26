@@ -37,6 +37,7 @@ import retrofit2.Response;
 
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.DIALOG_DELETE_TEST_ERROR;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.DIALOG_EDIT_TEST_ERROR;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DELETE_TEXT;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_MESSAGE;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_NEGATIVE_TEXT;
@@ -126,11 +127,29 @@ public class HomeFragment extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case 1: {
-                Intent intent = new Intent(getActivity(), AddTest.class);
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .checkTestOwner(token, selectedTest.getId())
+                        .enqueue(
+                                new Callback<String>() {
+                                    @Override
+                                    public void onResponse(Call<String> call, Response<String> response) {
+                                        if (response.isSuccessful()) {
+                                            Intent intent = new Intent(getActivity(), AddTest.class);
 
-                intent.putExtra(TOKEN, token);
-                intent.putExtra(TEST_ID, selectedTest.getId());
-                startActivity(intent);
+                                            intent.putExtra(TOKEN, token);
+                                            intent.putExtra(TEST_ID, selectedTest.getId());
+                                            startActivity(intent);
+                                        }
+                                    }
+
+                                    @Override
+                                    public void onFailure(Call<String> call, Throwable t) {
+                                        Toast.makeText(getActivity(), DIALOG_EDIT_TEST_ERROR, Toast.LENGTH_LONG)
+                                                .show();
+                                    }
+                                }
+                        );
                 return true;
             }
             case 2: {

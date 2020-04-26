@@ -24,6 +24,7 @@ import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 import com.example.jatcool.zno_on_math.util.Answer;
 import com.example.jatcool.zno_on_math.util.MathTesting;
+import com.google.gson.Gson;
 
 import java.util.ArrayList;
 import java.util.Date;
@@ -39,6 +40,7 @@ import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_V
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.DIVIDER_VARIANTS_CONFORMITY;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_CORRECT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_INCORRECT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TEST_ID;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
@@ -46,15 +48,12 @@ public class Tests extends AppCompatActivity {
 
     TextView tvTheme;
     TextView tvText;
-    Button btnPrev;
     Button btnSkip;
     Button btnNext;
     TestWrapper testWrapper;
     Test test;
-
     String token;
 
-    int currentQuestion = 0;
     List<Question> questions = new ArrayList<>();
     private List<View> allEds = new ArrayList<>();
     MathTesting mathTesting;
@@ -67,7 +66,6 @@ public class Tests extends AppCompatActivity {
 
         tvTheme = findViewById(R.id.Test_theme_textview);
         tvText = findViewById(R.id.Test_task);
-        btnPrev = findViewById(R.id.Test_prev_btn);
         btnSkip = findViewById(R.id.Test_skip_btn);
         btnNext = findViewById(R.id.Test_next_btn);
         passingTestL = findViewById(R.id.PassingTestLiner);
@@ -119,17 +117,6 @@ public class Tests extends AppCompatActivity {
             }
         });
 
-        btnPrev.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if (currentQuestion == 0) {
-                    return;
-                }
-
-                loadQuestion(--currentQuestion);
-            }
-        });
-
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -144,7 +131,6 @@ public class Tests extends AppCompatActivity {
 
 
     private void saveResult() {
-
         List<Answer> answers = mathTesting.getAnswers();
         List<DBResultQuestion> answersStatistics = new ArrayList<>();
         Date date = new Date();
@@ -178,14 +164,13 @@ public class Tests extends AppCompatActivity {
 
                     }
                 });
-
-
     }
 
     private void showResultTesting(int countCorrect, int countIncorrect) {
         Intent intent = endTest();
         intent.putExtra(COUNT_CORRECT, countCorrect);
         intent.putExtra(COUNT_INCORRECT, countIncorrect);
+        intent.putExtra(STATISTICS, new Gson().toJson(mathTesting.getAnswers()));
         startActivity(intent);
         finish();
     }

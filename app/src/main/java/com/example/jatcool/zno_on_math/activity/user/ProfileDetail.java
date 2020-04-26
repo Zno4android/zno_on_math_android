@@ -18,9 +18,10 @@ import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstan
 
 public class ProfileDetail extends AppCompatActivity {
 
-ListView questionResultList;
-TextView testName, testScore;
-List<Question> questions;
+    ListView questionResultList;
+    TextView testName, testScore;
+    List<Question> questions;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -35,8 +36,8 @@ List<Question> questions;
         questionResultList = findViewById(R.id.TestResultList_ProfileDetail);
         questions = statistics.getTest().getQuestions();
         testName.setText(statistics.getTest().getName());
-        testScore.setText(statistics.getResult()+"%  відповідей були правильними");
-        DetailStatisticAdapter adapter = new DetailStatisticAdapter(this, R.layout.detail_list_view,questions);
+        testScore.setText(statistics.getResult() + "%  відповідей були правильними");
+        DetailStatisticAdapter adapter = new DetailStatisticAdapter(this, R.layout.detail_list_view, questions);
         questionResultList.setAdapter(adapter);
     }
 
