@@ -26,4 +26,8 @@ public final class SharedPreferencesConstants {
     public static final String THEORY = "theory";
 
     public static final String THEME = "theme";
+
+    public static final String ISIMAGE = "isImage";
+
+    public static final String IMAGE = "image";
 }

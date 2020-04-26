@@ -8,9 +8,17 @@
     android:orientation="vertical"
     tools:context=".activity.user.Profile">
 
+    <ImageView
+        android:id="@+id/profileImage"
+        android:layout_width="match_parent"
+        android:layout_height="125dp"
+        app:srcCompat="@mipmap/standart_profile" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -53,6 +61,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -74,6 +83,7 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -104,7 +114,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/prChange" />
+            android:text="@string/prChange"
+            android:textColor="@color/White" />
 
         <Button
             android:id="@+id/pr_save_btn"
@@ -132,6 +143,15 @@
             android:visibility="gone"
             android:layout_weight="1" />
     </LinearLayout>
+
+    <TextView
+        android:id="@+id/textView26"
+        android:layout_width="match_parent"
+        android:textAlignment="center"
+        android:textColor="@color/White"
+        android:textSize="25sp"
+        android:layout_height="wrap_content"
+        android:text="Результати" />
 
     <ListView
         android:id="@+id/ProfileResultList"

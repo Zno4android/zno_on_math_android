@@ -6,7 +6,7 @@
     <string name="reg_mail">Пошта</string>
     <string name="reg_password">Пароль</string>
     <string name="reg_re_password">Повторіть пароль</string>
-    <string name="reg_add">Зареэструватися</string>
+    <string name="reg_add">Зареєструватися</string>
     <string name="reg_add_teacher">Зареэструватися як вчитель</string>
     <string name="avt_confirm">Увійти</string>
     <string name="avt_email">Пошта</string>

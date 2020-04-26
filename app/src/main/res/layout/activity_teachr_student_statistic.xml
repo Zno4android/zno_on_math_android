@@ -8,9 +8,16 @@
     android:orientation="vertical"
     tools:context=".activity.admin.TeachrStudentStatistic">
 
+    <ImageView
+        android:id="@+id/studImageProfile"
+        android:layout_width="match_parent"
+        android:layout_height="123dp"
+        app:srcCompat="@mipmap/standart_profile" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -23,17 +30,18 @@
 
         <TextView
             android:id="@+id/tvFname"
-            android:textColor="@color/White"
-            android:layout_width="wrap_content"
+            android:layout_width="178dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/White" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -46,16 +54,17 @@
 
         <TextView
             android:id="@+id/tvName"
-            android:layout_width="wrap_content"
-            android:textColor="@color/White"
+            android:layout_width="123dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/White" />
     </LinearLayout>
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -68,17 +77,18 @@
 
         <TextView
             android:id="@+id/tvLastName"
-            android:layout_width="wrap_content"
+            android:layout_width="150dp"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
             android:layout_weight="1"
             android:ems="10"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:textColor="@color/White" />
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -91,15 +101,16 @@
 
         <TextView
             android:id="@+id/tvGroup"
-            android:layout_width="wrap_content"
-            android:textColor="@color/White"
+            android:layout_width="137dp"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/White" />
 
     </LinearLayout>
 
     <LinearLayout
         android:layout_width="match_parent"
+        android:layout_marginTop="20dp"
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 

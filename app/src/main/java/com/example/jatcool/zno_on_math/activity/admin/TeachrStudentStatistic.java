@@ -5,11 +5,13 @@ import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.user.ProfileDetail;
 import com.example.jatcool.zno_on_math.adapters.ProfileListAdapter;
@@ -19,12 +21,15 @@ import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.google.gson.Gson;
 
+import java.util.Base64;
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.IMAGE;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.ISIMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STUDENT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
@@ -35,6 +40,7 @@ public class TeachrStudentStatistic extends AppCompatActivity {
     ListView studentResultList;
     String token;
     List<Statistics> statistics;
+    ImageView studImg;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,10 +51,15 @@ public class TeachrStudentStatistic extends AppCompatActivity {
         tvLastName = findViewById(R.id.tvLastName);
         tvGroup = findViewById(R.id.tvGroup);
         studentResultList = findViewById(R.id.ProfileResultListToTeacher);
-        Bundle st = getIntent().getExtras();
         Bundle bundle = getIntent().getExtras();
+        studImg = findViewById(R.id.studImageProfile);
         String js = bundle.getString(STUDENT);
         User student = new Gson().fromJson(js, User.class);
+        if(bundle.getBoolean(ISIMAGE)){
+            SharedPreferences s = getSharedPreferences("Image", MODE_PRIVATE);
+            String img = s.getString(IMAGE,"");
+            Glide.with(this).load(img).into(studImg);
+        }
         tvFname.setText(student.getFathername());
         tvName.setText(student.getFathername());
         tvLastName.setText(student.getLastname());

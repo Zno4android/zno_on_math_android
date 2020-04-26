@@ -7,6 +7,7 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
@@ -46,6 +47,7 @@ public class Profile extends AppCompatActivity {
     User user;
     List<Statistics> mStatisticsWrappers;
     ListView mResultList;
+    ImageView img;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,7 +57,8 @@ public class Profile extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         token = sharedPreferences.getString(TOKEN, "");
         mResultList = findViewById(R.id.ProfileResultList);
-        GetStudentData();
+        GetSudentData();
+        img = findViewById(R.id.profileImage);
         etFartherName = findViewById(R.id.edFname);
         etFirstname = findViewById(R.id.edName);
         etLastname = findViewById(R.id.edLastName);
@@ -95,7 +98,7 @@ public class Profile extends AppCompatActivity {
     }
 
 
-    public void GetStudentData() {
+    public void GetSudentData() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getMyStatistic(token)

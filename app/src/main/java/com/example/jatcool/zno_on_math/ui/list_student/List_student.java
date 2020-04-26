@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.util.Base64;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -31,6 +32,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.IMAGE;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.ISIMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STUDENT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 
@@ -105,8 +108,20 @@ public class List_student extends Fragment {
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         User user = (User) parent.getItemAtPosition(position);
                         Intent studentProfile = new Intent(ctx, TeachrStudentStatistic.class);
+                        if(!user.getImage().equals("")){
+                            studentProfile.putExtra(ISIMAGE,true);
+                            SharedPreferences share = getActivity().getSharedPreferences("Image",Context.MODE_PRIVATE);
+                            SharedPreferences.Editor edit = share.edit();
+                            edit.putString(IMAGE,user.getImage());
+                            edit.commit();
+                            user.setImage("");
+                        }
+                        else {
+                            studentProfile.putExtra(ISIMAGE,false);
+                        }
                         studentProfile.putExtra(STUDENT, new Gson().toJson(user));
                         startActivity(studentProfile);
+
                     }
                 }
         );

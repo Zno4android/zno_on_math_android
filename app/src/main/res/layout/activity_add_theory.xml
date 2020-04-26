@@ -80,6 +80,8 @@
             <EditText
                 android:id="@+id/text_theory"
                 android:layout_width="match_parent"
+                android:paddingLeft="5dp"
+                android:paddingRight="5dp"
                 android:background="@drawable/edit_text_big"
                 android:layout_height="300dp"
                 android:gravity="top" />
