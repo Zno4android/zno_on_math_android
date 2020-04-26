@@ -25,10 +25,17 @@ import com.example.jatcool.zno_on_math.activity.user.Tests;
 import com.example.jatcool.zno_on_math.adapters.TestListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Test;
+import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWithTests;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -38,6 +45,7 @@ import retrofit2.Response;
 import static android.content.Context.MODE_PRIVATE;
 import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.DIALOG_DELETE_TEST_ERROR;
 import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.DIALOG_EDIT_TEST_ERROR;
+import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.TEST_LIST_TEST_ALREADY_PASSED;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DELETE_TEXT;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_MESSAGE;
 import static com.example.jatcool.zno_on_math.constants.FragmentConstants.DIALOG_NEGATIVE_TEXT;
@@ -53,11 +61,13 @@ public class HomeFragment extends Fragment {
 
     private ListView testList;
     private List<Test> tests;
+    private List<Statistics> statistics;
     private FloatingActionButton addTestBtn;
     private String token;
     private Test selectedTest;
     private int selectedPosition;
     private String status;
+    private StatisticsWithTests statisticsWithTests;
 
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -68,7 +78,7 @@ public class HomeFragment extends Fragment {
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         token = sharedPreferences.getString(TOKEN, "");
         status = sharedPreferences.getString(STATUS, "");
-        if(status.equals(Status.Teacher.getName())) {
+        if (status.equals(Status.Teacher.getName())) {
             addTestBtn.setOnClickListener(
                     new View.OnClickListener() {
                         @Override
@@ -80,8 +90,7 @@ public class HomeFragment extends Fragment {
                         }
                     }
             );
-        }
-        else {
+        } else {
             addTestBtn.setVisibility(View.GONE);
         }
 
@@ -94,7 +103,39 @@ public class HomeFragment extends Fragment {
                             public void onResponse(Call<List<Test>> call, Response<List<Test>> response) {
                                 if (response.isSuccessful()) {
                                     tests = response.body();
-                                    InitList();
+
+                                    NetworkService.getInstance()
+                                            .getJSONApi()
+                                            .getMyStatistic(token)
+                                            .enqueue(new Callback<List<Statistics>>() {
+                                                @Override
+                                                public void onResponse(Call<List<Statistics>> call, Response<List<Statistics>> response) {
+                                                    statistics = response.body();
+                                                    Comparator<Statistics> comparator = new Comparator<Statistics>() {
+                                                        @Override
+                                                        public int compare(Statistics o1, Statistics o2) {
+                                                            if (o1.getDate().after(o2.getDate())) {
+                                                                return -1;
+                                                            }
+
+                                                            if (o2.getDate().after(o1.getDate())) {
+                                                                return 1;
+                                                            }
+
+                                                            return 0;
+                                                        }
+                                                    };
+
+                                                    Collections.sort(statistics, comparator);
+
+                                                    InitList();
+                                                }
+
+                                                @Override
+                                                public void onFailure(Call<List<Statistics>> call, Throwable t) {
+                                                    t.printStackTrace();
+                                                }
+                                            });
                                 }
                             }
 
@@ -104,9 +145,9 @@ public class HomeFragment extends Fragment {
                             }
                         }
                 );
-            if(status.equals(Status.Teacher.getName())) {
-                registerForContextMenu(testList);
-            }
+        if (status.equals(Status.Teacher.getName())) {
+            registerForContextMenu(testList);
+        }
         return root;
     }
 
@@ -198,7 +239,7 @@ public class HomeFragment extends Fragment {
     }
 
     private void InitList() {
-        TestListAdapter adapter = new TestListAdapter(getActivity(), R.layout.test_list_view, tests);
+        TestListAdapter adapter = new TestListAdapter(getActivity(), R.layout.test_list_view, tests, statistics);
         testList.setAdapter(adapter);
 
         testList.setOnItemClickListener(
@@ -206,6 +247,26 @@ public class HomeFragment extends Fragment {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
                         Test test = (Test) parent.getItemAtPosition(position);
+
+                        for (Statistics statisticsOfTest : statistics) {
+                            if (statisticsOfTest.getTest().equals(test)) {
+                                Date today = new Date();
+                                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+                                try {
+                                    today = simpleDateFormat.parse(simpleDateFormat.format(today));
+                                } catch (ParseException e) {
+                                    e.printStackTrace();
+                                }
+
+                                if (!statisticsOfTest.getDate().before(today)) {
+                                    Toast.makeText(getActivity(), TEST_LIST_TEST_ALREADY_PASSED, Toast.LENGTH_LONG)
+                                            .show();
+                                    return;
+                                }
+                                break;
+                            }
+                        }
 
                         Intent passingTest = new Intent(getActivity(), Tests.class);
                         passingTest.putExtra(TEST_ID, test.getId());

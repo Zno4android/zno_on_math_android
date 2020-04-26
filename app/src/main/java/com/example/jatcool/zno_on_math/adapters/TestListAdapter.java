@@ -11,8 +11,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Test;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 public class TestListAdapter extends ArrayAdapter<Test> {
@@ -20,12 +22,14 @@ public class TestListAdapter extends ArrayAdapter<Test> {
     private LayoutInflater inflater;
     private int layout;
     private List<Test> tests;
+    private List<Statistics> statistics;
 
-    public TestListAdapter(Context context, int resource, List<Test> tests) {
+    public TestListAdapter(Context context, int resource, List<Test> tests, List<Statistics> statistics) {
         super(context, resource, tests);
         this.tests = tests;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
+        this.statistics = statistics;
     }
 
     @NonNull
@@ -42,7 +46,26 @@ public class TestListAdapter extends ArrayAdapter<Test> {
 
         Test test = tests.get(position);
 
-        viewHolder.testName.setText(test.getName());
+        StringBuilder stringBuilder = new StringBuilder();
+
+        stringBuilder.append(test.getName())
+                .append(" (")
+                .append(test.getTheme())
+                .append(")");
+
+        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        for (Statistics statisticsOfTest : statistics) {
+            if (statisticsOfTest.getTest().equals(test)) {
+                stringBuilder.append("\n")
+                        .append(statisticsOfTest.getResult())
+                        .append("% ")
+                        .append(simpleDateFormat.format(statisticsOfTest.getDate()));
+                break;
+            }
+        }
+
+        viewHolder.testName.setText(stringBuilder.toString());
 
         return convertView;
     }

@@ -10,6 +10,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -43,6 +44,7 @@ import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstan
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TEST_ID;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
+import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.TESTS_PROCESSING_RESULTS;
 
 public class Tests extends AppCompatActivity {
 
@@ -111,7 +113,9 @@ public class Tests extends AppCompatActivity {
                 }
 
                 if (mathTesting.isTestPass()) {
-                    List<Answer> answers = mathTesting.getAnswers();
+                    btnNext.setEnabled(false);
+                    Toast.makeText(Tests.this, TESTS_PROCESSING_RESULTS, Toast.LENGTH_LONG)
+                            .show();
                     saveResult();
                 }
             }

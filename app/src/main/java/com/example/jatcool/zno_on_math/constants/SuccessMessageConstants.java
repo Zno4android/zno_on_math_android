@@ -9,11 +9,13 @@ public final class SuccessMessageConstants {
 
     public static final String REGISTRATION_EMAIL_IS_FREE = "Пошта вільна";
 
-    public static final String REGISTRATION_EMAIL_SUCCESS_REGISTRATION = "Ви успішно зареєструвалися";
+    public static final String REGISTRATION_EMAIL_SUCCESS_REGISTRATION = "Підтвердіть пошту";
 
     public static final String PROFILE_SUCCESS_CHANGE = "Дані успішно змінено";
 
     public static final String DIALOG_DELETE_TEST_SuCCESs = "Тест видаленно";
 
     public static final String ADD_THEORY_SUCCESS_ADD_THEORY = "Статтю успішно додано";
+
+    public static final String TESTS_PROCESSING_RESULTS = "Обробка результатів";
 }

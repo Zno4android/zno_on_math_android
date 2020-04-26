@@ -83,4 +83,18 @@ public class Test extends Entity {
                 ", questions:" + questions +
                 '}';
     }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) {
+            return true;
+        }
+
+        if (o == null || getClass() != o.getClass()) {
+            return false;
+        }
+        Test test = (Test) o;
+        return this.getId().equals(test.getId());
+    }
+
 }

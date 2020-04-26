@@ -38,4 +38,6 @@ public final class ErrorMessageConstants {
     public static final String ADD_THEORY_NOT_FILL_FIELD = "Не всі поля заповнені";
 
     public static final String ADD_THEORY_CAN_NOT_ADD_THEORY = "Помилка при додавані теорії";
+
+    public static final String TEST_LIST_TEST_ALREADY_PASSED = "Тест можна проходити тільки раз на добу";
 }

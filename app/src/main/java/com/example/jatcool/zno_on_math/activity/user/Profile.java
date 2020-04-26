@@ -55,7 +55,7 @@ public class Profile extends AppCompatActivity {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         token = sharedPreferences.getString(TOKEN, "");
         mResultList = findViewById(R.id.ProfileResultList);
-        GetSudentData();
+        GetStudentData();
         etFartherName = findViewById(R.id.edFname);
         etFirstname = findViewById(R.id.edName);
         etLastname = findViewById(R.id.edLastName);
@@ -95,7 +95,7 @@ public class Profile extends AppCompatActivity {
     }
 
 
-    public void GetSudentData() {
+    public void GetStudentData() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getMyStatistic(token)
