@@ -104,8 +104,9 @@
         <Button
             android:id="@+id/add_theory"
             android:layout_width="match_parent"
+            android:textColor="@color/White"
             android:layout_height="49dp"
-            android:background="@drawable/edit_text_big"
+            android:background="@drawable/batton_big"
             android:text="Додати статтю" />
 
     </LinearLayout>

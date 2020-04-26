@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:background="@drawable/back"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".activity.admin.TeachrStudentStatistic">
@@ -15,12 +16,14 @@
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prFname" />
 
         <TextView
             android:id="@+id/tvFname"
+            android:textColor="@color/White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -35,6 +38,7 @@
 
         <TextView
             android:id="@+id/t"
+            android:textColor="@color/White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -43,6 +47,7 @@
         <TextView
             android:id="@+id/tvName"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:ems="10"
@@ -57,6 +62,7 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_weight="1"
             android:text="@string/prLast" />
 
@@ -64,6 +70,7 @@
             android:id="@+id/tvLastName"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_weight="1"
             android:ems="10"
             android:inputType="textPersonName" />
@@ -77,6 +84,7 @@
         <TextView
             android:id="@+id/textView15"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:text="@string/prGroup" />
@@ -84,6 +92,7 @@
         <TextView
             android:id="@+id/tvGroup"
             android:layout_width="wrap_content"
+            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1" />
 
@@ -98,6 +107,8 @@
             android:id="@+id/textView16"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
+            android:textAlignment="center"
             android:textSize="@android:dimen/app_icon_size"
             android:layout_weight="1"
             android:text="Результати" />
