@@ -13,6 +13,8 @@ public final class SharedPreferencesConstants {
 
     public static final String FATHERNAME = "fathername";
 
+    public static final String EMAIL = "email";
+
     public static final String GROUP = "group";
 
     public static final String STATUS = "status";

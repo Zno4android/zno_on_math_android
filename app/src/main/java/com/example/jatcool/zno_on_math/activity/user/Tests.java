@@ -1,6 +1,7 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.ArrayAdapter;
@@ -16,11 +17,13 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
+import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.QuestionType;
+import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Test;
+import com.example.jatcool.zno_on_math.entity.User;
 import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
-import com.example.jatcool.zno_on_math.entity.dbEntity.DBStatistics;
 import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 import com.example.jatcool.zno_on_math.util.Answer;
@@ -41,13 +44,17 @@ import static com.example.jatcool.zno_on_math.constants.AddTestConstants.COUNT_V
 import static com.example.jatcool.zno_on_math.constants.AddTestConstants.DIVIDER_VARIANTS_CONFORMITY;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_CORRECT;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.COUNT_INCORRECT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.EMAIL;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FATHERNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TEST_ID;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
 import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.TESTS_PROCESSING_RESULTS;
 
 public class Tests extends AppCompatActivity {
-
     TextView tvTheme;
     TextView tvText;
     Button btnSkip;
@@ -146,13 +153,26 @@ public class Tests extends AppCompatActivity {
             answersStatistics.add(dbResultQuestion);
         }
 
-        String testId = test.getId();
         final int countCorrect = mathTesting.getCountCorrect();
         final int countIncorrect = mathTesting.getCountIncorrect();
 
-        DBStatistics dbStatistics = new DBStatistics(testId, (double) countCorrect / (double) (countCorrect + countIncorrect) * 100, date);
+        User user = new User();
 
-        StatisticsWrapper statistics = new StatisticsWrapper(dbStatistics, answersStatistics);
+        SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+        user.setFathername(sharedPreferences.getString(FATHERNAME, ""));
+        user.setFirstname(sharedPreferences.getString(FIRSTNAME, ""));
+        user.setLastname(sharedPreferences.getString(LASTNAME, ""));
+        user.setGroup(sharedPreferences.getString(GROUP, ""));
+        user.setEmail(sharedPreferences.getString(EMAIL, ""));
+
+        Statistics testStatistics = new Statistics();
+
+        testStatistics.setUser(user);
+        testStatistics.setTest(test);
+        testStatistics.setResult((double) countCorrect / (double) (countCorrect + countIncorrect) * 100);
+        testStatistics.setDate(date);
+
+        StatisticsWrapper statistics = new StatisticsWrapper(testStatistics, answersStatistics);
 
         NetworkService.getInstance()
                 .getJSONApi()

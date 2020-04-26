@@ -44,12 +44,21 @@ public class StatisticsAdapter extends ArrayAdapter<Statistics> {
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append("")
-                .append(" (")
-                .append("")
-                .append(")");
-
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
+
+        stringBuilder.append(st.getUser().getLastname())
+                .append(" ")
+                .append(st.getUser().getFirstname())
+                .append(" ")
+                .append(st.getUser().getFathername())
+                .append(" ")
+                .append(st.getUser().getGroup())
+                .append("\n")
+                .append(st.getUser().getEmail())
+                .append("\n")
+                .append(st.getResult())
+                .append("% ")
+                .append(simpleDateFormat.format(st.getDate()));
 
         viewHolder.testName.setText(stringBuilder.toString());
 

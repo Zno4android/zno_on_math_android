@@ -19,6 +19,9 @@ public class Statistics {
     @Expose
     private Date date;
 
+    public Statistics() {
+    }
+
     public Statistics(User user, Test test, double result, Date date) {
         this.user = user;
         this.test = test;
@@ -40,6 +43,22 @@ public class Statistics {
 
     public Date getDate() {
         return date;
+    }
+
+    public void setUser(User user) {
+        this.user = user;
+    }
+
+    public void setTest(Test test) {
+        this.test = test;
+    }
+
+    public void setResult(double result) {
+        this.result = result;
+    }
+
+    public void setDate(Date date) {
+        this.date = date;
     }
 
     @Override

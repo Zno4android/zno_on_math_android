@@ -25,6 +25,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static com.example.jatcool.zno_on_math.constants.ErrorMessageConstants.AUTHORIZATION_INCORRECT_INPUT;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.EMAIL;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FATHERNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
@@ -116,7 +117,7 @@ public class Authorization extends AppCompatActivity {
                     public void onResponse(Call<User> call, Response<User> response) {
                         user = response.body();
                         boolean isTeacher = user.getStatus() == Status.Teacher;
-                        if(!user.isVerifyed() && isTeacher){
+                        if (!user.isVerifyed() && isTeacher) {
                             startActivity(new Intent(Authorization.this, NotAllowActivity.class));
                             finish();
                             return;
@@ -127,6 +128,7 @@ public class Authorization extends AppCompatActivity {
                         in.putExtra(TOKEN, token);
                         in.putExtra(GROUP, user.getGroup());
                         in.putExtra(STATUS, user.getStatus().getName());
+                        in.putExtra(EMAIL, user.getEmail());
                         waiter.setVisibility(View.INVISIBLE);
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -136,6 +138,7 @@ public class Authorization extends AppCompatActivity {
                         editor.putString(TOKEN, token);
                         editor.putString(GROUP, user.getGroup());
                         editor.putString(STATUS, user.getStatus().getName());
+                        editor.putString(EMAIL, user.getEmail());
                         editor.apply();
                         editor.commit();
                         startActivity(in);
