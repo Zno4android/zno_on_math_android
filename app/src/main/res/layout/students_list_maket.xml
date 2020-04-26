@@ -18,16 +18,12 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
 
-
-
         <TextView
             android:id="@+id/list_student_maket_name"
             android:layout_width="wrap_content"
             android:textColor="@color/White"
             android:layout_height="wrap_content"
             />
-
-
 
         <TextView
             android:id="@+id/list_student_maket_group"

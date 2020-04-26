@@ -33,8 +33,9 @@ public class Zno extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private TextView mFirstName, mLastName, mGroup;
-     private ImageView img;
-     private NavigationView navigationView;
+    private ImageView img;
+    private NavigationView navigationView;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -46,14 +47,13 @@ public class Zno extends AppCompatActivity {
         navigationView = findViewById(R.id.nav_view);
         if (values.getString(STATUS).equals(Status.Teacher.getName())) {
             navigationView.inflateMenu(R.menu.activity_zno_drawer);
-        }
-        else {
+        } else {
             navigationView.inflateMenu(R.menu.student_menu);
         }
-            mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_theory, R.id.nav_home, R.id.nav_student, R.id.nav_theme, R.id.nav_statistics)
-                    .setDrawerLayout(drawer)
-                    .build();
+        mAppBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.nav_theory, R.id.nav_home, R.id.nav_student, R.id.nav_theme, R.id.nav_statistics)
+                .setDrawerLayout(drawer)
+                .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
@@ -67,7 +67,7 @@ public class Zno extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        startActivity(new Intent(Zno.this,Profile.class));
+                        startActivity(new Intent(Zno.this, Profile.class));
                     }
                 }
         );

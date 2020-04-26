@@ -21,7 +21,6 @@ import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.User;
 import com.google.gson.Gson;
 
-import java.util.Base64;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,9 +54,9 @@ public class TeachrStudentStatistic extends AppCompatActivity {
         studImg = findViewById(R.id.studImageProfile);
         String js = bundle.getString(STUDENT);
         User student = new Gson().fromJson(js, User.class);
-        if(bundle.getBoolean(ISIMAGE)){
+        if (bundle.getBoolean(ISIMAGE)) {
             SharedPreferences s = getSharedPreferences("Image", MODE_PRIVATE);
-            String img = s.getString(IMAGE,"");
+            String img = s.getString(IMAGE, "");
             Glide.with(this).load(img).into(studImg);
         }
         tvFname.setText(student.getFathername());
@@ -73,10 +72,8 @@ public class TeachrStudentStatistic extends AppCompatActivity {
                         new Callback<List<Statistics>>() {
                             @Override
                             public void onResponse(Call<List<Statistics>> call, Response<List<Statistics>> response) {
-                                if (response.isSuccessful()) {
-                                    statistics = response.body();
-                                    InitList();
-                                }
+                                statistics = response.body();
+                                InitList();
                             }
 
                             @Override

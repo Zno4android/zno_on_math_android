@@ -134,7 +134,8 @@
 
     <Spinner
         android:id="@+id/group"
-        style="@android:style/Widget.Holo.Light.Spinner"
+        style="@android:style/Widget.Holo.Spinner"
+        android:textColor="@color/White"
         android:layout_width="251dp"
         android:layout_height="43dp"
         android:layout_gravity="center"

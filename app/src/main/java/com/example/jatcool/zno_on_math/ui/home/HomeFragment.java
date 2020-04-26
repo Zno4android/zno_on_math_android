@@ -57,7 +57,6 @@ import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstan
 import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.DIALOG_DELETE_TEST_SuCCESs;
 
 public class HomeFragment extends Fragment {
-
     private ListView testList;
     private List<Test> tests;
     private List<Statistics> statistics;
@@ -66,7 +65,6 @@ public class HomeFragment extends Fragment {
     private Test selectedTest;
     private int selectedPosition;
     private String status;
-    private StatisticsWithTests statisticsWithTests;
 
     @SuppressLint("RestrictedApi")
     public View onCreateView(@NonNull LayoutInflater inflater,

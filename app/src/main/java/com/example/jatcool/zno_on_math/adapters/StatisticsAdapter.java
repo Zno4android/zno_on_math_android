@@ -74,7 +74,7 @@ public class StatisticsAdapter extends ArrayAdapter<Statistics> {
         final TextView testName;
 
         ViewHolder(View view) {
-            testName = view.findViewById(R.id.list_statistics);
+            testName = view.findViewById(R.id.student_name);
         }
     }
 }

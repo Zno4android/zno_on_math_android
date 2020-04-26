@@ -34,7 +34,7 @@ public class ProfileDetail extends AppCompatActivity {
         testName = findViewById(R.id.TestName_DetailProfile);
         testScore = findViewById(R.id.TestScore_ProfileDetail);
         questionResultList = findViewById(R.id.TestResultList_ProfileDetail);
-        questions = statistics.getTest().getQuestions();
+        questions = statistics.getQuestions();
         testName.setText(statistics.getTest().getName());
         testScore.setText(statistics.getResult() + "%  відповідей були правильними");
         DetailStatisticAdapter adapter = new DetailStatisticAdapter(this, R.layout.detail_list_view, questions);

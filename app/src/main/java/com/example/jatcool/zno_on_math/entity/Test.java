@@ -77,11 +77,7 @@ public class Test extends Entity {
 
     @Override
     public String toString() {
-        return "{" +
-                "name:'" + name + '\'' +
-                ", theme:" + theme +
-                ", questions:" + questions +
-                '}';
+        return name;
     }
 
     @Override

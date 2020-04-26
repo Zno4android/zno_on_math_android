@@ -45,8 +45,10 @@
 
         <Spinner
             android:id="@+id/List_student_sort_by"
+            style="@android:style/Widget.Holo.Spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_weight="1" />
 
     </LinearLayout>

@@ -21,7 +21,6 @@ import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Test;
-import com.example.jatcool.zno_on_math.entity.User;
 import com.google.gson.Gson;
 
 import java.util.Collections;
@@ -50,7 +49,7 @@ public class StatisticsFragment extends Fragment {
         View view = inflater.inflate(R.layout.fragment_statistics, container, false);
         SharedPreferences sh = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), Context.MODE_PRIVATE);
         token = sh.getString(TOKEN, "");
-        studList = view.findViewById(R.id.List_student);
+        studList = view.findViewById(R.id.list_statistics);
         testSpinner = view.findViewById(R.id.list_statistics_sort_by);
         ctx = getActivity();
 
@@ -75,12 +74,14 @@ public class StatisticsFragment extends Fragment {
                         }
                 );
 
-        getStatistics();
-
         return view;
     }
 
     private void setList() {
+        if (statistics.isEmpty()) {
+            return;
+        }
+
         Comparator<Statistics> comparator = new Comparator<Statistics>() {
             @Override
             public int compare(Statistics o1, Statistics o2) {
@@ -98,16 +99,20 @@ public class StatisticsFragment extends Fragment {
 
         Collections.sort(statistics, comparator);
 
-        adapter = new StatisticsAdapter(ctx, R.layout.fragment_statistics, statistics);
+        for (Statistics st : statistics) {
+            st.getUser().setId(st.getUserId());
+        }
+
+        adapter = new StatisticsAdapter(ctx, R.layout.statistics_list_view, statistics);
         studList.setAdapter(adapter);
 
         studList.setOnItemClickListener(
                 new AdapterView.OnItemClickListener() {
                     @Override
                     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                        User user = (User) parent.getItemAtPosition(position);
+                        Statistics statistics = (Statistics) parent.getItemAtPosition(position);
                         Intent studentProfile = new Intent(ctx, TeachrStudentStatistic.class);
-                        studentProfile.putExtra(STUDENT, new Gson().toJson(user));
+                        studentProfile.putExtra(STUDENT, new Gson().toJson(statistics.getUser()));
                         startActivity(studentProfile);
                     }
                 }

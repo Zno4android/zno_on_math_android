@@ -55,7 +55,7 @@ public class TestListAdapter extends ArrayAdapter<Test> {
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
         for (Statistics statisticsOfTest : statistics) {
-            if (statisticsOfTest.getTest().equals(test)) {
+            if (statisticsOfTest.getTestId().equals(test.getId())) {
                 stringBuilder.append("\n")
                         .append(statisticsOfTest.getResult())
                         .append("% ")

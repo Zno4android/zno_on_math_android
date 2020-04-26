@@ -3,7 +3,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:background="@drawable/back"
     tools:context=".activity.admin.AddTest">
 
@@ -58,10 +57,20 @@
             <Spinner
                 android:id="@+id/theme_test"
                 style="@android:style/Widget.Holo.Light.Spinner"
+                android:textColor="@color/White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:spinnerMode="dialog" />
         </LinearLayout>
+
+        <TextView
+            android:id="@+id/count_papers_test"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textAlignment="center"
+            android:textColor="@color/White"
+            android:textSize="@android:dimen/app_icon_size" />
+
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -104,6 +113,7 @@
                 android:id="@+id/Add_type_spinner"
                 android:layout_width="wrap_content"
                 style="@android:style/Widget.Holo.Light.Spinner"
+                android:textColor="@color/White"
                 android:layout_height="wrap_content"
                 android:layout_weight="1" />
         </LinearLayout>
@@ -174,14 +184,6 @@
                     android:textColor="@color/White"
                     android:layout_marginTop="10dp"
                     android:text="add test" />
-
-                <TextView
-                    android:id="@+id/count_papers_test"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:textAlignment="center"
-                    android:textSize="@android:dimen/app_icon_size" />
-
             </LinearLayout>
 
 

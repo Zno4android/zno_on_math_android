@@ -4,6 +4,7 @@ import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
+import java.util.List;
 
 public class Statistics {
     @SerializedName("user")
@@ -18,6 +19,15 @@ public class Statistics {
     @SerializedName("date")
     @Expose
     private Date date;
+    @SerializedName("questions")
+    @Expose
+    private List<Question> questions;
+    @SerializedName("testID")
+    @Expose
+    private String testId;
+    @SerializedName("userID")
+    @Expose
+    private String userId;
 
     public Statistics() {
     }
@@ -59,6 +69,30 @@ public class Statistics {
 
     public void setDate(Date date) {
         this.date = date;
+    }
+
+    public List<Question> getQuestions() {
+        return questions;
+    }
+
+    public void setQuestions(List<Question> questions) {
+        this.questions = questions;
+    }
+
+    public String getTestId() {
+        return testId;
+    }
+
+    public void setTestId(String testId) {
+        this.testId = testId;
+    }
+
+    public String getUserId() {
+        return userId;
+    }
+
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     @Override

@@ -13,8 +13,10 @@
 
     <Spinner
         android:id="@+id/spinner_variants"
+        style="@android:style/Widget.Holo.Spinner"
         android:layout_width="match_parent"
         android:layout_weight="1"
+        android:textColor="@color/White"
         android:layout_height="wrap_content" />
 
     <EditText
