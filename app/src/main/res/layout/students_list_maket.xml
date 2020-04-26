@@ -1,6 +1,5 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:orientation="horizontal"
@@ -13,8 +12,6 @@
         android:layout_marginEnd="16dp"
         android:layout_marginRight="16dp"
         app:srcCompat="@mipmap/standart_profile" />
-
-
 
     <LinearLayout
         android:orientation="vertical"
@@ -38,8 +35,6 @@
             android:textColor="@color/White"
             android:layout_height="wrap_content"
             />
-
-
 
     </LinearLayout>
 

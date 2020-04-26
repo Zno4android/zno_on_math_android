@@ -51,7 +51,7 @@ public class Zno extends AppCompatActivity {
             navigationView.inflateMenu(R.menu.student_menu);
         }
             mAppBarConfiguration = new AppBarConfiguration.Builder(
-                    R.id.nav_theory, R.id.nav_home, R.id.nav_student,R.id.nav_theme)
+                    R.id.nav_theory, R.id.nav_home, R.id.nav_student, R.id.nav_theme, R.id.nav_statistics)
                     .setDrawerLayout(drawer)
                     .build();
 

@@ -12,20 +12,17 @@ import androidx.annotation.Nullable;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.entity.Statistics;
-import com.example.jatcool.zno_on_math.entity.Test;
 
 import java.text.SimpleDateFormat;
 import java.util.List;
 
-public class TestListAdapter extends ArrayAdapter<Test> {
+public class StatisticsAdapter extends ArrayAdapter<Statistics> {
     private LayoutInflater inflater;
     private int layout;
-    private List<Test> tests;
     private List<Statistics> statistics;
 
-    public TestListAdapter(Context context, int resource, List<Test> tests, List<Statistics> statistics) {
-        super(context, resource, tests);
-        this.tests = tests;
+    public StatisticsAdapter(Context context, int resource, List<Statistics> statistics) {
+        super(context, resource, statistics);
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
         this.statistics = statistics;
@@ -34,35 +31,25 @@ public class TestListAdapter extends ArrayAdapter<Test> {
     @NonNull
     @Override
     public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
-        ViewHolder viewHolder;
+        StatisticsAdapter.ViewHolder viewHolder;
         if (convertView == null) {
             convertView = inflater.inflate(this.layout, parent, false);
-            viewHolder = new ViewHolder(convertView);
+            viewHolder = new StatisticsAdapter.ViewHolder(convertView);
             convertView.setTag(viewHolder);
         } else {
-            viewHolder = (ViewHolder) convertView.getTag();
+            viewHolder = (StatisticsAdapter.ViewHolder) convertView.getTag();
         }
 
-        Test test = tests.get(position);
+        Statistics st = statistics.get(position);
 
         StringBuilder stringBuilder = new StringBuilder();
 
-        stringBuilder.append(test.getName())
+        stringBuilder.append("")
                 .append(" (")
-                .append(test.getTheme())
+                .append("")
                 .append(")");
 
         SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
-
-        for (Statistics statisticsOfTest : statistics) {
-            if (statisticsOfTest.getTest().equals(test)) {
-                stringBuilder.append("\n")
-                        .append(statisticsOfTest.getResult())
-                        .append("% ")
-                        .append(simpleDateFormat.format(statisticsOfTest.getDate()));
-                break;
-            }
-        }
 
         viewHolder.testName.setText(stringBuilder.toString());
 
@@ -70,7 +57,7 @@ public class TestListAdapter extends ArrayAdapter<Test> {
     }
 
     public void remove(int index) {
-        tests.remove(index);
+        statistics.remove(index);
     }
 
     public class ViewHolder {
@@ -78,7 +65,7 @@ public class TestListAdapter extends ArrayAdapter<Test> {
         final TextView testName;
 
         ViewHolder(View view) {
-            testName = view.findViewById(R.id.testName_test_list_view);
+            testName = view.findViewById(R.id.list_statistics);
         }
     }
 }

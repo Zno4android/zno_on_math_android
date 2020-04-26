@@ -25,5 +25,11 @@
             android:title="Теми"
             android:icon="@mipmap/baseline_library_books_black_18dp"/>
 
+        <item
+            android:id="@+id/nav_statistics"
+            android:icon="@mipmap/baseline_library_books_black_18dp"
+            android:title="Статистика" />
+
+
     </group>
 </menu>

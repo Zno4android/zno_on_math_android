@@ -70,6 +70,9 @@ public interface ZnoApi {
     @GET("/api/statistics/getStudentStatistic/{id}")
     Call<List<Statistics>> getStudentStatistic(@Header("auth-token") String token, @Path("id") String id);
 
+    @GET("/api/statistics/getStudentStatistic/{id}")
+    Call<List<Statistics>> getStudentStatisticByTestId(@Header("auth-token") String token, @Path("id") String id);
+
     @GET("/api/statistics/getMyStatistic")
     Call<List<Statistics>> getMyStatistic(@Header("auth-token") String token);
 
