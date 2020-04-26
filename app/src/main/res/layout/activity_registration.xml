@@ -125,10 +125,11 @@
 
     <Spinner
         android:id="@+id/group"
+        style="@android:style/Widget.Holo.Light.Spinner"
         android:layout_width="251dp"
         android:layout_height="29dp"
-        app:layout_constraintBottom_toBottomOf="parent"
         android:layout_gravity="center"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.556"
         app:layout_constraintStart_toStartOf="parent"
@@ -249,7 +250,9 @@
     <Button
         android:id="@+id/add_users"
         android:layout_width="wrap_content"
+        android:layout_marginTop="20dp"
         android:layout_gravity="center"
+        android:background="@drawable/baton_avt"
         android:layout_height="wrap_content"
         android:text="@string/reg_add"
         android:textAllCaps="false"

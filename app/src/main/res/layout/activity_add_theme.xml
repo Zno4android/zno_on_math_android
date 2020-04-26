@@ -29,7 +29,8 @@
     <Button
         android:id="@+id/add_theme_button"
         android:layout_width="match_parent"
-        android:background="@drawable/edit_text"
+        android:textColor="@color/White"
+        android:background="@drawable/batton_big"
         android:layout_height="wrap_content"
         android:text="Додати" />
 </LinearLayout>

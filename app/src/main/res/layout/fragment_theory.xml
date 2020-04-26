@@ -62,8 +62,9 @@
         <Button
             android:id="@+id/Back"
             android:layout_width="wrap_content"
-            android:background="@drawable/edit_text"
+            android:background="@drawable/batton"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:text="Назад" />
@@ -72,7 +73,8 @@
             android:id="@+id/Edit"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:background="@drawable/edit_text"
+            android:background="@drawable/batton"
+            android:textColor="@color/White"
             android:layout_gravity="bottom"
             android:layout_weight="1"
             android:text="Редагувати" />
@@ -81,8 +83,9 @@
             android:id="@+id/Delete"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_gravity="bottom"
-            android:background="@drawable/edit_text"
+            android:background="@drawable/batton"
             android:layout_weight="1"
             android:text="Видалити" />
 
@@ -90,8 +93,9 @@
             android:id="@+id/Next"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:textColor="@color/White"
             android:layout_gravity="bottom"
-            android:background="@drawable/edit_text"
+            android:background="@drawable/batton"
             android:layout_weight="1"
             android:text="Далі" />
 

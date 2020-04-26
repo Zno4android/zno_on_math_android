@@ -129,6 +129,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:background="@drawable/batton"
+                    android:textColor="@color/White"
                     android:layout_gravity="start"
                     android:layout_weight="1"
                     android:text="Назад"
@@ -138,6 +139,8 @@
                     android:id="@+id/delete_question"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
+                    android:textColor="@color/White"
+
                     android:background="@drawable/batton"
                     android:layout_gravity="center"
                     android:layout_weight="1"
@@ -145,8 +148,8 @@
 
                 <Button
                     android:id="@+id/next_question"
-                    style="@style/Widget.AppCompat.ImageButton"
                     android:layout_width="wrap_content"
+                    android:textColor="@color/White"
                     android:background="@drawable/batton"
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
@@ -166,6 +169,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:background="@drawable/batton_big"
+                    android:textColor="@color/White"
                     android:layout_marginTop="10dp"
                     android:text="add test" />
 

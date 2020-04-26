@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@drawable/back"
     android:orientation="vertical"
     tools:context=".activity.user.Tests">
     <LinearLayout
@@ -12,6 +13,7 @@
     <TextView
         android:id="@+id/Test_theme_textview"
         android:layout_width="match_parent"
+        android:textColor="@color/White"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView" />
@@ -19,6 +21,7 @@
     <TextView
         android:id="@+id/Test_task"
         android:layout_width="match_parent"
+        android:textColor="@color/White"
         android:layout_height="wrap_content"
         android:layout_weight="1"
         android:text="TextView" />
@@ -39,18 +42,22 @@
         <Button
             android:id="@+id/Test_skip_btn"
             android:layout_gravity="bottom"
+            android:background="@drawable/batton"
+            android:textColor="@color/White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Skip" />
+            android:text="Пропустити" />
 
         <Button
             android:id="@+id/Test_next_btn"
             android:layout_gravity="bottom"
+            android:background="@drawable/batton"
+            android:textColor="@color/White"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="Next" />
+            android:text="Далі" />
     </LinearLayout>
     </LinearLayout>
 </ScrollView>
