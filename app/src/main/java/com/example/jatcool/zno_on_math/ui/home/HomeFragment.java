@@ -246,7 +246,7 @@ public class HomeFragment extends Fragment {
                         Test test = (Test) parent.getItemAtPosition(position);
 
                         for (Statistics statisticsOfTest : statistics) {
-                            if (statisticsOfTest.getTest().equals(test)) {
+                            if (statisticsOfTest.getTestId().equals(test.getId())) {
                                 Date today = new Date();
                                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("yyyy-MM-dd");
 
