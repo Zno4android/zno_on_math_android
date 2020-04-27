@@ -68,27 +68,6 @@ public class MathTestingTests {
     }
 
     @Test
-    public void nextQuestionConformity() {
-        answer3 = new ArrayList<>();
-        answer3.add("ні");
-        answer3.add("так");
-
-        Question question1 = new Question("Чи вірна тоттожність\n5=7 ?", null, answer3);
-        questions = new ArrayList<>();
-        questions.add(question1);
-        mathTesting = new MathTesting(questions);
-
-        List<String> answer4 = new ArrayList<>();
-        answer4.add("так");
-        answer4.add("ні");
-
-        mathTesting.nextQuestion(answer4);
-        int actualResult = mathTesting.getCountCorrect();
-
-        assertEquals(1, actualResult);
-    }
-
-    @Test
     public void nextQuestionAfterSkip() {
         mathTesting.nextQuestion(answer2);
         mathTesting.nextQuestion(answer2);

@@ -41,8 +41,8 @@ public class StudentListAdapter extends ArrayAdapter<User> {
             Glide.with(convertView).load(user.getImage()).into(viewHolder.studeImg);
         }
         viewHolder.FIO.setText(user.getFirstname() + " " + user.getLastname());
+        viewHolder.email.setText(user.getEmail());
         viewHolder.group.setText(user.getGroup());
-
         return convertView;
     }
 
@@ -50,11 +50,13 @@ public class StudentListAdapter extends ArrayAdapter<User> {
         final ImageView studeImg;
         final TextView FIO;
         final TextView group;
+        final TextView email;
 
         ViewHolder(View view) {
             studeImg = view.findViewById(R.id.studImg);
             FIO = view.findViewById(R.id.list_student_maket_name);
             group = view.findViewById(R.id.list_student_maket_group);
+            email = view.findViewById(R.id.list_student_maket_email);
         }
     }
 }
