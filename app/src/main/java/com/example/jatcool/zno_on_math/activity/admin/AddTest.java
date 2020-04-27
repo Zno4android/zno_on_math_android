@@ -2,6 +2,7 @@ package com.example.jatcool.zno_on_math.activity.admin;
 
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -18,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jatcool.zno_on_math.R;
+import com.example.jatcool.zno_on_math.adapters.SimpleGroupAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.entity.Question;
 import com.example.jatcool.zno_on_math.entity.QuestionType;
@@ -26,6 +28,7 @@ import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import retrofit2.Call;
@@ -88,7 +91,7 @@ public class AddTest extends AppCompatActivity {
         count_paper = findViewById(R.id.count_papers_test);
         count_paper.setText("1/1");
         spinnerType = findViewById(R.id.Add_type_spinner);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, QuestionType.getTypes());
+        SimpleGroupAdapter adapter = new SimpleGroupAdapter(this, R.layout.simple_list_view, Arrays.asList(QuestionType.getTypes()));
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
 
@@ -468,7 +471,9 @@ public class AddTest extends AppCompatActivity {
         allEds.clear();
         for (int i = 0; i < count; i++) {
             final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
-            linearLayout.addView(view);
+            LinearLayout.LayoutParams param =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            param.topMargin = 20;
+            linearLayout.addView(view,param);
             allEds.add(view);
         }
     }

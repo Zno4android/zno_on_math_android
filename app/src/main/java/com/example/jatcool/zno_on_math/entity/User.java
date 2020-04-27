@@ -1,5 +1,7 @@
 package com.example.jatcool.zno_on_math.entity;
 
+import android.graphics.Bitmap;
+
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 

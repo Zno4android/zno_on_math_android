@@ -19,6 +19,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.activity.admin.TeachrStudentStatistic;
+import com.example.jatcool.zno_on_math.adapters.SimpleGroupAdapter;
 import com.example.jatcool.zno_on_math.adapters.StudentListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
@@ -128,7 +129,7 @@ public class List_student extends Fragment {
     }
 
     private void InitGroup() {
-        ArrayAdapter<String> gr = new ArrayAdapter<>(ctx, R.layout.support_simple_spinner_dropdown_item, groups.getName());
+        SimpleGroupAdapter gr = new SimpleGroupAdapter(ctx, R.layout.simple_list_view, groups.getName());
         groupSpinner.setAdapter(gr);
 
         groupSpinner.setOnItemSelectedListener(
