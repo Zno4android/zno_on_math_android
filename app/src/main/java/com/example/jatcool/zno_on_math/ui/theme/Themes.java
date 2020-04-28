@@ -60,6 +60,19 @@ public class Themes extends Fragment {
         } else {
             addThem.setVisibility(View.GONE);
         }
+
+
+        return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadThemes();
+    }
+
+    private void loadThemes() {
+        SharedPreferences s = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), Context.MODE_PRIVATE);
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTheme(s.getString(TOKEN, ""))
@@ -68,7 +81,7 @@ public class Themes extends Fragment {
                             @Override
                             public void onResponse(Call<List<Theme>> call, Response<List<Theme>> response) {
                                 if (response.isSuccessful()) {
-                                   SimpleAdapterTheme adapter = new SimpleAdapterTheme(getActivity(), R.layout.simple_list_view, response.body());
+                                    SimpleAdapterTheme adapter = new SimpleAdapterTheme(getActivity(), R.layout.simple_list_view, response.body());
                                     themeList.setAdapter(adapter);
 
                                     themeList.setOnItemClickListener(
@@ -92,7 +105,5 @@ public class Themes extends Fragment {
                             }
                         }
                 );
-
-        return view;
     }
 }

@@ -8,9 +8,6 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
@@ -36,6 +33,7 @@ public class AddTheme extends AppCompatActivity {
         editText = findViewById(R.id.theoryName_AddTheory);
         btn = findViewById(R.id.add_theme_button);
         final SharedPreferences pr = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+
         btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -48,16 +46,9 @@ public class AddTheme extends AppCompatActivity {
                                             new Callback<String>() {
                                                 @Override
                                                 public void onResponse(Call<String> call, Response<String> response) {
-
-                                                        Toast.makeText(getApplicationContext(), ADD_THEME_SUCCESS_ADD_THEME, Toast.LENGTH_LONG)
-                                                                .show();
-                                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                                                    FragmentManager manager = getSupportFragmentManager();
-                                                    FragmentTransaction transaction = manager.beginTransaction();
-                                                    transaction.detach(fragment);
-                                                    transaction.attach(fragment);
-                                                    transaction.commit();
-                                                        finish();
+                                                    Toast.makeText(getApplicationContext(), ADD_THEME_SUCCESS_ADD_THEME, Toast.LENGTH_LONG)
+                                                            .show();
+                                                    finish();
                                                 }
 
                                                 @Override

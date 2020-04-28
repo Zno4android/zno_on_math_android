@@ -14,9 +14,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.adapters.SimpleGroupAdapter;
@@ -162,9 +159,17 @@ public class AddTest extends AppCompatActivity {
         btnDeleteQuestion.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (questions.size() <= 1) {
+                if (questions.size() <= 0) {
                     clearElements();
                     count_paper.setText((currentQuestion + 1) + "/1");
+                    questions.clear();
+                    return;
+                }
+
+                if (questions.size() == 1) {
+                    clearElements();
+                    count_paper.setText((currentQuestion) + "/1");
+                    currentQuestion--;
                     questions.clear();
                     return;
                 }
@@ -213,12 +218,6 @@ public class AddTest extends AppCompatActivity {
                                 public void onResponse(Call<Test> call, Response<Test> response) {
                                     Toast.makeText(AddTest.this, ADD_TEST_SUCCESS_ADD_TEST, Toast.LENGTH_LONG)
                                             .show();
-                                    Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-                                    FragmentManager manager = getSupportFragmentManager();
-                                    FragmentTransaction transaction = manager.beginTransaction();
-                                    transaction.detach(fragment);
-                                    transaction.attach(fragment);
-                                    transaction.commit();
                                     finish();
                                 }
 
@@ -471,9 +470,9 @@ public class AddTest extends AppCompatActivity {
         allEds.clear();
         for (int i = 0; i < count; i++) {
             final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
-            LinearLayout.LayoutParams param =  new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
             param.topMargin = 20;
-            linearLayout.addView(view,param);
+            linearLayout.addView(view, param);
             allEds.add(view);
         }
     }
