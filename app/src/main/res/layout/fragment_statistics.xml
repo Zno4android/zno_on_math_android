@@ -7,6 +7,15 @@
     android:orientation="vertical"
     tools:context=".ui.statistics.StatisticsFragment">
 
+    <TextView
+        android:id="@+id/textView28"
+        android:layout_width="wrap_content"
+        android:textColor="@color/White"
+        android:textSize="25dp"
+        android:layout_gravity="center"
+        android:layout_height="wrap_content"
+        android:text="Тест" />
+
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="65dp"
@@ -14,11 +23,11 @@
 
         <Spinner
             android:id="@+id/list_statistics_sort_by"
-            style="@android:style/Widget.Holo.Spinner"
+            style="@android:style/Widget.Holo.Light.Spinner"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:textColor="@color/White" />
 
     </LinearLayout>
 

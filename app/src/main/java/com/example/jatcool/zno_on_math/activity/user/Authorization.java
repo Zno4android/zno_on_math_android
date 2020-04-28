@@ -1,5 +1,6 @@
 package com.example.jatcool.zno_on_math.activity.user;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -9,6 +10,7 @@ import android.widget.EditText;
 import android.widget.ProgressBar;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.example.jatcool.zno_on_math.R;
@@ -38,6 +40,7 @@ public class Authorization extends AppCompatActivity {
     Button add_btn;
     User user;
     ProgressBar waiter;
+    Context ctx;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -59,6 +62,7 @@ public class Authorization extends AppCompatActivity {
         mPassword = findViewById(R.id.avt_password);
         add_btn = findViewById(R.id.avt_btn);
         waiter = findViewById(R.id.Connect);
+        ctx = this;
         add_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -116,9 +120,20 @@ public class Authorization extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         user = response.body();
+                        if(!user.getActivateAccount()){
+                            AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+                            alert.setTitle("Повідомлення");
+                            alert.setMessage("Вам треба підтвердити пошту для авторизації");
+                            alert.setPositiveButton("Добре",null);
+                            alert.setCancelable(false);
+                            alert.show();
+                            return;
+                        }
                         boolean isTeacher = user.getStatus() == Status.Teacher;
                         if (!user.isVerifyed() && isTeacher) {
-                            startActivity(new Intent(Authorization.this, NotAllowActivity.class));
+                            Intent intent = new Intent(Authorization.this, NotAllowActivity.class);
+                            intent.putExtra(TOKEN,token);
+                            startActivity(intent);
                             finish();
                             return;
                         }

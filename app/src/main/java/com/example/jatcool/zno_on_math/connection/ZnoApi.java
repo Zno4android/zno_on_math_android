@@ -99,4 +99,7 @@ public interface ZnoApi {
 
     @PUT("api/theory/update/{id}")
     Call<String> updateTheory(@Header("auth-token") String token, @Path("id") String id, @Body Theoretics theoretics);
+
+    @GET("/api/profile/verifyTeacher")
+    Call<String> verifyTeacher(@Header("auth-token") String token);
 }

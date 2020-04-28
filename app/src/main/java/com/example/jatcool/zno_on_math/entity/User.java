@@ -36,6 +36,25 @@ public class User extends Entity {
     @SerializedName("image")
     @Expose
     private String image;
+    @SerializedName("activateAccount")
+    @Expose
+    private Boolean activateAccount;
+
+    public Boolean getVerifyed() {
+        return verifyed;
+    }
+
+    public void setVerifyed(Boolean verifyed) {
+        this.verifyed = verifyed;
+    }
+
+    public Boolean getActivateAccount() {
+        return activateAccount;
+    }
+
+    public void setActivateAccount(Boolean activateAccount) {
+        this.activateAccount = activateAccount;
+    }
 
     public String getImage() {
         return image;

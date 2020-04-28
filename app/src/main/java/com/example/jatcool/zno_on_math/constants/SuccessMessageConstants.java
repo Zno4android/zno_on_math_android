@@ -9,7 +9,7 @@ public final class SuccessMessageConstants {
 
     public static final String REGISTRATION_EMAIL_IS_FREE = "Пошта вільна";
 
-    public static final String REGISTRATION_EMAIL_SUCCESS_REGISTRATION = "Підтвердіть пошту";
+    public static final String REGISTRATION_EMAIL_SUCCESS_REGISTRATION = "Ви успішно зареєструвались";
 
     public static final String PROFILE_SUCCESS_CHANGE = "Дані успішно змінено";
 
