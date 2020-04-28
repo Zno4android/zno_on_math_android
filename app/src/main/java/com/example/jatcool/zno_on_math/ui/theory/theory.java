@@ -1,6 +1,8 @@
 package com.example.jatcool.zno_on_math.ui.theory;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -99,26 +101,44 @@ public class theory extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                     NetworkService.getInstance()
-                             .getJSONApi()
-                             .deleteTheory(token, currentID)
-                             .enqueue(
-                                     new Callback<String>() {
-                                         @Override
-                                         public void onResponse(Call<String> call, Response<String> response) {
-                                             if(response.isSuccessful()){
-                                                 Toast.makeText(getContext(), "Успішно", Toast.LENGTH_LONG)
-                                                         .show();
-                                                 getTheory();
-                                             }
-                                         }
+                        if (mTheoretics.size()>0){
+                            AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
+                            alert.setTitle("Підтверждення");
+                            alert.setMessage("Ви впевпненні що хочете видалити?");
+                            alert.setPositiveButton("Так", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialog, int which) {
+                                    NetworkService.getInstance()
+                                            .getJSONApi()
+                                            .deleteTheory(token, currentID)
+                                            .enqueue(
+                                                    new Callback<String>() {
+                                                        @Override
+                                                        public void onResponse(Call<String> call, Response<String> response) {
+                                                            if (response.isSuccessful()) {
+                                                                Toast.makeText(getContext(), "Успішно", Toast.LENGTH_LONG)
+                                                                        .show();
+                                                                getTheory();
+                                                            }
+                                                        }
 
-                                         @Override
-                                         public void onFailure(Call<String> call, Throwable t) {
+                                                        @Override
+                                                        public void onFailure(Call<String> call, Throwable t) {
 
-                                         }
-                                     }
-                             );
+                                                        }
+                                                    }
+                                            );
+                                }
+                            });
+                            alert.setNegativeButton("Ні",null);
+                            alert.setCancelable(false);
+                            alert.show();
+
+                        }
+                        else {
+                            Toast.makeText(ctx,"Нічого видаляти!",Toast.LENGTH_LONG)
+                                    .show();
+                        }
                     }
                 }
         );
@@ -208,6 +228,7 @@ private void getTheory(){
                     if(response.isSuccessful()){
                         mTheoretics = response.body();
                         if(!mTheoretics.isEmpty()) {
+                            position = 0;
                             theoryName.setText(mTheoretics.get(position).getName());
                             theme.setText(mTheoretics.get(position).getTheme());
                             text.setText(mTheoretics.get(position).getText());

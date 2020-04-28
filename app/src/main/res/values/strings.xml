@@ -24,7 +24,7 @@
     <string name="action_settings">Settings</string>
     <string name="prName">Ім`я</string>
     <string name="prFname">По батькові</string>
-    <string name="prLast">Фамілія</string>
+    <string name="prLast">Прізвище</string>
     <string name="prGroup">Група</string>
     <string name="prChange">Змінити</string>
     <string name="prSave">Зберігти</string>

@@ -134,11 +134,11 @@
 
     <Spinner
         android:id="@+id/group"
-        style="@android:style/Widget.Holo.Spinner"
-        android:textColor="@color/White"
+        style="@android:style/Widget.Holo.Light.Spinner"
         android:layout_width="251dp"
         android:layout_height="43dp"
         android:layout_gravity="center"
+        android:textColor="@color/White"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.556"
