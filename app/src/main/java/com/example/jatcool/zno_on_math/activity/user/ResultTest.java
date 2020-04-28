@@ -48,11 +48,11 @@ public class ResultTest extends AppCompatActivity {
 
         tvResultTest.setText(format(Locale.ENGLISH, "%.2f", countCorrect / (countCorrect + countInCorrect) * 100) + " %");
 
-        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
-        FragmentManager manager = getSupportFragmentManager();
-        FragmentTransaction transaction = manager.beginTransaction();
-        transaction.detach(fragment);
-        transaction.attach(fragment);
-        transaction.commit();
+//        Fragment fragment = getSupportFragmentManager().findFragmentById(R.id.nav_host_fragment);
+//        FragmentManager manager = getSupportFragmentManager();
+//        FragmentTransaction transaction = manager.beginTransaction();
+//        transaction.detach(fragment);
+//        transaction.attach(fragment);
+//        transaction.commit();
     }
 }

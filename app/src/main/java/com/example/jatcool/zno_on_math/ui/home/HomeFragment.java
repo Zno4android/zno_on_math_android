@@ -91,6 +91,14 @@ public class HomeFragment extends Fragment {
             addTestBtn.setVisibility(View.GONE);
         }
 
+       loadTest();
+        if (status.equals(Status.Teacher.getName())) {
+            registerForContextMenu(testList);
+        }
+        return root;
+    }
+
+    private void loadTest(){
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTest(token)
@@ -142,10 +150,6 @@ public class HomeFragment extends Fragment {
                             }
                         }
                 );
-        if (status.equals(Status.Teacher.getName())) {
-            registerForContextMenu(testList);
-        }
-        return root;
     }
 
     @Override
@@ -233,6 +237,12 @@ public class HomeFragment extends Fragment {
 
         }
         return super.onContextItemSelected(item);
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        loadTest();
     }
 
     private void InitList() {
