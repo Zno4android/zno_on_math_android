@@ -189,9 +189,9 @@ public class Profile extends AppCompatActivity {
                             editor.putString(FATHERNAME, user.getFathername());
                             editor.putString(FIRSTNAME, user.getFirstname());
                             editor.putString(LASTNAME, user.getLastname());
-                            editor.putString(IMAGE,user.getImage().toString());
+                            //editor.putString(IMAGE,user.getImage());
                             editor.commit();
-                            img.setImageBitmap(bitmap);
+                            //img.setImageBitmap(bitmap);
                             Toast.makeText(Profile.this, PROFILE_SUCCESS_CHANGE, Toast.LENGTH_SHORT)
                                     .show();
                             pr.setVisibility(View.GONE);

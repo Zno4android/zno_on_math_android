@@ -40,7 +40,7 @@ public class StudentListAdapter extends ArrayAdapter<User> {
         if (!user.getImage().isEmpty()) {
             Glide.with(convertView).load(user.getImage()).into(viewHolder.studeImg);
         }
-        viewHolder.FIO.setText(user.getFirstname() + " " + user.getLastname());
+        viewHolder.FIO.setText(user.getLastname() + " " + user.getFirstname());
         viewHolder.email.setText(user.getEmail());
         viewHolder.group.setText(user.getGroup());
         return convertView;

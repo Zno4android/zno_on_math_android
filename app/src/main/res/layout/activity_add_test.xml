@@ -37,6 +37,8 @@
             <EditText
                 android:id="@+id/test_name"
                 android:background="@drawable/edit_text"
+                android:layout_marginRight="10dp"
+                android:paddingRight="10dp"
                 android:layout_width="match_parent"
                 android:layout_weight="10"
                 android:layout_height="wrap_content" />
