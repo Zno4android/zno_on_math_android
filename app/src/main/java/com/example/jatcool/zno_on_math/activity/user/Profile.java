@@ -5,8 +5,6 @@ import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.MediaStore;
-import android.util.Base64;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
@@ -19,16 +17,22 @@ import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.bumptech.glide.Glide;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.adapters.ProfileListAdapter;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.constants.URLConstants;
 import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageMetadata;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 
-import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -51,6 +55,7 @@ public class Profile extends AppCompatActivity {
     Button save_btn, cancel_btn;
     ProgressBar pr;
     String token;
+    FirebaseStorage storage;
     Bitmap bitmap = null;
     User user;
     List<Statistics> mStatisticsWrappers;
@@ -62,6 +67,9 @@ public class Profile extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
         setTitle("Профіль");
+        user = new User();
+        FirebaseApp.initializeApp(this);
+        storage = FirebaseStorage.getInstance(URLConstants.FIREBASE_URL);
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
         token = sharedPreferences.getString(TOKEN, "");
         mResultList = findViewById(R.id.ProfileResultList);
@@ -75,16 +83,16 @@ public class Profile extends AppCompatActivity {
         pr = findViewById(R.id.Timer);
         save_btn = findViewById(R.id.pr_save_btn);
         cancel_btn = findViewById(R.id.pr_cancel_btn);
-//        img.setOnClickListener(
-//                new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
-//                        photoPickerIntent.setType("image/*");
-//                        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
-//                    }
-//                }
-//        );
+        img.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        Intent photoPickerIntent = new Intent(Intent.ACTION_PICK);
+                        photoPickerIntent.setType("image/*");
+                        startActivityForResult(photoPickerIntent, GALLERY_REQUEST);
+                    }
+                }
+        );
         cancel_btn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -100,7 +108,6 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onClick(View view) {
                         if (!etFartherName.getText().toString().equals("") && !etFirstname.getText().toString().equals("") && !etLastname.getText().toString().equals("")) {
-                            user = new User();
                             user.setFathername(etFartherName.getText().toString());
                             user.setFirstname(etFirstname.getText().toString());
                             user.setLastname(etLastname.getText().toString());
@@ -120,27 +127,27 @@ public class Profile extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, imageReturnedIntent);
 
 
-        ImageView imageView = (ImageView) findViewById(R.id.imageView);
 
         switch(requestCode) {
             case GALLERY_REQUEST:
                 if(resultCode == RESULT_OK){
-                    Uri selectedImage = imageReturnedIntent.getData();
+                    final Uri selectedImage = imageReturnedIntent.getData();
                     try {
-                      bitmap = MediaStore.Images.Media.getBitmap(getContentResolver(), selectedImage);
-//                        ByteArrayOutputStream baos=new  ByteArrayOutputStream();
-//                        bitmap.compress(Bitmap.CompressFormat.PNG,100, baos);
-//                        byte [] b = baos.toByteArray();
-//                        user = new User();
-//                        user.setFathername(etFartherName.getText().toString());
-//                        user.setFirstname(etFirstname.getText().toString());
-//                        user.setLastname(etLastname.getText().toString());
-//                        user.setImage(b);
-//                        Change(user);
-                    } catch (IOException e) {
+                       StorageMetadata metadata = new StorageMetadata.Builder()
+                                .setContentType("image/jpeg")
+                                .build();
+                       final String path = selectedImage.getLastPathSegment();
+                        UploadTask storageReference = storage.getReference().child("images/"+path).putFile(selectedImage,metadata);
+                        storageReference.addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+                            @Override
+                            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                                user.setImage(path);
+                                Change(user);
+                            }
+                        });
+                    } catch (Exception e) {
                         e.printStackTrace();
                     }
-                    Change(user);
                 }
         }
     }
@@ -168,10 +175,14 @@ public class Profile extends AppCompatActivity {
 
     public void setActivityData(TextView t, EditText... ed) {
         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
+        String imgPath = sharedPreferences.getString(IMAGE,"");
         ed[0].setText(sharedPreferences.getString(FATHERNAME, ""));
         ed[1].setText(sharedPreferences.getString(FIRSTNAME, ""));
         ed[2].setText(sharedPreferences.getString(LASTNAME, ""));
         t.setText(sharedPreferences.getString(GROUP, ""));
+        if(!imgPath.isEmpty()) {
+            Glide.with(Profile.this).load(storage.getReference("/images" + imgPath)).into(img);
+        }
     }
 
 
@@ -189,9 +200,12 @@ public class Profile extends AppCompatActivity {
                             editor.putString(FATHERNAME, user.getFathername());
                             editor.putString(FIRSTNAME, user.getFirstname());
                             editor.putString(LASTNAME, user.getLastname());
-                            //editor.putString(IMAGE,user.getImage());
+                            editor.putString(IMAGE,user.getImage());
                             editor.commit();
-                            //img.setImageBitmap(bitmap);
+                            if(!user.getImage().isEmpty()) {
+                                Glide.with(Profile.this).load(storage.getReference("/images" + user.getImage())).into(img);
+                                editor.putString(IMAGE,user.getImage());
+                            }
                             Toast.makeText(Profile.this, PROFILE_SUCCESS_CHANGE, Toast.LENGTH_SHORT)
                                     .show();
                             pr.setVisibility(View.GONE);

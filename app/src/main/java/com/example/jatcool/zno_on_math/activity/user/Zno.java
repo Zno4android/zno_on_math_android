@@ -17,15 +17,20 @@ import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
 import androidx.navigation.ui.NavigationUI;
 
+import com.bumptech.glide.Glide;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
+import com.example.jatcool.zno_on_math.constants.URLConstants;
 import com.example.jatcool.zno_on_math.entity.Status;
 import com.google.android.material.navigation.NavigationView;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
 
 import java.io.File;
 
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.IMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
 
@@ -35,12 +40,14 @@ public class Zno extends AppCompatActivity {
     private TextView mFirstName, mLastName, mGroup;
     private ImageView img;
     private NavigationView navigationView;
-
+    FirebaseStorage firebaseStorage;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_zno);
         Toolbar toolbar = findViewById(R.id.toolbar);
+        FirebaseApp.initializeApp(this);
+        firebaseStorage = FirebaseStorage.getInstance(URLConstants.FIREBASE_URL);
         setSupportActionBar(toolbar);
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         Bundle values = getIntent().getExtras();
@@ -74,7 +81,15 @@ public class Zno extends AppCompatActivity {
         mFirstName.setText(values.getString(FIRSTNAME));
         mLastName.setText(values.getString(LASTNAME));
         mGroup.setText(values.getString(GROUP));
+        String imagePath = values.getString(IMAGE);
+        boolean isEmpty = imagePath.equals("");
+        if(imagePath!=null) {
+            if(!isEmpty) {
+                Glide.with(this).load(firebaseStorage.getReference("/images" + imagePath)).into(img);
+            }
+        }
     }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -112,5 +127,9 @@ public class Zno extends AppCompatActivity {
         mLastName = headerLayout.findViewById(R.id.LastName);
         mFirstName.setText(sharedPreferences.getString(FIRSTNAME, ""));
         mLastName.setText(sharedPreferences.getString(LASTNAME, ""));
+        String imgPath = sharedPreferences.getString(IMAGE,"");
+        if(!imgPath.isEmpty()) {
+            Glide.with(this).load(firebaseStorage.getReference("/images" + imgPath)).into(img);
+        }
     }
 }

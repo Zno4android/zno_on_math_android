@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "544181254374",
+    "firebase_url": "https://zno4android-30ddd.firebaseio.com",
+    "project_id": "zno4android-30ddd",
+    "storage_bucket": "zno4android-30ddd.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:544181254374:android:34c37bd15cfb0655e1a327",
+        "android_client_info": {
+          "package_name": "com.example.jatcool.zno_on_math"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "544181254374-2eceadefprk65mjhh9mq2smvock4p77k.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCiugodOm9s7vqE_DV4jYqGCrdPM9eftSY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "544181254374-2eceadefprk65mjhh9mq2smvock4p77k.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

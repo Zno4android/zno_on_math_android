@@ -19,6 +19,8 @@ import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
 import com.google.gson.Gson;
 
 import java.util.List;
@@ -48,6 +50,8 @@ public class TeachrStudentStatistic extends AppCompatActivity {
         tvName = findViewById(R.id.tvName);
         tvFname = findViewById(R.id.tvFname);
         tvLastName = findViewById(R.id.tvLastName);
+        FirebaseApp.initializeApp(this);
+        FirebaseStorage firebaseStorage = FirebaseStorage.getInstance();
         tvGroup = findViewById(R.id.tvGroup);
         studentResultList = findViewById(R.id.ProfileResultListToTeacher);
         Bundle bundle = getIntent().getExtras();
@@ -55,9 +59,9 @@ public class TeachrStudentStatistic extends AppCompatActivity {
         String js = bundle.getString(STUDENT);
         User student = new Gson().fromJson(js, User.class);
         if (bundle.getBoolean(ISIMAGE)) {
-            SharedPreferences s = getSharedPreferences("Image", MODE_PRIVATE);
-            String img = s.getString(IMAGE, "");
-            Glide.with(this).load(img).into(studImg);
+
+            String img = student.getImage();
+            Glide.with(this).load(firebaseStorage.getReference("/images"+img)).into(studImg);
         }
         tvFname.setText(student.getFathername());
         tvName.setText(student.getFathername());

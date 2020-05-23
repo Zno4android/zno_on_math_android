@@ -111,11 +111,6 @@ public class List_student extends Fragment {
                         Intent studentProfile = new Intent(ctx, TeachrStudentStatistic.class);
                         if(!user.getImage().equals("")){
                             studentProfile.putExtra(ISIMAGE,true);
-                            SharedPreferences share = getActivity().getSharedPreferences("Image",Context.MODE_PRIVATE);
-                            SharedPreferences.Editor edit = share.edit();
-                            edit.putString(IMAGE,user.getImage());
-                            edit.commit();
-                            user.setImage("");
                         }
                         else {
                             studentProfile.putExtra(ISIMAGE,false);

@@ -11,6 +11,9 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.entity.User;
+import com.google.firebase.FirebaseApp;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.util.List;
 
@@ -18,11 +21,13 @@ public class StudentListAdapter extends ArrayAdapter<User> {
     private LayoutInflater inflater;
     private int layout;
     private List<User> mUsers;
+    private Context context;
 
     public StudentListAdapter(Context context, int resource, List<User> users) {
         super(context, resource, users);
         this.mUsers = users;
         this.layout = resource;
+        this.context = context;
         this.inflater = LayoutInflater.from(context);
     }
 
@@ -36,9 +41,13 @@ public class StudentListAdapter extends ArrayAdapter<User> {
             viewHolder = (ViewHolder) convertView.getTag();
         }
 
+
         User user = mUsers.get(position);
+        FirebaseApp.initializeApp(context);
+
         if (!user.getImage().isEmpty()) {
-            Glide.with(convertView).load(user.getImage()).into(viewHolder.studeImg);
+            StorageReference storageReference = FirebaseStorage.getInstance().getReference("/images"+user.getImage());
+            Glide.with(convertView).load(storageReference).into(viewHolder.studeImg);
         }
         viewHolder.FIO.setText(user.getLastname() + " " + user.getFirstname());
         viewHolder.email.setText(user.getEmail());

@@ -31,6 +31,7 @@ import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstan
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FATHERNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.FIRSTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.GROUP;
+import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.IMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.LASTNAME;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATUS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.TOKEN;
@@ -54,6 +55,7 @@ public class Authorization extends AppCompatActivity {
             in.putExtra(TOKEN, sharedPreferences.getString(TOKEN, ""));
             in.putExtra(GROUP, sharedPreferences.getString(GROUP, ""));
             in.putExtra(STATUS, sharedPreferences.getString(STATUS, ""));
+            in.putExtra(IMAGE,sharedPreferences.getString(IMAGE,""));
             startActivity(in);
             finish();
         }
@@ -144,6 +146,7 @@ public class Authorization extends AppCompatActivity {
                         in.putExtra(GROUP, user.getGroup());
                         in.putExtra(STATUS, user.getStatus().getName());
                         in.putExtra(EMAIL, user.getEmail());
+                        in.putExtra(IMAGE,user.getImage());
                         waiter.setVisibility(View.INVISIBLE);
                         SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                         SharedPreferences.Editor editor = sharedPreferences.edit();
@@ -154,6 +157,7 @@ public class Authorization extends AppCompatActivity {
                         editor.putString(GROUP, user.getGroup());
                         editor.putString(STATUS, user.getStatus().getName());
                         editor.putString(EMAIL, user.getEmail());
+                        editor.putString(IMAGE,user.getImage());
                         editor.apply();
                         editor.commit();
                         startActivity(in);
