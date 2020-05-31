@@ -19,7 +19,7 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
             Log.i("Key", "You just pressed 1 button");
         }
 
-        String pasteText = "";
+        String pasteText = " ";
 
         switch (primaryCode) {
             case 1: {
