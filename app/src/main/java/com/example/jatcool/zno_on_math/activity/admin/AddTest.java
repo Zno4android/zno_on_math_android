@@ -1,8 +1,14 @@
 package com.example.jatcool.zno_on_math.activity.admin;
 
+import android.app.Activity;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -23,11 +29,13 @@ import com.example.jatcool.zno_on_math.entity.QuestionType;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
+import com.example.jatcool.zno_on_math.listeners.MathKeyboardActionListener;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -53,15 +61,17 @@ public class AddTest extends AppCompatActivity {
     LinearLayout linearLayout;
 
     EditText txtTestName;
-
     TextView count_paper;
     Button btnDeleteQuestion;
     Button btnNextQuestion;
     Button btnPreviousQuestion;
     Button btnAddTest;
     EditText txtTextQuestion;
+    MathView textQuestionMathView;
     Spinner spinnerThemeQuestion;
     Spinner spinnerType;
+    KeyboardView mKeyboardView;
+
     String token;
     String testId;
     List<Question> questions = new ArrayList<>();
@@ -74,6 +84,7 @@ public class AddTest extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_test);
+
         linearLayout = findViewById(R.id.Test_liner_layout);
         ll_variants = findViewById(R.id.variants);
         spinnerThemeQuestion = findViewById(R.id.theme_test);
@@ -84,6 +95,7 @@ public class AddTest extends AppCompatActivity {
         btnPreviousQuestion = findViewById(R.id.previous_question);
         btnAddTest = findViewById(R.id.add_test);
         txtTextQuestion = findViewById(R.id.text_question);
+        textQuestionMathView = findViewById(R.id.text_question_math);
         spinnerThemeQuestion = findViewById(R.id.theme_test);
         count_paper = findViewById(R.id.count_papers_test);
         count_paper.setText("1/1");
@@ -91,6 +103,20 @@ public class AddTest extends AppCompatActivity {
         SimpleGroupAdapter adapter = new SimpleGroupAdapter(this, R.layout.simple_list_view, Arrays.asList(QuestionType.getTypes()));
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
+
+        // Create the Keyboard
+        Keyboard mKeyboard = new Keyboard(this, R.xml.keyboard);
+
+        // Lookup the KeyboardView
+        mKeyboardView = findViewById(R.id.keyboardview);
+        // Attach the keyboard to the view
+        mKeyboardView.setKeyboard(mKeyboard);
+
+        // Do not show the preview balloons
+        //mKeyboardView.setPreviewEnabled(false);
+
+        // Install the key handler
+        mKeyboardView.setOnKeyboardActionListener(new MathKeyboardActionListener(txtTextQuestion));
 
         selectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
@@ -123,7 +149,47 @@ public class AddTest extends AppCompatActivity {
         setThemeSpinner();
         setOnclickListenerOnButton();
 
+        txtTextQuestion.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    openKeyboard(v);
+                } else {
+                    closeKeyboard(v);
+                }
+
+            }
+        });
+
+        txtTextQuestion.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                textQuestionMathView.setText("$$" + txtTextQuestion.getText().toString() + "$$");
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
     }
+
+    public void openKeyboard(View v) {
+        mKeyboardView.setVisibility(View.VISIBLE);
+        mKeyboardView.setEnabled(true);
+        if (v != null)
+            ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    public void closeKeyboard(View v) {
+        mKeyboardView.setVisibility(View.GONE);
+    }
+
 
     private void setOnclickListenerOnButton() {
         btnNextQuestion.setOnClickListener(new View.OnClickListener() {
