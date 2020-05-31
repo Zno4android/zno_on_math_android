@@ -3,6 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
+    android:padding="6dp"
     android:layout_height="match_parent"
     android:background="@drawable/back"
     android:orientation="vertical"
@@ -66,11 +67,11 @@
 
         <TextView
             android:id="@+id/textView14"
-            android:layout_width="wrap_content"
-            android:textColor="@color/White"
-            android:layout_weight="2"
+            android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="@string/prLast" />
+            android:layout_weight="10"
+            android:text="@string/prLast"
+            android:textColor="@color/White" />
 
         <EditText
             android:id="@+id/edLastName"
@@ -84,6 +85,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
+        android:layout_marginBottom="20dp"
         android:orientation="horizontal">
 
         <TextView
@@ -109,11 +111,12 @@
         android:layout_height="wrap_content"
         android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/textView16"
-            android:layout_width="wrap_content"
+        <Button
+            android:id="@+id/btn_password_change_pr"
+            android:layout_width="146dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
+            android:background="@drawable/batton"
             android:text="@string/prChange"
             android:textColor="@color/White" />
 

@@ -29,7 +29,6 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.IMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.ISIMAGE;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STATISTICS;
 import static com.example.jatcool.zno_on_math.constants.SharedPreferencesConstants.STUDENT;
@@ -64,7 +63,7 @@ public class TeachrStudentStatistic extends AppCompatActivity {
             Glide.with(this).load(firebaseStorage.getReference("/images"+img)).into(studImg);
         }
         tvFname.setText(student.getFathername());
-        tvName.setText(student.getFathername());
+        tvName.setText(student.getFirstname());
         tvLastName.setText(student.getLastname());
         tvGroup.setText(student.getGroup());
         SharedPreferences s = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);

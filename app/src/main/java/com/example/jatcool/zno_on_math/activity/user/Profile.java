@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.bumptech.glide.Glide;
@@ -29,9 +30,9 @@ import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
-import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -55,7 +56,9 @@ public class Profile extends AppCompatActivity {
     Button save_btn, cancel_btn;
     ProgressBar pr;
     String token;
+    AlertDialog dialog;
     FirebaseStorage storage;
+    Button change_password_btn;
     Bitmap bitmap = null;
     User user;
     List<Statistics> mStatisticsWrappers;
@@ -76,6 +79,7 @@ public class Profile extends AppCompatActivity {
         GetSudentData();
         img = findViewById(R.id.profileImage);
         etFartherName = findViewById(R.id.edFname);
+        change_password_btn = findViewById(R.id.btn_password_change_pr);
         etFirstname = findViewById(R.id.edName);
         etLastname = findViewById(R.id.edLastName);
         group = findViewById(R.id.tvGroup);
@@ -83,6 +87,14 @@ public class Profile extends AppCompatActivity {
         pr = findViewById(R.id.Timer);
         save_btn = findViewById(R.id.pr_save_btn);
         cancel_btn = findViewById(R.id.pr_cancel_btn);
+        change_password_btn.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        showAlertDialogButtonClicked();
+                    }
+                }
+        );
         img.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -120,6 +132,80 @@ public class Profile extends AppCompatActivity {
                 }
         );
 
+    }
+
+    public void showAlertDialogButtonClicked() {
+        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+        builder.setView(customLayout);
+        builder.setTitle("Зміна пароля");
+        builder.setCancelable(false);
+        Button accept = customLayout.findViewById(R.id.accept_password_change_btn);
+        Button cancel = customLayout.findViewById(R.id.cancel_password_change_btn);
+        final EditText newPassword = customLayout.findViewById(R.id.new_password_ed);
+        final EditText oldPassword = customLayout.findViewById(R.id.old_password_ed);
+        dialog = builder.create();
+        dialog.show();
+        accept.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if (!newPassword.getText().toString().equals("") && !oldPassword.getText().toString().equals("")) {
+                            JsonObject passwordObject = new JsonObject();
+                            passwordObject.addProperty("oldPassword", oldPassword.getText().toString());
+                            passwordObject.addProperty("newPassword", newPassword.getText().toString());
+                            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_wait, null);
+                            builder.setView(customLayout);
+                            dialog.hide();
+                            builder.setTitle("Запит до серверу");
+                            dialog = builder.create();
+                            dialog.show();
+                            NetworkService.getInstance()
+                                    .getJSONApi()
+                                    .changePassword(token, passwordObject)
+                                    .enqueue(new Callback<JsonObject>() {
+                                        @Override
+                                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                                            if (response.isSuccessful()) {
+
+                                            } else {
+//                                                String message = "";
+//                                                JsonObject messageObject = response.body();
+//                                                message = messageObject.getAsString();
+//
+//                                                Toast.makeText(Profile.this,message, Toast.LENGTH_SHORT)
+//                                                        .show();
+                                                final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+                                                builder.setView(customLayout);
+                                                dialog = builder.create();
+                                                dialog.show();
+                                            }
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                                            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+                                            builder.setView(customLayout);
+                                            dialog = builder.create();
+                                            dialog.show();
+                                        }
+                                    });
+                        } else {
+                            Toast.makeText(Profile.this, "Одне з полів порожне", Toast.LENGTH_SHORT)
+                                    .show();
+                        }
+                    }
+                }
+        );
+        cancel.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        dialog.dismiss();
+                    }
+                }
+        );
     }
 
     @Override
@@ -195,16 +281,17 @@ public class Profile extends AppCompatActivity {
                     @Override
                     public void onResponse(Call<User> call, Response<User> response) {
                         if (response.isSuccessful()) {
+                            User newUser = response.body();
                             SharedPreferences sharedPreferences = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), MODE_PRIVATE);
                             SharedPreferences.Editor editor = sharedPreferences.edit();
-                            editor.putString(FATHERNAME, user.getFathername());
-                            editor.putString(FIRSTNAME, user.getFirstname());
-                            editor.putString(LASTNAME, user.getLastname());
-                            editor.putString(IMAGE,user.getImage());
+                            editor.putString(FATHERNAME, newUser.getFathername());
+                            editor.putString(FIRSTNAME, newUser.getFirstname());
+                            editor.putString(LASTNAME, newUser.getLastname());
+                            editor.putString(IMAGE, newUser.getImage());
                             editor.commit();
-                            if(!user.getImage().isEmpty()) {
-                                Glide.with(Profile.this).load(storage.getReference("/images" + user.getImage())).into(img);
-                                editor.putString(IMAGE,user.getImage());
+                            if (!newUser.getImage().isEmpty()) {
+                                Glide.with(Profile.this).load(storage.getReference("/images" + newUser.getImage())).into(img);
+                                editor.putString(IMAGE, newUser.getImage());
                             }
                             Toast.makeText(Profile.this, PROFILE_SUCCESS_CHANGE, Toast.LENGTH_SHORT)
                                     .show();

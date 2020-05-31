@@ -10,6 +10,7 @@ import com.example.jatcool.zno_on_math.entity.dbEntity.DBResultQuestion;
 import com.example.jatcool.zno_on_math.entity.wrapper.StatisticsWrapper;
 import com.example.jatcool.zno_on_math.entity.wrapper.TestWrapper;
 import com.example.jatcool.zno_on_math.util.MailCheck;
+import com.google.gson.JsonObject;
 
 import java.util.List;
 
@@ -102,4 +103,7 @@ public interface ZnoApi {
 
     @GET("/api/profile/verifyTeacher")
     Call<String> verifyTeacher(@Header("auth-token") String token);
+
+    @PUT("/api/profile/changePassword")
+    Call<JsonObject> changePassword(@Header("auth-token") String token, @Body Object passwordObject);
 }
