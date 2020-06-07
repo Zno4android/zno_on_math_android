@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -101,6 +102,30 @@
                 android:orientation="vertical">
 
             </LinearLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal"
+            android:padding="5dp">
+
+            <ImageButton
+                android:id="@+id/addFilesButton"
+                android:layout_width="52dp"
+                android:layout_height="38dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginRight="10dp"
+                android:layout_marginBottom="10dp"
+                android:adjustViewBounds="true"
+                android:background="@color/trans"
+                android:scaleType="fitCenter"
+                app:srcCompat="@mipmap/clip" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/addTheotyListOfFiles"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
         </LinearLayout>
 
         <Button

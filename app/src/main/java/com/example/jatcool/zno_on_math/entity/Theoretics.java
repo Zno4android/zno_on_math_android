@@ -21,17 +21,29 @@ public class Theoretics extends Entity {
     @SerializedName("tests")
     @Expose
     private List<Test> tests;
+    @SerializedName("files")
+    @Expose
+    private List<String> files;
 
     public Theoretics() {
     }
 
-    public Theoretics(String id, String theme, String text, String name, String image, List<Test> tests) {
+    public Theoretics(String id, String theme, String text, String name, String image, List<Test> tests, List<String> files) {
         this.setId(id);
         this.theme = theme;
         this.text = text;
         this.tests = tests;
         this.name = name;
         this.image = image;
+        this.files = files;
+    }
+
+    public List<String> getFiles() {
+        return files;
+    }
+
+    public void setFiles(List<String> files) {
+        this.files = files;
     }
 
     public String getImage() {

@@ -6,6 +6,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -34,6 +35,10 @@ import com.google.firebase.storage.UploadTask;
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
 import java.util.List;
 
 import retrofit2.Call;
@@ -55,7 +60,13 @@ public class Profile extends AppCompatActivity {
     TextView group;
     Button save_btn, cancel_btn;
     ProgressBar pr;
+    AlertDialog.Builder builder;
     String token;
+    EditText newPassword;
+    EditText oldPassword;
+    Button accept;
+    Button cancel;
+    View customLayout;
     AlertDialog dialog;
     FirebaseStorage storage;
     Button change_password_btn;
@@ -135,69 +146,17 @@ public class Profile extends AppCompatActivity {
     }
 
     public void showAlertDialogButtonClicked() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+        builder = new AlertDialog.Builder(this);
+        customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
         builder.setView(customLayout);
         builder.setTitle("Зміна пароля");
         builder.setCancelable(false);
-        Button accept = customLayout.findViewById(R.id.accept_password_change_btn);
-        Button cancel = customLayout.findViewById(R.id.cancel_password_change_btn);
-        final EditText newPassword = customLayout.findViewById(R.id.new_password_ed);
-        final EditText oldPassword = customLayout.findViewById(R.id.old_password_ed);
+        accept = customLayout.findViewById(R.id.accept_password_change_btn);
+        cancel = customLayout.findViewById(R.id.cancel_password_change_btn);
+        newPassword = customLayout.findViewById(R.id.new_password_ed);
+        oldPassword = customLayout.findViewById(R.id.old_password_ed);
         dialog = builder.create();
         dialog.show();
-        accept.setOnClickListener(
-                new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-                        if (!newPassword.getText().toString().equals("") && !oldPassword.getText().toString().equals("")) {
-                            JsonObject passwordObject = new JsonObject();
-                            passwordObject.addProperty("oldPassword", oldPassword.getText().toString());
-                            passwordObject.addProperty("newPassword", newPassword.getText().toString());
-                            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_wait, null);
-                            builder.setView(customLayout);
-                            dialog.hide();
-                            builder.setTitle("Запит до серверу");
-                            dialog = builder.create();
-                            dialog.show();
-                            NetworkService.getInstance()
-                                    .getJSONApi()
-                                    .changePassword(token, passwordObject)
-                                    .enqueue(new Callback<JsonObject>() {
-                                        @Override
-                                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                                            if (response.isSuccessful()) {
-
-                                            } else {
-//                                                String message = "";
-//                                                JsonObject messageObject = response.body();
-//                                                message = messageObject.getAsString();
-//
-//                                                Toast.makeText(Profile.this,message, Toast.LENGTH_SHORT)
-//                                                        .show();
-                                                final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
-                                                builder.setView(customLayout);
-                                                dialog = builder.create();
-                                                dialog.show();
-                                            }
-
-                                        }
-
-                                        @Override
-                                        public void onFailure(Call<JsonObject> call, Throwable t) {
-                                            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
-                                            builder.setView(customLayout);
-                                            dialog = builder.create();
-                                            dialog.show();
-                                        }
-                                    });
-                        } else {
-                            Toast.makeText(Profile.this, "Одне з полів порожне", Toast.LENGTH_SHORT)
-                                    .show();
-                        }
-                    }
-                }
-        );
         cancel.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
@@ -206,6 +165,86 @@ public class Profile extends AppCompatActivity {
                     }
                 }
         );
+
+        accept.setOnClickListener(
+                new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        changePassword();
+                    }
+                }
+        );
+    }
+
+    private void changePassword() {
+        if (!newPassword.getText().toString().equals("") && !oldPassword.getText().toString().equals("")) {
+            JsonObject passwordObject = new JsonObject();
+            passwordObject.addProperty("oldPassword", oldPassword.getText().toString());
+            passwordObject.addProperty("newPassword", newPassword.getText().toString());
+            View waitLayout = getLayoutInflater().inflate(R.layout.dialog_wait, null);
+            builder.setView(waitLayout);
+            dialog.hide();
+            builder.setTitle("Запит до серверу");
+            dialog = builder.create();
+            dialog.show();
+            NetworkService.getInstance()
+                    .getJSONApi()
+                    .changePassword(token, passwordObject)
+                    .enqueue(new Callback<JsonObject>() {
+                        @Override
+                        public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
+                            String message = "";
+                            JSONObject object = null;
+                            if (response.isSuccessful()) {
+                                dialog.dismiss();
+                                try {
+                                    object = new JSONObject(response.body().toString());
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    Toast.makeText(Profile.this, object.getString("message"), Toast.LENGTH_LONG)
+                                            .show();
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                            } else {
+                                try {
+                                    object = new JSONObject(response.errorBody().string());
+
+                                } catch (IOException | JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                try {
+                                    message = object.getString("oldPassword") == null ? object.getString("newPassword") : object.getString("oldPassword");
+                                } catch (JSONException e) {
+                                    e.printStackTrace();
+                                }
+                                Toast.makeText(Profile.this, message, Toast.LENGTH_SHORT)
+                                        .show();
+                                if (customLayout.getParent() != null) {
+                                    ((ViewGroup) customLayout.getParent()).removeAllViews();
+                                }
+                                dialog.dismiss();
+                                builder.setView(customLayout);
+                                dialog = builder.create();
+                                dialog.show();
+                            }
+
+                        }
+
+                        @Override
+                        public void onFailure(Call<JsonObject> call, Throwable t) {
+                            final View customLayout = getLayoutInflater().inflate(R.layout.dialog_reset_password, null);
+                            builder.setView(customLayout);
+                            dialog = builder.create();
+                            dialog.show();
+                        }
+                    });
+        } else {
+            Toast.makeText(Profile.this, "Одне з полів порожне", Toast.LENGTH_SHORT)
+                    .show();
+        }
     }
 
     @Override

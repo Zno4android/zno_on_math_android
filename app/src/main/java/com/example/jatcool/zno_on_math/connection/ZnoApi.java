@@ -106,4 +106,10 @@ public interface ZnoApi {
 
     @PUT("/api/profile/changePassword")
     Call<JsonObject> changePassword(@Header("auth-token") String token, @Body Object passwordObject);
+
+    @POST("api/profile/forgotPassword")
+    Call<JsonObject> forgotPassword(@Body JsonObject mail);
+
+    @POST("api/profile/resetPassword")
+    Call<JsonObject> resetPassword(@Body JsonObject passwordObject);
 }

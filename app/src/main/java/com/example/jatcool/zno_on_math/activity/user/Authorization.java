@@ -106,6 +106,10 @@ public class Authorization extends AppCompatActivity {
 
     }
 
+    public void forgotPassword(View view) {
+        startActivity(new Intent(this, ForgotPassword.class));
+    }
+
     public void reg(View view) {
         startActivity(new Intent(this, Registration.class));
     }
