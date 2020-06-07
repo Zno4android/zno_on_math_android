@@ -5,6 +5,13 @@
 
     <Row>
         <Key
+            android:codes="0"
+            android:horizontalGap="4%p"
+            android:keyLabel="Вставити формулу" />
+    </Row>
+
+    <Row>
+        <Key
             android:codes="1"
             android:horizontalGap="4%p"
             android:keyLabel="^" />

@@ -153,29 +153,31 @@ public class Registration extends AppCompatActivity {
         userBean.setOt(ot);
         userBean.setStatus(Status.Student);
 
-        if (isEmail.isEmail()) {
-            user = userBean.createUser();
-            NetworkService.getInstance()
-                    .getJSONApi()
-                    .CreateUsers(user)
-                    .enqueue(new Callback<User>() {
-                        @Override
-                        public void onResponse(Call<User> call, Response<User> response) {
-                            Toast.makeText(getApplicationContext(), REGISTRATION_EMAIL_SUCCESS_REGISTRATION, Toast.LENGTH_LONG)
-                                    .show();
+        if (validationData(userBean)) {
+            if (isEmail.isEmail()) {
+                user = userBean.createUser();
+                NetworkService.getInstance()
+                        .getJSONApi()
+                        .CreateUsers(user)
+                        .enqueue(new Callback<User>() {
+                            @Override
+                            public void onResponse(Call<User> call, Response<User> response) {
+                                Toast.makeText(getApplicationContext(), REGISTRATION_EMAIL_SUCCESS_REGISTRATION, Toast.LENGTH_LONG)
+                                        .show();
 
-                            finish();
-                        }
+                                finish();
+                            }
 
-                        @Override
-                        public void onFailure(Call<User> call, Throwable t) {
-                            Toast.makeText(getApplicationContext(), REGISTRATION_CAN_NOT_REGISTRATION, Toast.LENGTH_LONG)
-                                    .show();
-                        }
-                    });
-        } else
-            Toast.makeText(Registration.this, REGISTRATION_EMAIL_ALREADY_EXIST, Toast.LENGTH_LONG)
-                    .show();
+                            @Override
+                            public void onFailure(Call<User> call, Throwable t) {
+                                Toast.makeText(getApplicationContext(), REGISTRATION_CAN_NOT_REGISTRATION, Toast.LENGTH_LONG)
+                                        .show();
+                            }
+                        });
+            } else
+                Toast.makeText(Registration.this, REGISTRATION_EMAIL_ALREADY_EXIST, Toast.LENGTH_LONG)
+                        .show();
+        }
     }
 
     private boolean checkValidEmail(String str) {

@@ -34,6 +34,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -267,7 +268,7 @@ public class Tests extends AppCompatActivity {
     private void loadQuestionChooseAnswer(Question question) {
         for (int i = 0; i < allEds.size(); i++) {
             String variant = question.getVariants().get(i);
-            ((TextView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText(variant);
+            ((MathView) allEds.get(i).findViewById(R.id.tv_choose_answer)).setText(variant);
         }
     }
 
@@ -281,14 +282,14 @@ public class Tests extends AppCompatActivity {
             String[] variantArr = variantAndAnswer.split(DIVIDER_VARIANTS_CONFORMITY);
             String variant = variantArr[0];
             String answer = variantArr[1];
-            ((TextView) view.findViewById(R.id.tv_first_part)).setText(variant);
-            ((TextView) view.findViewById(R.id.tv_second_part)).setText(answer);
+            ((MathView) view.findViewById(R.id.tv_first_part)).setText(variant);
+            ((MathView) view.findViewById(R.id.tv_second_part)).setText(answer);
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
             String variant = variants.get(i);
-            ((TextView) view.findViewById(R.id.tv_answer_part)).setText(variant);
+            ((MathView) view.findViewById(R.id.tv_answer_part)).setText(variant);
         }
     }
 

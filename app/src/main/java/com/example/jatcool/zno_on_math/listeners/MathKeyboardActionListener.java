@@ -7,6 +7,9 @@ import android.widget.EditText;
 public class MathKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
     private EditText editText;
 
+    public MathKeyboardActionListener() {
+    }
+
     public MathKeyboardActionListener(EditText editText) {
         this.editText = editText;
     }
@@ -22,12 +25,16 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
         String pasteText = " ";
 
         switch (primaryCode) {
+            case 0: {
+                pasteText = "$$Введіть формулу$$";
+                break;
+            }
             case 1: {
                 pasteText = "^{введіть ступінь}";
                 break;
             }
             case 2: {
-                pasteText = "^{введіть індекс}";
+                pasteText = "_{введіть індекс}";
                 break;
             }
             case 3: {
@@ -140,5 +147,13 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
 
     @Override
     public void swipeUp() {
+    }
+
+    public EditText getEditText() {
+        return editText;
+    }
+
+    public void setEditText(EditText editText) {
+        this.editText = editText;
     }
 }
