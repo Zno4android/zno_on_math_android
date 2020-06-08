@@ -83,6 +83,7 @@
                 android:id="@+id/text_question_math"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/White"
                 auto:engine="MathJax"></io.github.kexanie.library.MathView>
 
             <EditText

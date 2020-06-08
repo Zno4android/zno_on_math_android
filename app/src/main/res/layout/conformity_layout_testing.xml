@@ -9,13 +9,13 @@
         android:id="@+id/tv_first_part"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:textColor="@color/White"
+        android:background="@color/White"
         android:layout_weight="1"
         auto:engine="MathJax"></io.github.kexanie.library.MathView>
 
     <Spinner
         android:id="@+id/spinner_variants"
-        style="@android:style/Widget.Holo.Light.Spinner"
+        style="@android:style/Widget.Holo.Spinner"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_weight="1"

@@ -1,11 +1,17 @@
 package com.example.jatcool.zno_on_math.activity.admin;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.inputmethodservice.Keyboard;
+import android.inputmethodservice.KeyboardView;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -28,6 +34,7 @@ import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.constants.URLConstants;
 import com.example.jatcool.zno_on_math.entity.Theme;
 import com.example.jatcool.zno_on_math.entity.Theoretics;
+import com.example.jatcool.zno_on_math.listeners.MathKeyboardActionListener;
 import com.google.firebase.FirebaseApp;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageMetadata;
@@ -38,7 +45,10 @@ import com.google.gson.JsonObject;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -56,6 +66,8 @@ public class EditTheory extends AppCompatActivity {
     RecyclerView ediFileList;
     List<String> files = new ArrayList<>();
     List<String> allPath = new ArrayList<>();
+    MathView textQuestionMathView;
+    KeyboardView mKeyboardView;
     FirebaseStorage storage;
     ImageButton addFile;
     String token;
@@ -69,8 +81,21 @@ public class EditTheory extends AppCompatActivity {
         storage = FirebaseStorage.getInstance(URLConstants.FIREBASE_URL);
         addFile = findViewById(R.id.editFilesButton);
         ediFileList = findViewById(R.id.editTheotyListOfFiles);
+        textQuestionMathView = findViewById(R.id.text_question_math);
+
+        Keyboard mKeyboard = new Keyboard(this, R.xml.keyboard);
+
+        mKeyboardView = findViewById(R.id.keyboardview);
+
+        mKeyboardView.setKeyboard(mKeyboard);
+
+        mKeyboardView.setPreviewEnabled(false);
+
+        mKeyboardView.setOnKeyboardActionListener(new MathKeyboardActionListener(theoryTextEdit));
+
         LinearLayoutManager horizontal = new LinearLayoutManager(this, LinearLayoutManager.HORIZONTAL, false);
         ediFileList.setLayoutManager(horizontal);
+
         SharedPreferences s = getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""),MODE_PRIVATE);
         token = s.getString(TOKEN, "");
         final Theoretics theory = new Gson().fromJson(js, Theoretics.class);
@@ -80,9 +105,46 @@ public class EditTheory extends AppCompatActivity {
         themeSpinner = findViewById(R.id.editTheorySpiner);
         editTheoryEdit.setText(theory.getName());
         theoryTextEdit.setText(theory.getText());
+
         FilesAdapter adapter = new FilesAdapter(this, theory.getFiles());
         files = theory.getFiles();
         ediFileList.setAdapter(adapter);
+
+        theoryTextEdit.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View v, boolean hasFocus) {
+                if (hasFocus) {
+                    openKeyboard(v);
+                } else {
+                    closeKeyboard(v);
+                }
+            }
+        });
+
+        theoryTextEdit.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                String text = theoryTextEdit.getText().toString();
+                StringBuilder mathText = new StringBuilder();
+                Pattern pattern = Pattern.compile("\\$\\$.*\\$\\$");
+                Matcher matcher = pattern.matcher(text);
+                while (matcher.find()) {
+                    mathText.append(text.substring(matcher.start(), matcher.end()));
+                }
+                textQuestionMathView.setText(mathText.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTheme(token)
@@ -123,7 +185,7 @@ public class EditTheory extends AppCompatActivity {
                     @Override
                     public void onClick(View v) {
                         if(!editTheoryEdit.getText().toString().equals("") && !theoryTextEdit.getText().toString().equals("")){
-                            theory.setText(theoryTextEdit.getText().toString());
+                            theory.setText(theoryTextEdit.getText().toString().replace("\\", "\\\\"));
                             theory.setName(editTheoryEdit.getText().toString());
                             theory.setTheme(themeSpinner.getSelectedItem().toString());
                             AlertDialog.Builder waiterBuild = new AlertDialog.Builder(EditTheory.this);
@@ -215,5 +277,16 @@ public class EditTheory extends AppCompatActivity {
                 }
             }
         }
+    }
+
+    public void openKeyboard(View v) {
+        mKeyboardView.setVisibility(View.VISIBLE);
+        mKeyboardView.setEnabled(true);
+        if (v != null)
+            ((InputMethodManager) getSystemService(Activity.INPUT_METHOD_SERVICE)).hideSoftInputFromWindow(v.getWindowToken(), 0);
+    }
+
+    public void closeKeyboard(View v) {
+        mKeyboardView.setVisibility(View.GONE);
     }
 }

@@ -94,6 +94,7 @@
 
             <io.github.kexanie.library.MathView
                 android:id="@+id/text_question_math"
+                android:background="@color/White"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 auto:engine="MathJax"></io.github.kexanie.library.MathView>
@@ -149,6 +150,7 @@
                 android:id="@+id/variants_mathview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:background="@color/White"
                 auto:engine="MathJax"></io.github.kexanie.library.MathView>
 
             <LinearLayout

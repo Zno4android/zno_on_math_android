@@ -13,5 +13,6 @@
         android:id="@+id/tv_choose_answer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:background="@color/White"
         auto:engine="MathJax"></io.github.kexanie.library.MathView>
 </LinearLayout>

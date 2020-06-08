@@ -116,7 +116,6 @@ public class AddTest extends AppCompatActivity {
         mKeyboardView = findViewById(R.id.keyboardview);
         mKeyboardViewVariants = findViewById(R.id.keyboardview_variants);
 
-
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardViewVariants.setKeyboard(mKeyboard);
 
@@ -166,7 +165,6 @@ public class AddTest extends AppCompatActivity {
                 } else {
                     closeKeyboard(v);
                 }
-
             }
         });
 
@@ -399,7 +397,7 @@ public class AddTest extends AppCompatActivity {
             variants.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString());
 
             if (((CheckBox) view.findViewById(R.id.check_box_choose_answer)).isChecked()) {
-                correct.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString());
+                correct.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString().replace("\\", "\\\\"));
             }
         }
     }
@@ -408,22 +406,22 @@ public class AddTest extends AppCompatActivity {
         for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
             View view = allEds.get(i);
             StringBuilder variantBuilder = new StringBuilder();
-            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_first_part)).getText().toString());
+            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_first_part)).getText().toString().replace("\\", "\\\\"));
             variantBuilder.append(DIVIDER_VARIANTS_CONFORMITY);
-            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_second_part)).getText().toString());
+            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_second_part)).getText().toString().replace("\\", "\\\\"));
             variants.add(variantBuilder.toString());
             correct.add(((Spinner) view.findViewById(R.id.spinner_variants)).getSelectedItem().toString());
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            variants.add(((EditText) view.findViewById(R.id.edit_text_answer_part)).getText().toString());
+            variants.add(((EditText) view.findViewById(R.id.edit_text_answer_part)).getText().toString().replace("\\", "\\\\"));
         }
     }
 
     private void setQuestionVariantsWriteAnswer(List<String> variants, List<String> correct) {
         View view = allEds.get(0);
-        correct.add(((EditText) view.findViewById(R.id.edit_text_write_answer)).getText().toString());
+        correct.add(((EditText) view.findViewById(R.id.edit_text_write_answer)).getText().toString().replace("\\", "\\\\"));
     }
 
     private void loadQuestion(int index) {
@@ -691,10 +689,6 @@ public class AddTest extends AppCompatActivity {
         allEds.clear();
         final View view = getLayoutInflater().inflate(R.layout.write_answer_layout, null);
         EditText textVariant = view.findViewById(R.id.edit_text_write_answer);
-
-        textVariant.setOnFocusChangeListener(focusChangeListener);
-
-        textVariant.addTextChangedListener(textWatcher);
 
         linearLayout.addView(view);
         allEds.add(view);

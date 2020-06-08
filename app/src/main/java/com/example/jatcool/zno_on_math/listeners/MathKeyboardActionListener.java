@@ -118,7 +118,7 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 23: {
-                pasteText = "\\begin(cases)Введіть систему рівняннь використовуючи \u21B5 для розділення\\end(cases)";
+                pasteText = "\\begin{cases}Введіть систему рівняннь використовуючи \u21B5 для розділення\\end{cases}";
                 break;
             }
             case 24: {
