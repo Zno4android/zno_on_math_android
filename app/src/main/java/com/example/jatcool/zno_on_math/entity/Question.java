@@ -3,6 +3,7 @@ package com.example.jatcool.zno_on_math.entity;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class Question extends Entity {
@@ -29,6 +30,7 @@ public class Question extends Entity {
     private Boolean result;
 
     public Question() {
+        images = new ArrayList<>();
     }
 
     public Question(String id, String theme, String type, String text, List<String> variants, List<String> correct) {

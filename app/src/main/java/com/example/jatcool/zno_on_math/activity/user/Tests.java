@@ -57,7 +57,7 @@ import static com.example.jatcool.zno_on_math.constants.SuccessMessageConstants.
 
 public class Tests extends AppCompatActivity {
     TextView tvTheme;
-    TextView tvText;
+    MathView tvText;
     Button btnSkip;
     Button btnNext;
     TestWrapper testWrapper;
@@ -224,7 +224,7 @@ public class Tests extends AppCompatActivity {
         for (View view : allEds) {
 
             if (((CheckBox) view.findViewById(R.id.check_box_choose_answer)).isChecked()) {
-                answer.add(((TextView) view.findViewById(R.id.tv_choose_answer)).getText().toString());
+                answer.add(((MathView) view.findViewById(R.id.tv_choose_answer)).getText());
             }
         }
     }
