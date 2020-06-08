@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:auto="http://schemas.android.com/apk/res-auto"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -78,14 +79,30 @@
             android:orientation="vertical"
             android:paddingBottom="15dp">
 
+            <io.github.kexanie.library.MathView
+                android:id="@+id/text_question_math"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                auto:engine="MathJax"></io.github.kexanie.library.MathView>
+
             <EditText
                 android:id="@+id/text_theory"
                 android:layout_width="match_parent"
-                android:paddingLeft="5dp"
+                android:paddingLeft="10dp"
                 android:paddingRight="5dp"
                 android:background="@drawable/edit_text_big"
                 android:layout_height="300dp"
                 android:gravity="top" />
+
+            <android.inputmethodservice.KeyboardView
+                android:id="@+id/keyboardview"
+                android:layout_width="fill_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:focusable="true"
+                android:focusableInTouchMode="true"
+                android:visibility="gone" />
         </LinearLayout>
 
 

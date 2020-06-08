@@ -111,20 +111,18 @@ public class AddTest extends AppCompatActivity {
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
 
-        // Create the Keyboard
         Keyboard mKeyboard = new Keyboard(this, R.xml.keyboard);
 
-        // Lookup the KeyboardView
         mKeyboardView = findViewById(R.id.keyboardview);
         mKeyboardViewVariants = findViewById(R.id.keyboardview_variants);
-        // Attach the keyboard to the view
+
+
         mKeyboardView.setKeyboard(mKeyboard);
         mKeyboardViewVariants.setKeyboard(mKeyboard);
 
-        // Do not show the preview balloons
-        //mKeyboardView.setPreviewEnabled(false);
+        mKeyboardView.setPreviewEnabled(false);
+        mKeyboardViewVariants.setPreviewEnabled(false);
 
-        // Install the key handler
         mKeyboardView.setOnKeyboardActionListener(new MathKeyboardActionListener(txtTextQuestion));
         variantsMathKeyboardActionListener = new MathKeyboardActionListener();
         mKeyboardViewVariants.setOnKeyboardActionListener(variantsMathKeyboardActionListener);

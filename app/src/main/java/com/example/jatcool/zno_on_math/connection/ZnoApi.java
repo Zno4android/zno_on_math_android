@@ -93,13 +93,13 @@ public interface ZnoApi {
     Call<String> updateTest(@Header("auth-token") String token, @Path("id") String id, @Body Test test);
 
     @DELETE("api/theory/delete/{id}")
-    Call<String> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
+    Call<JsonObject> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
 
     @POST("/api/tests/checkOwner/{id}")
     Call<String> checkTestOwner(@Header("auth-token") String token, @Path("id") String id);
 
     @PUT("api/theory/update/{id}")
-    Call<String> updateTheory(@Header("auth-token") String token, @Path("id") String id, @Body Theoretics theoretics);
+    Call<JsonObject> updateTheory(@Header("auth-token") String token, @Path("id") String id, @Body Theoretics theoretics);
 
     @GET("/api/profile/verifyTeacher")
     Call<String> verifyTeacher(@Header("auth-token") String token);

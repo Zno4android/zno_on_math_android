@@ -90,7 +90,7 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 16: {
-                pasteText = "\\ctan {введіть вираз}";
+                pasteText = "\\cot {введіть вираз}";
                 break;
             }
             case 17: {
@@ -106,8 +106,23 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 20: {
-                pasteText = "\\arcctan {введіть вираз}";
+                pasteText = "\\rm arccot {введіть вираз}";
                 break;
+            }
+            case 21: {
+                pasteText = "^\\circ";
+                break;
+            }
+            case 22: {
+                pasteText = "\\pi";
+                break;
+            }
+            case 23: {
+                pasteText = "\\begin(cases)Введіть систему рівняннь використовуючи \u21B5 для розділення\\end(cases)";
+                break;
+            }
+            case 24: {
+                pasteText = "\\";
             }
         }
 
