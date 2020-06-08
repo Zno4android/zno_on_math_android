@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -11,7 +12,9 @@ import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -73,7 +76,12 @@ public class AddTheory extends AppCompatActivity {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        Intent filesExpoler = new Intent(Intent.ACTION_PICK);
+                        Intent filesExpoler = new Intent(Intent.ACTION_OPEN_DOCUMENT);
+                        filesExpoler.setType("application/*");
+                        filesExpoler.addCategory(Intent.CATEGORY_OPENABLE);
+                        //String[] mimetypes = {"application/x-binary,application/octet-stream"};
+                        filesExpoler.setFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_PERSISTABLE_URI_PERMISSION);
+                        //filesExpoler.putExtra(Intent.EXTRA_MIME_TYPES, mimetypes);
                         startActivityForResult(filesExpoler, 1);
                     }
                 }
@@ -83,7 +91,6 @@ public class AddTheory extends AppCompatActivity {
         final String token = sharedPreferences.getString(TOKEN, "");
         Bundle values = getIntent().getExtras();
         final String theme = values.getString(THEME);
-
         tvThemeTheory.setText(theme);
 
         btnAddTheory.setOnClickListener(new View.OnClickListener() {
@@ -105,14 +112,13 @@ public class AddTheory extends AppCompatActivity {
                 theoretics.setTheme(theme);
                 theoretics.setFiles(files);
 
-                StorageMetadata metadata = new StorageMetadata.Builder()
-                        .setContentType(null)
-                        .build();
-
-                for (int i = 0; i < files.size(); i++) {
-                    UploadTask storageReference = storage.getReference().child(FILE_DIR + files.get(i)).putFile(Uri.fromFile(new File(allPath.get(i))), metadata);
-                }
-
+                AlertDialog.Builder waiterBuild = new AlertDialog.Builder(AddTheory.this);
+                View waitLayout = getLayoutInflater().inflate(R.layout.dialog_wait, null);
+                waiterBuild.setView(waitLayout);
+                waiterBuild.setTitle("Запит до серверу");
+                waiterBuild.setCancelable(false);
+                final AlertDialog waiter = waiterBuild.create();
+                waiter.show();
                 NetworkService.getInstance()
                         .getJSONApi()
                         .addTheory(token, theoretics)
@@ -120,9 +126,17 @@ public class AddTheory extends AppCompatActivity {
                             @Override
                             public void onResponse(Call<Theoretics> call, Response<Theoretics> response) {
                                 if (response.isSuccessful()) {
+                                    StorageMetadata metadata = new StorageMetadata.Builder()
+                                            .setContentType(null)
+                                            .build();
+
+                                    for (int i = 0; i < files.size(); i++) {
+                                        UploadTask storageReference = storage.getReference().child(FILE_DIR + files.get(i)).putFile(Uri.parse(allPath.get(i)), metadata);
+                                    }
+                                    waiter.dismiss();
                                     Toast.makeText(AddTheory.this, ADD_THEORY_SUCCESS_ADD_THEORY, Toast.LENGTH_LONG)
                                             .show();
-
+                                    finish();
                                 }
                             }
 
@@ -130,6 +144,7 @@ public class AddTheory extends AppCompatActivity {
                             public void onFailure(Call<Theoretics> call, Throwable t) {
                                 Toast.makeText(AddTheory.this, ADD_THEORY_CAN_NOT_ADD_THEORY, Toast.LENGTH_LONG)
                                         .show();
+                                waiter.dismiss();
                             }
                         });
             }
@@ -137,13 +152,40 @@ public class AddTheory extends AppCompatActivity {
     }
 
     @Override
+    public boolean onContextItemSelected(@NonNull MenuItem item) {
+        int position = item.getOrder();
+        switch (item.getItemId()) {
+            case 1: {
+                files.remove(position);
+                allPath.remove(position);
+                FilesAdapter adapter = new FilesAdapter(this, files);
+                filesList.setAdapter(adapter);
+                break;
+            }
+            default:
+                break;
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        Uri selectedFile = data.getData();
-        File f = new File(selectedFile.getPath());
-        allPath.add(selectedFile.getPath());
-        files.add(f.getName());
-        FilesAdapter adapter = new FilesAdapter(this, files);
-        filesList.setAdapter(adapter);
+        if (resultCode == RESULT_OK) {
+            super.onActivityResult(requestCode, resultCode, data);
+            Uri selectedFile = data.getData();
+            File f = new File(selectedFile.getPath());
+            try {
+                int a = Integer.parseInt(f.getName());
+                Toast.makeText(this, "Файл не може бути доданний", Toast.LENGTH_SHORT)
+                        .show();
+            } catch (Exception e) {
+                if (!allPath.contains(selectedFile + "")) {
+                    allPath.add(selectedFile + "");
+                    files.add(f.getName());
+                    FilesAdapter adapter = new FilesAdapter(this, files);
+                    filesList.setAdapter(adapter);
+                }
+            }
+        }
     }
 }

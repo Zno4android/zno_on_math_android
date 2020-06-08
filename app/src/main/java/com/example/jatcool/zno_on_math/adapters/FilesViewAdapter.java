@@ -1,7 +1,6 @@
 package com.example.jatcool.zno_on_math.adapters;
 
 import android.content.Context;
-import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -14,12 +13,12 @@ import com.example.jatcool.zno_on_math.R;
 
 import java.util.List;
 
-public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> {
+public class FilesViewAdapter extends RecyclerView.Adapter<FilesViewAdapter.ViewHolder> {
 
     private LayoutInflater inflater;
     private List<String> files;
 
-    public FilesAdapter(Context context, List<String> files) {
+    public FilesViewAdapter(Context context, List<String> files) {
         this.files = files;
         this.inflater = LayoutInflater.from(context);
     }
@@ -42,23 +41,12 @@ public class FilesAdapter extends RecyclerView.Adapter<FilesAdapter.ViewHolder> 
         return files.size();
     }
 
-    public class ViewHolder extends RecyclerView.ViewHolder implements View.OnCreateContextMenuListener {
+    public class ViewHolder extends RecyclerView.ViewHolder {
         final TextView name;
-        int position;
 
         ViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.textView32);
-            view.setOnCreateContextMenuListener(this);
-        }
-
-        @Override
-        public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-            contextMenu.add(0, 1, getAdapterPosition(), "Видалити");
-        }
-
-        public void setPosition(int position) {
-            this.position = position;
         }
     }
 
