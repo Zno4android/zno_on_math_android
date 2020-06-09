@@ -3,7 +3,29 @@
     android:keyWidth="15%p"
     android:keyHeight="15%p">
 
-    <Row>
+    <Row
+        android:keyHeight="60px"
+        android:verticalGap="10px">
+        <Key
+            android:codes="0"
+            android:horizontalGap="4%p"
+            android:keyWidth="45%p"
+            android:keyLabel="Вставити формулу" />
+        <Key
+            android:codes="23"
+            android:horizontalGap="4%p"
+            android:keyWidth="45%p"
+            android:keyLabel="Вставити систему" />
+        <Key
+            android:codes="24"
+            android:horizontalGap="4%p"
+            android:keyWidth="10%p"
+            android:keyLabel="\u21B5" />
+    </Row>
+
+    <Row
+        android:keyHeight="60px"
+        android:verticalGap="10px">
         <Key
             android:codes="1"
             android:horizontalGap="4%p"
@@ -11,7 +33,7 @@
         <Key
             android:codes="2"
             android:horizontalGap="4%p"
-            android:keyLabel="_" />
+            android:keyLabel="x\u2080" />
         <Key
             android:codes="3"
             android:horizontalGap="4%p"
@@ -27,14 +49,16 @@
         <Key
             android:codes="6"
             android:horizontalGap="4%p"
-            android:keyLabel="a/b" />
+            android:keyLabel="/" />
+
+    </Row>
+    <Row
+        android:keyHeight="60px"
+        android:verticalGap="10px">
         <Key
             android:codes="7"
             android:horizontalGap="4%p"
             android:keyLabel="\u221A" />
-
-    </Row>
-    <Row>
         <Key
             android:codes="8"
             android:horizontalGap="4%p"
@@ -55,11 +79,27 @@
             android:codes="12"
             android:horizontalGap="4%p"
             android:keyLabel="log" />
-
-
     </Row>
 
-    <Row>
+    <Row
+        android:keyHeight="60px"
+        android:verticalGap="10px">
+        <Key
+            android:codes="25"
+            android:horizontalGap="4%p"
+            android:keyLabel="\u20D7" />
+        <Key
+            android:codes="26"
+            android:horizontalGap="4%p"
+            android:keyLabel="\u22FD" />
+        <Key
+            android:codes="21"
+            android:horizontalGap="4%p"
+            android:keyLabel="\u00B0" />
+        <Key
+            android:codes="22"
+            android:horizontalGap="4%p"
+            android:keyLabel="\u03C0" />
         <Key
             android:codes="13"
             android:horizontalGap="4%p"
@@ -68,6 +108,12 @@
             android:codes="14"
             android:horizontalGap="4%p"
             android:keyLabel="cos" />
+    </Row>
+
+    <Row
+        android:keyHeight="60px"
+        android:verticalGap="10px">
+
         <Key
             android:codes="15"
             android:horizontalGap="4%p"
@@ -76,9 +122,6 @@
             android:codes="16"
             android:horizontalGap="4%p"
             android:keyLabel="ctg" />
-    </Row>
-
-    <Row>
         <Key
             android:codes="17"
             android:horizontalGap="4%p"
@@ -98,15 +141,4 @@
 
     </Row>
 
-    <Row>
-        <Key
-            android:codes="-1"
-            android:horizontalGap="4%p"
-            android:keyWidth="34%p" />
-        <Key
-            android:codes="100"
-            android:horizontalGap="4%p"
-            android:keyWidth="53%p"
-            android:keyLabel="Enter" />
-    </Row>
 </Keyboard>

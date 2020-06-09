@@ -34,6 +34,8 @@ import com.example.jatcool.zno_on_math.listeners.MathKeyboardActionListener;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import io.github.kexanie.library.MathView;
 import retrofit2.Call;
@@ -68,9 +70,13 @@ public class AddTest extends AppCompatActivity {
     Button btnAddTest;
     EditText txtTextQuestion;
     MathView textQuestionMathView;
+    MathView variantsMathView;
     Spinner spinnerThemeQuestion;
     Spinner spinnerType;
     KeyboardView mKeyboardView;
+    KeyboardView mKeyboardViewVariants;
+
+    MathKeyboardActionListener variantsMathKeyboardActionListener;
 
     String token;
     String testId;
@@ -96,6 +102,7 @@ public class AddTest extends AppCompatActivity {
         btnAddTest = findViewById(R.id.add_test);
         txtTextQuestion = findViewById(R.id.text_question);
         textQuestionMathView = findViewById(R.id.text_question_math);
+        variantsMathView = findViewById(R.id.variants_mathview);
         spinnerThemeQuestion = findViewById(R.id.theme_test);
         count_paper = findViewById(R.id.count_papers_test);
         count_paper.setText("1/1");
@@ -104,19 +111,20 @@ public class AddTest extends AppCompatActivity {
         spinnerType.setAdapter(adapter);
         btnAddTest.setText(ADD_TEST_TEXT);
 
-        // Create the Keyboard
         Keyboard mKeyboard = new Keyboard(this, R.xml.keyboard);
 
-        // Lookup the KeyboardView
         mKeyboardView = findViewById(R.id.keyboardview);
-        // Attach the keyboard to the view
+        mKeyboardViewVariants = findViewById(R.id.keyboardview_variants);
+
         mKeyboardView.setKeyboard(mKeyboard);
+        mKeyboardViewVariants.setKeyboard(mKeyboard);
 
-        // Do not show the preview balloons
-        //mKeyboardView.setPreviewEnabled(false);
+        mKeyboardView.setPreviewEnabled(false);
+        mKeyboardViewVariants.setPreviewEnabled(false);
 
-        // Install the key handler
         mKeyboardView.setOnKeyboardActionListener(new MathKeyboardActionListener(txtTextQuestion));
+        variantsMathKeyboardActionListener = new MathKeyboardActionListener();
+        mKeyboardViewVariants.setOnKeyboardActionListener(variantsMathKeyboardActionListener);
 
         selectedListener = new AdapterView.OnItemSelectedListener() {
             @Override
@@ -157,7 +165,6 @@ public class AddTest extends AppCompatActivity {
                 } else {
                     closeKeyboard(v);
                 }
-
             }
         });
 
@@ -169,7 +176,14 @@ public class AddTest extends AppCompatActivity {
 
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
-                textQuestionMathView.setText("$$" + txtTextQuestion.getText().toString() + "$$");
+                String text = txtTextQuestion.getText().toString();
+                StringBuilder mathText = new StringBuilder();
+                Pattern pattern = Pattern.compile("\\$\\$.*\\$\\$");
+                Matcher matcher = pattern.matcher(text);
+                while (matcher.find()) {
+                    mathText.append(text.substring(matcher.start(), matcher.end()));
+                }
+                textQuestionMathView.setText(mathText.toString());
             }
 
             @Override
@@ -366,42 +380,24 @@ public class AddTest extends AppCompatActivity {
                 });
     }
 
-    private void setQuestion() {
-        String item = spinnerType.getSelectedItem().toString();
-        List<String> variants = new ArrayList<>();
-        List<String> correct = new ArrayList<>();
-        Question question = new Question();
-
-        if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
-            setQuestionVariantsWriteAnswer(variants, correct);
-        } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
-            setQuestionVariantsChooseAnswer(variants, correct);
-        } else if (item.equals(QuestionType.CONFORMITY.getName())) {
-            setQuestionVariantsConformity(variants, correct);
+    View.OnFocusChangeListener focusChangeListener = new View.OnFocusChangeListener() {
+        @Override
+        public void onFocusChange(View v, boolean hasFocus) {
+            if (hasFocus) {
+                mKeyboardViewVariants.setVisibility(View.VISIBLE);
+                variantsMathKeyboardActionListener.setEditText((EditText) v);
+            } else {
+                mKeyboardViewVariants.setVisibility(View.GONE);
+            }
         }
-
-        String textQuestion = txtTextQuestion.getText().toString();
-        int type = spinnerType.getSelectedItemPosition();
-        String questionType = QuestionType.values()[type].name().toLowerCase();
-
-        question.setType(questionType);
-        question.setVariants(variants);
-        question.setCorrect(correct);
-        question.setText(textQuestion);
-
-        if (currentQuestion > questions.size() - 1) {
-            questions.add(question);
-        } else {
-            questions.set(currentQuestion, question);
-        }
-    }
+    };
 
     private void setQuestionVariantsChooseAnswer(List<String> variants, List<String> correct) {
         for (View view : allEds) {
             variants.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString());
 
             if (((CheckBox) view.findViewById(R.id.check_box_choose_answer)).isChecked()) {
-                correct.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString());
+                correct.add(((EditText) view.findViewById(R.id.edit_text_choose_answer)).getText().toString().replace("\\", "\\\\"));
             }
         }
     }
@@ -410,22 +406,22 @@ public class AddTest extends AppCompatActivity {
         for (int i = 0; i < COUNT_VARIANTS_CONFORMITY; i++) {
             View view = allEds.get(i);
             StringBuilder variantBuilder = new StringBuilder();
-            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_first_part)).getText().toString());
+            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_first_part)).getText().toString().replace("\\", "\\\\"));
             variantBuilder.append(DIVIDER_VARIANTS_CONFORMITY);
-            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_second_part)).getText().toString());
+            variantBuilder.append(((EditText) view.findViewById(R.id.edit_text_second_part)).getText().toString().replace("\\", "\\\\"));
             variants.add(variantBuilder.toString());
             correct.add(((Spinner) view.findViewById(R.id.spinner_variants)).getSelectedItem().toString());
         }
 
         for (int i = COUNT_VARIANTS_CONFORMITY; i < COUNT_ANSWERS_CONFORMITY; i++) {
             View view = allEds.get(i);
-            variants.add(((EditText) view.findViewById(R.id.edit_text_answer_part)).getText().toString());
+            variants.add(((EditText) view.findViewById(R.id.edit_text_answer_part)).getText().toString().replace("\\", "\\\\"));
         }
     }
 
     private void setQuestionVariantsWriteAnswer(List<String> variants, List<String> correct) {
         View view = allEds.get(0);
-        correct.add(((EditText) view.findViewById(R.id.edit_text_write_answer)).getText().toString());
+        correct.add(((EditText) view.findViewById(R.id.edit_text_write_answer)).getText().toString().replace("\\", "\\\\"));
     }
 
     private void loadQuestion(int index) {
@@ -531,36 +527,58 @@ public class AddTest extends AppCompatActivity {
         ((EditText) view.findViewById(R.id.edit_text_write_answer)).setText("");
     }
 
-    private void addVariants(int count) {
-        linearLayout.removeAllViews();
-        allEds.clear();
-        for (int i = 0; i < count; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
-            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
-            param.topMargin = 20;
-            linearLayout.addView(view, param);
-            allEds.add(view);
-        }
-    }
+    TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
-    private void addConformity(int variant, int answer) {
-        linearLayout.removeAllViews();
-        allEds.clear();
-
-        for (int i = 0; i < variant; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.conformity_layout, null);
-            Spinner spinner = view.findViewById(R.id.spinner_variants);
-            String[] answers = setNumberArrayAnswer(answer);
-            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, answers);
-            spinner.setAdapter(adapter);
-            linearLayout.addView(view);
-            allEds.add(view);
         }
 
-        for (int i = 0; i < answer - variant; i++) {
-            final View view = getLayoutInflater().inflate(R.layout.conformity_layout_second, null);
-            linearLayout.addView(view);
-            allEds.add(view);
+        @Override
+        public void onTextChanged(CharSequence s, int start, int before, int count) {
+            String text = variantsMathKeyboardActionListener.getEditText().getText().toString();
+            StringBuilder mathText = new StringBuilder();
+            Pattern pattern = Pattern.compile("\\$\\$.*\\$\\$");
+            Matcher matcher = pattern.matcher(text);
+            while (matcher.find()) {
+                mathText.append(text.substring(matcher.start(), matcher.end()));
+            }
+
+            variantsMathView.setText(mathText.toString());
+        }
+
+        @Override
+        public void afterTextChanged(Editable s) {
+
+        }
+    };
+
+    private void setQuestion() {
+        String item = spinnerType.getSelectedItem().toString();
+        List<String> variants = new ArrayList<>();
+        List<String> correct = new ArrayList<>();
+        Question question = new Question();
+
+        if (item.equals(QuestionType.WRITE_ANSWER.getName())) {
+            setQuestionVariantsWriteAnswer(variants, correct);
+        } else if (item.equals(QuestionType.CHOOSE_ANSWER.getName())) {
+            setQuestionVariantsChooseAnswer(variants, correct);
+        } else if (item.equals(QuestionType.CONFORMITY.getName())) {
+            setQuestionVariantsConformity(variants, correct);
+        }
+
+        String textQuestion = txtTextQuestion.getText().toString().replace("\\", "\\\\");
+        int type = spinnerType.getSelectedItemPosition();
+        String questionType = QuestionType.values()[type].name().toLowerCase();
+
+        question.setType(questionType);
+        question.setVariants(variants);
+        question.setCorrect(correct);
+        question.setText(textQuestion);
+
+        if (currentQuestion > questions.size() - 1) {
+            questions.add(question);
+        } else {
+            questions.set(currentQuestion, question);
         }
     }
 
@@ -572,12 +590,23 @@ public class AddTest extends AppCompatActivity {
         return array;
     }
 
-    private void addWriteAnswer() {
+    private void addVariants(int count) {
         linearLayout.removeAllViews();
         allEds.clear();
-        final View view = getLayoutInflater().inflate(R.layout.write_answer_layout, null);
-        linearLayout.addView(view);
-        allEds.add(view);
+        for (int i = 0; i < count; i++) {
+            View view = getLayoutInflater().inflate(R.layout.choose_variant_layout, null);
+            LinearLayout.LayoutParams param = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.WRAP_CONTENT);
+            param.topMargin = 20;
+
+            EditText textVariant = view.findViewById(R.id.edit_text_choose_answer);
+
+            textVariant.setOnFocusChangeListener(focusChangeListener);
+
+            textVariant.addTextChangedListener(textWatcher);
+
+            linearLayout.addView(view, param);
+            allEds.add(view);
+        }
     }
 
     private void fillTest() {
@@ -614,6 +643,55 @@ public class AddTest extends AppCompatActivity {
         }
 
         return true;
+    }
+
+    private void addConformity(int variant, int answer) {
+        linearLayout.removeAllViews();
+        allEds.clear();
+
+        for (int i = 0; i < variant; i++) {
+            final View view = getLayoutInflater().inflate(R.layout.conformity_layout, null);
+            Spinner spinner = view.findViewById(R.id.spinner_variants);
+            String[] answers = setNumberArrayAnswer(answer);
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(this, R.layout.support_simple_spinner_dropdown_item, answers);
+            spinner.setAdapter(adapter);
+
+            EditText textVariant = view.findViewById(R.id.edit_text_first_part);
+            textVariant.setOnFocusChangeListener(focusChangeListener);
+
+            textVariant.addTextChangedListener(textWatcher);
+
+            EditText textVariantSecond = view.findViewById(R.id.edit_text_second_part);
+            textVariantSecond.setOnFocusChangeListener(focusChangeListener);
+
+            textVariantSecond.addTextChangedListener(textWatcher);
+
+            linearLayout.addView(view);
+            allEds.add(view);
+        }
+
+        for (int i = 0; i < answer - variant; i++) {
+            final View view = getLayoutInflater().inflate(R.layout.conformity_layout_second, null);
+
+            EditText textVariant = view.findViewById(R.id.edit_text_answer_part);
+
+            textVariant.setOnFocusChangeListener(focusChangeListener);
+
+            textVariant.addTextChangedListener(textWatcher);
+
+            linearLayout.addView(view);
+            allEds.add(view);
+        }
+    }
+
+    private void addWriteAnswer() {
+        linearLayout.removeAllViews();
+        allEds.clear();
+        final View view = getLayoutInflater().inflate(R.layout.write_answer_layout, null);
+        EditText textVariant = view.findViewById(R.id.edit_text_write_answer);
+
+        linearLayout.addView(view);
+        allEds.add(view);
     }
 
 }

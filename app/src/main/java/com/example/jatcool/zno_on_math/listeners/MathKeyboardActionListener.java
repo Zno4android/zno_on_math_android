@@ -7,6 +7,9 @@ import android.widget.EditText;
 public class MathKeyboardActionListener implements KeyboardView.OnKeyboardActionListener {
     private EditText editText;
 
+    public MathKeyboardActionListener() {
+    }
+
     public MathKeyboardActionListener(EditText editText) {
         this.editText = editText;
     }
@@ -22,12 +25,16 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
         String pasteText = " ";
 
         switch (primaryCode) {
+            case 0: {
+                pasteText = "$$Введіть формулу$$";
+                break;
+            }
             case 1: {
                 pasteText = "^{введіть ступінь}";
                 break;
             }
             case 2: {
-                pasteText = "^{введіть індекс}";
+                pasteText = "_{введіть індекс}";
                 break;
             }
             case 3: {
@@ -83,7 +90,7 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 16: {
-                pasteText = "\\ctan {введіть вираз}";
+                pasteText = "\\cot {введіть вираз}";
                 break;
             }
             case 17: {
@@ -99,8 +106,23 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 20: {
-                pasteText = "\\arcctan {введіть вираз}";
+                pasteText = "\\rm arccot {введіть вираз}";
                 break;
+            }
+            case 21: {
+                pasteText = "^\\circ";
+                break;
+            }
+            case 22: {
+                pasteText = "\\pi";
+                break;
+            }
+            case 23: {
+                pasteText = "\\begin{cases}Введіть систему рівняннь використовуючи \u21B5 для розділення\\end{cases}";
+                break;
+            }
+            case 24: {
+                pasteText = "\\";
             }
         }
 
@@ -140,5 +162,13 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
 
     @Override
     public void swipeUp() {
+    }
+
+    public EditText getEditText() {
+        return editText;
+    }
+
+    public void setEditText(EditText editText) {
+        this.editText = editText;
     }
 }

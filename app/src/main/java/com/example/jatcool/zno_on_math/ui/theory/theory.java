@@ -50,6 +50,7 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 
+import io.github.kexanie.library.MathView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
@@ -65,13 +66,14 @@ public class theory extends Fragment {
     static final String FILE_DIR = "files/";
     Button nextBtn, deleteBtn, backBtn, editBtn;
     String token, status, currentID;
-    TextView theme, themeName, text, theoryName;
-     Spinner themeSpinner;
-     String themeString;
+    TextView theme, themeName, theoryName;
+    MathView text;
+    Spinner themeSpinner;
+    String themeString;
     int positionList = 0;
     List<String> filesNames;
     LinearLayout fileLiner;
-     Context ctx;
+    Context ctx;
     RecyclerView filesList;
 
     @Override
@@ -99,10 +101,10 @@ public class theory extends Fragment {
         theoryName = view.findViewById(R.id.TheoryName);
         theme = view.findViewById(R.id.Theme);
         text = view.findViewById(R.id.Theory);
-        SharedPreferences pr = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml",""), Context.MODE_PRIVATE);
+        SharedPreferences pr = getActivity().getSharedPreferences(ConstFile.FILE_NAME.replace(".xml", ""), Context.MODE_PRIVATE);
         token = pr.getString(TOKEN, "");
         status = pr.getString(STATUS, "");
-        if(status.equals(Status.Student.getName())) {
+        if (status.equals(Status.Student.getName())) {
             deleteBtn.setVisibility(View.GONE);
             editBtn.setVisibility(View.GONE);
         }
@@ -116,13 +118,13 @@ public class theory extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    private void SetBtnClickListener(){
+    private void SetBtnClickListener() {
 
         editBtn.setOnClickListener(
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if(!currentID.equals("")) {
+                        if (!currentID.equals("")) {
                             Intent edit = new Intent(ctx, EditTheory.class);
                             edit.putExtra(THEORY, new Gson().toJson(mTheoretics.get(positionList)));
                             startActivity(edit);
@@ -135,7 +137,7 @@ public class theory extends Fragment {
                 new View.OnClickListener() {
                     @Override
                     public void onClick(View v) {
-                        if (mTheoretics.size()>0){
+                        if (mTheoretics.size() > 0) {
                             AlertDialog.Builder alert = new AlertDialog.Builder(ctx);
                             alert.setTitle("Підтверждення");
                             alert.setMessage("Ви впевпненні що хочете видалити?");
@@ -164,13 +166,12 @@ public class theory extends Fragment {
                                             );
                                 }
                             });
-                            alert.setNegativeButton("Ні",null);
+                            alert.setNegativeButton("Ні", null);
                             alert.setCancelable(false);
                             alert.show();
 
-                        }
-                        else {
-                            Toast.makeText(ctx,"Нічого видаляти!",Toast.LENGTH_LONG)
+                        } else {
+                            Toast.makeText(ctx, "Нічого видаляти!", Toast.LENGTH_LONG)
                                     .show();
                         }
                     }
@@ -224,7 +225,7 @@ public class theory extends Fragment {
         );
     }
 
-    private void getTheme(){
+    private void getTheme() {
         NetworkService.getInstance()
                 .getJSONApi()
                 .getAllTheme(token)
@@ -232,7 +233,7 @@ public class theory extends Fragment {
                         new Callback<List<Theme>>() {
                             @Override
                             public void onResponse(Call<List<Theme>> call, Response<List<Theme>> response) {
-                                if(response.isSuccessful()){
+                                if (response.isSuccessful()) {
                                     initThemeSpinner(response);
                                 }
                             }
@@ -245,15 +246,15 @@ public class theory extends Fragment {
                 );
     }
 
-    private void initThemeSpinner(Response<List<Theme>> response){
-        SimpleAdapterTheme adapter = new SimpleAdapterTheme(ctx,R.layout.simple_list_view,response.body());
+    private void initThemeSpinner(Response<List<Theme>> response) {
+        SimpleAdapterTheme adapter = new SimpleAdapterTheme(ctx, R.layout.simple_list_view, response.body());
         themeSpinner.setAdapter(adapter);
 
         themeSpinner.setOnItemSelectedListener(
                 new AdapterView.OnItemSelectedListener() {
                     @Override
                     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                        Theme t = (Theme)parent.getSelectedItem();
+                        Theme t = (Theme) parent.getSelectedItem();
                         themeString = t.getName();
                         position = 0;
                         getTheory();
@@ -267,48 +268,47 @@ public class theory extends Fragment {
         );
     }
 
-private void getTheory(){
-    NetworkService.getInstance()
-            .getJSONApi()
-            .getTheory(token,themeString)
-            .enqueue(new Callback<List<Theoretics>>() {
-                @Override
-                public void onResponse(Call<List<Theoretics>> call, Response<List<Theoretics>> response) {
+    private void getTheory() {
+        NetworkService.getInstance()
+                .getJSONApi()
+                .getTheory(token, themeString)
+                .enqueue(new Callback<List<Theoretics>>() {
+                    @Override
+                    public void onResponse(Call<List<Theoretics>> call, Response<List<Theoretics>> response) {
 
-                    if(response.isSuccessful()){
-                        mTheoretics = response.body();
-                        if(!mTheoretics.isEmpty()) {
-                            positionList = 0;
-                            theoryName.setText(mTheoretics.get(positionList).getName());
-                            theme.setText(mTheoretics.get(positionList).getTheme());
-                            text.setText(mTheoretics.get(positionList).getText());
-                            currentID = mTheoretics.get(positionList).getId();
-                            if (mTheoretics.get(positionList).getFiles().size() > 0) {
-                                fileLiner.setVisibility(View.VISIBLE);
-                                FilesViewAdapter adapter = new FilesViewAdapter(ctx, mTheoretics.get(positionList).getFiles());
-                                filesList.setAdapter(adapter);
-                                setOnClickListener();
+                        if (response.isSuccessful()) {
+                            mTheoretics = response.body();
+                            if (!mTheoretics.isEmpty()) {
+                                positionList = 0;
+                                theoryName.setText(mTheoretics.get(positionList).getName());
+                                theme.setText(mTheoretics.get(positionList).getTheme());
+                                text.setText(mTheoretics.get(positionList).getText());
+                                currentID = mTheoretics.get(positionList).getId();
+                                if (mTheoretics.get(positionList).getFiles().size() > 0) {
+                                    fileLiner.setVisibility(View.VISIBLE);
+                                    FilesViewAdapter adapter = new FilesViewAdapter(ctx, mTheoretics.get(positionList).getFiles());
+                                    filesList.setAdapter(adapter);
+                                    setOnClickListener();
+                                } else {
+                                    fileLiner.setVisibility(View.GONE);
+                                }
+                                SetBtnClickListener();
                             } else {
-                                fileLiner.setVisibility(View.GONE);
+                                theoryName.setText("");
+                                theme.setText("");
+                                text.setText("За цією темою немає теорії");
+                                currentID = "";
                             }
-                            SetBtnClickListener();
-                        }
-                        else {
-                            theoryName.setText("");
-                            theme.setText("");
-                            text.setText("За цією темою немає теорії");
-                            currentID = "";
                         }
                     }
-                }
 
-                @Override
-                public void onFailure(Call<List<Theoretics>> call, Throwable t) {
-                    Toast.makeText(getContext(), "Немає з'єднання з інтернетом", Toast.LENGTH_LONG)
-                            .show();
-                }
-            });
-}
+                    @Override
+                    public void onFailure(Call<List<Theoretics>> call, Throwable t) {
+                        Toast.makeText(getContext(), "Немає з'єднання з інтернетом", Toast.LENGTH_LONG)
+                                .show();
+                    }
+                });
+    }
 
     @Override
     public void onCreateContextMenu(@NonNull ContextMenu menu, @NonNull View v, @Nullable ContextMenu.ContextMenuInfo menuInfo) {
