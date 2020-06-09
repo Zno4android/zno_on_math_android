@@ -193,35 +193,21 @@ public class Profile extends AppCompatActivity {
                     .enqueue(new Callback<JsonObject>() {
                         @Override
                         public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
-                            String message = "";
-                            JSONObject object = null;
                             if (response.isSuccessful()) {
                                 dialog.dismiss();
-                                try {
-                                    object = new JSONObject(response.body().toString());
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                try {
-                                    Toast.makeText(Profile.this, object.getString("message"), Toast.LENGTH_LONG)
-                                            .show();
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
+
+                                Toast.makeText(Profile.this, "Ви успішно змінили пароль", Toast.LENGTH_LONG)
+                                        .show();
                             } else {
                                 try {
-                                    object = new JSONObject(response.errorBody().string());
+                                    JSONObject message = new JSONObject(response.errorBody().string());
+                                    Toast.makeText(Profile.this, message.getString("message"), Toast.LENGTH_SHORT)
+                                            .show();
 
                                 } catch (IOException | JSONException e) {
                                     e.printStackTrace();
                                 }
-                                try {
-                                    message = object.getString("oldPassword") == null ? object.getString("newPassword") : object.getString("oldPassword");
-                                } catch (JSONException e) {
-                                    e.printStackTrace();
-                                }
-                                Toast.makeText(Profile.this, message, Toast.LENGTH_SHORT)
-                                        .show();
+
                                 if (customLayout.getParent() != null) {
                                     ((ViewGroup) customLayout.getParent()).removeAllViews();
                                 }
