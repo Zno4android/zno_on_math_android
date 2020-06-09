@@ -42,11 +42,11 @@ public class MathKeyboardActionListener implements KeyboardView.OnKeyboardAction
                 break;
             }
             case 4: {
-                pasteText = "\\left";
+                pasteText = "\\left(";
                 break;
             }
             case 5: {
-                pasteText = "\\right";
+                pasteText = "\\right(";
                 break;
             }
             case 6: {

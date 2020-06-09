@@ -23,13 +23,13 @@
         <TextView
             android:id="@+id/textView12"
             android:layout_width="wrap_content"
-            android:textColor="@color/White"
             android:layout_height="wrap_content"
             android:layout_weight="1"
-            android:text="@string/prFname" />
+            android:text="@string/prLast"
+            android:textColor="@color/White" />
 
         <TextView
-            android:id="@+id/tvFname"
+            android:id="@+id/tvLastName"
             android:layout_width="178dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -71,12 +71,12 @@
             android:id="@+id/textView14"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textColor="@color/White"
             android:layout_weight="1"
-            android:text="@string/prLast" />
+            android:text="@string/prFname"
+            android:textColor="@color/White" />
 
         <TextView
-            android:id="@+id/tvLastName"
+            android:id="@+id/tvFname"
             android:layout_width="150dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"

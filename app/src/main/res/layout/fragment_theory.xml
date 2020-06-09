@@ -61,7 +61,7 @@
                         android:layout_height="wrap_content"
                         android:background="@color/White"
                         android:layout_width="match_parent"
-                        auto:engine="MathJax"></io.github.kexanie.library.MathView>
+                        auto:engine="MathJax" />
                 </ScrollView>
             </LinearLayout>
         </ScrollView>

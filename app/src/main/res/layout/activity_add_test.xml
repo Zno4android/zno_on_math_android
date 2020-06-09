@@ -92,12 +92,18 @@
             android:orientation="vertical"
             android:paddingBottom="15dp">
 
-            <io.github.kexanie.library.MathView
-                android:id="@+id/text_question_math"
-                android:background="@color/White"
+            <ScrollView
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                auto:engine="MathJax"></io.github.kexanie.library.MathView>
+                android:layout_height="wrap_content">
+
+                <io.github.kexanie.library.MathView
+                    android:id="@+id/text_question_math"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="@color/White"
+                    auto:engine="MathJax" />
+            </ScrollView>
+
 
             <EditText
                 android:id="@+id/text_question"

@@ -5,13 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="horizontal">
 
-    <io.github.kexanie.library.MathView
-        android:id="@+id/tv_first_part"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:background="@color/White"
-        android:layout_weight="1"
-        auto:engine="MathJax"></io.github.kexanie.library.MathView>
+        android:layout_weight="1">
+
+        <io.github.kexanie.library.MathView
+            android:id="@+id/tv_first_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:background="@color/White"
+            auto:engine="MathJax" />
+    </ScrollView>
+
 
     <Spinner
         android:id="@+id/spinner_variants"
@@ -21,13 +27,20 @@
         android:layout_weight="1"
         android:textColor="@color/White" />
 
-    <io.github.kexanie.library.MathView
-        android:id="@+id/tv_second_part"
+    <ScrollView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:background="@color/White"
-        android:layout_gravity="end"
-        auto:engine="MathJax"></io.github.kexanie.library.MathView>
+        android:layout_weight="1">
+
+        <io.github.kexanie.library.MathView
+            android:id="@+id/tv_second_part"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:layout_weight="1"
+            android:background="@color/White"
+            auto:engine="MathJax" />
+    </ScrollView>
+
 
 </LinearLayout>

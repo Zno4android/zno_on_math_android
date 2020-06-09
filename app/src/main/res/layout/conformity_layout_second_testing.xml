@@ -5,12 +5,19 @@
     android:layout_height="match_parent"
     android:orientation="vertical">
 
-    <io.github.kexanie.library.MathView
-        android:id="@+id/tv_answer_part"
-        android:layout_width="119dp"
-        android:layout_height="wrap_content"
-        android:textColor="@color/White"
-        android:layout_gravity="end"
-        android:background="@color/White"
-        auto:engine="MathJax"></io.github.kexanie.library.MathView>
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <io.github.kexanie.library.MathView
+            android:id="@+id/tv_answer_part"
+            android:layout_width="119dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="end"
+            android:background="@color/White"
+            android:textColor="@color/White"
+            auto:engine="MathJax" />
+    </ScrollView>
+
+
 </LinearLayout>
