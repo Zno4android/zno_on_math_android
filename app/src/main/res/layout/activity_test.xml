@@ -24,7 +24,7 @@
             android:id="@+id/Test_task"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:backgroundColor="@color/White"
+            android:background="@color/White "
             auto:engine="MathJax"></io.github.kexanie.library.MathView>
 
     <LinearLayout

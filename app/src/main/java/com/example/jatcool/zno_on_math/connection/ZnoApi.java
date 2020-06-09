@@ -81,13 +81,13 @@ public interface ZnoApi {
     Call<List<Theme>> getAllTheme(@Header("auth-token") String token);
 
     @POST("api/themes/addTheme")
-    Call<String> addTheme(@Header("auth-token") String token, @Body Theme theme);
+    Call<JsonObject> addTheme(@Header("auth-token") String token, @Body Theme theme);
 
     @GET("api/tests/getAllTest")
     Call<List<Test>> getAllTest(@Header("auth-token") String token);
 
     @DELETE("/api/tests/deleteTestById/{id}")
-    Call<String> deleteTest(@Header("auth-token") String token, @Path("id") String id);
+    Call<JsonObject> deleteTest(@Header("auth-token") String token, @Path("id") String id);
 
     @PUT("/api/tests/updateTestById/{id}")
     Call<String> updateTest(@Header("auth-token") String token, @Path("id") String id, @Body Test test);
@@ -95,8 +95,8 @@ public interface ZnoApi {
     @DELETE("api/theory/delete/{id}")
     Call<JsonObject> deleteTheory(@Header("auth-token") String token, @Path("id") String id);
 
-    @POST("/api/tests/checkOwner/{id}")
-    Call<String> checkTestOwner(@Header("auth-token") String token, @Path("id") String id);
+    @GET("/api/tests/checkOwner/{id}")
+    Call<JsonObject> checkTestOwner(@Header("auth-token") String token, @Path("id") String id);
 
     @PUT("api/theory/update/{id}")
     Call<JsonObject> updateTheory(@Header("auth-token") String token, @Path("id") String id, @Body Theoretics theoretics);

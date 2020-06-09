@@ -29,6 +29,7 @@ import com.example.jatcool.zno_on_math.entity.Statistics;
 import com.example.jatcool.zno_on_math.entity.Status;
 import com.example.jatcool.zno_on_math.entity.Test;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.gson.JsonObject;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -173,9 +174,9 @@ public class HomeFragment extends Fragment {
                         .getJSONApi()
                         .checkTestOwner(token, selectedTest.getId())
                         .enqueue(
-                                new Callback<String>() {
+                                new Callback<JsonObject>() {
                                     @Override
-                                    public void onResponse(Call<String> call, Response<String> response) {
+                                    public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                                         if (response.isSuccessful()) {
                                             Intent intent = new Intent(getActivity(), AddTest.class);
 
@@ -186,7 +187,7 @@ public class HomeFragment extends Fragment {
                                     }
 
                                     @Override
-                                    public void onFailure(Call<String> call, Throwable t) {
+                                    public void onFailure(Call<JsonObject> call, Throwable t) {
                                         Toast.makeText(getActivity(), DIALOG_EDIT_TEST_ERROR, Toast.LENGTH_LONG)
                                                 .show();
                                     }
@@ -209,9 +210,9 @@ public class HomeFragment extends Fragment {
                                 .getJSONApi()
                                 .deleteTest(token, selectedTest.getId())
                                 .enqueue(
-                                        new Callback<String>() {
+                                        new Callback<JsonObject>() {
                                             @Override
-                                            public void onResponse(Call<String> call, Response<String> response) {
+                                            public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                                                 if (response.isSuccessful()) {
                                                     TestListAdapter adapter = (TestListAdapter) testList.getAdapter();
                                                     adapter.remove(selectedPosition);
@@ -222,7 +223,7 @@ public class HomeFragment extends Fragment {
                                             }
 
                                             @Override
-                                            public void onFailure(Call<String> call, Throwable t) {
+                                            public void onFailure(Call<JsonObject> call, Throwable t) {
                                                 Toast.makeText(getActivity(), DIALOG_DELETE_TEST_ERROR, Toast.LENGTH_LONG)
                                                         .show();
                                             }

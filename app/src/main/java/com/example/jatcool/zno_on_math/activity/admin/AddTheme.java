@@ -13,6 +13,7 @@ import com.example.jatcool.zno_on_math.R;
 import com.example.jatcool.zno_on_math.connection.NetworkService;
 import com.example.jatcool.zno_on_math.constants.ConstFile;
 import com.example.jatcool.zno_on_math.entity.Theme;
+import com.google.gson.JsonObject;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -43,16 +44,16 @@ public class AddTheme extends AppCompatActivity {
                                     .getJSONApi()
                                     .addTheme(pr.getString(TOKEN, ""), new Theme(editText.getText().toString()))
                                     .enqueue(
-                                            new Callback<String>() {
+                                            new Callback<JsonObject>() {
                                                 @Override
-                                                public void onResponse(Call<String> call, Response<String> response) {
+                                                public void onResponse(Call<JsonObject> call, Response<JsonObject> response) {
                                                     Toast.makeText(getApplicationContext(), ADD_THEME_SUCCESS_ADD_THEME, Toast.LENGTH_LONG)
                                                             .show();
                                                     finish();
                                                 }
 
                                                 @Override
-                                                public void onFailure(Call<String> call, Throwable t) {
+                                                public void onFailure(Call<JsonObject> call, Throwable t) {
                                                     Toast.makeText(getApplicationContext(), ADD_THEME_CAN_NOT_GET_THEMES, Toast.LENGTH_LONG)
                                                             .show();
                                                 }

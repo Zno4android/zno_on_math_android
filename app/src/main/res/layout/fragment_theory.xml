@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:auto="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
@@ -9,125 +9,133 @@
     android:orientation="vertical"
     tools:context=".ui.theory.theory">
 
-    <Spinner
-        android:id="@+id/spinner"
-        style="@android:style/Widget.Holo.Spinner"
-        android:textColor="@color/White"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content" />
-
-    <TextView
-        android:id="@+id/TheoryName"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:textColor="@color/White"
-        android:text="" />
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner"
+            style="@android:style/Widget.Holo.Spinner"
+            android:textColor="@color/White"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
 
         <TextView
-            android:id="@+id/Theme"
-            android:layout_width="wrap_content"
-            android:textColor="@color/White"
+            android:id="@+id/TheoryName"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1" />
-
-    </LinearLayout>
-
-    <ScrollView
-        android:layout_width="match_parent"
-        android:layout_height="461dp"
-        android:padding="5dp">
+            android:textColor="@color/White"
+            android:text="" />
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="630dp"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/Theme"
+                android:layout_width="wrap_content"
+                android:textColor="@color/White"
+                android:layout_height="wrap_content"
+                android:layout_weight="1" />
+
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="461dp"
+            android:padding="5dp">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="630dp"
+                android:orientation="vertical">
+
+                <ScrollView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content">
+
+                    <io.github.kexanie.library.MathView
+                        android:id="@+id/Theory"
+                        android:layout_height="wrap_content"
+                        android:background="@color/White"
+                        android:layout_width="match_parent"
+                        auto:engine="MathJax"></io.github.kexanie.library.MathView>
+                </ScrollView>
+            </LinearLayout>
+        </ScrollView>
+
+        <LinearLayout
+            android:id="@+id/filesLiner"
+            android:layout_width="match_parent"
+            android:layout_height="111dp"
             android:orientation="vertical">
 
-            <ScrollView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content">
+            <TextView
+                android:id="@+id/textView33"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="10dp"
+                android:text="Файли до теорії"
+                android:textAlignment="center"
+                android:textColor="@color/White" />
 
-                <io.github.kexanie.library.MathView
-                    android:id="@+id/Theory"
-                    android:layout_height="wrap_content"
-                    android:background="@color/White"
-                    android:layout_width="match_parent"
-                    auto:engine="MathJax"></io.github.kexanie.library.MathView>
-            </ScrollView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/viewTheoryFilesList"
+                android:layout_width="match_parent"
+                android:layout_height="92dp" />
         </LinearLayout>
-    </ScrollView>
 
-    <LinearLayout
-        android:id="@+id/filesLiner"
-        android:layout_width="match_parent"
-        android:layout_height="111dp"
-        android:orientation="vertical">
-
-        <TextView
-            android:id="@+id/textView33"
+        <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:text="Файли до теорії"
-            android:textAlignment="center"
-            android:textColor="@color/White" />
+            android:layout_gravity="bottom"
+            android:layout_marginTop="30dp"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/viewTheoryFilesList"
-            android:layout_width="match_parent"
-            android:layout_height="92dp" />
+            <Button
+                android:id="@+id/Back"
+                android:layout_width="wrap_content"
+                android:background="@drawable/batton"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="Назад" />
+
+            <Button
+                android:id="@+id/Edit"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/batton"
+                android:textColor="@color/White"
+                android:layout_gravity="bottom"
+                android:layout_weight="1"
+                android:text="Редагувати" />
+
+            <Button
+                android:id="@+id/Delete"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:layout_gravity="bottom"
+                android:background="@drawable/delete_btn"
+                android:layout_weight="1"
+                android:text="Видалити" />
+
+            <Button
+                android:id="@+id/Next"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textColor="@color/White"
+                android:layout_gravity="bottom"
+                android:background="@drawable/batton"
+                android:layout_weight="1"
+                android:text="Далі" />
+
+        </LinearLayout>
     </LinearLayout>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal">
-
-        <Button
-            android:id="@+id/Back"
-            android:layout_width="wrap_content"
-            android:background="@drawable/batton"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:text="Назад" />
-
-        <Button
-            android:id="@+id/Edit"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:background="@drawable/batton"
-            android:textColor="@color/White"
-            android:layout_gravity="bottom"
-            android:layout_weight="1"
-            android:text="Редагувати" />
-
-        <Button
-            android:id="@+id/Delete"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:layout_gravity="bottom"
-            android:background="@drawable/delete_btn"
-            android:layout_weight="1"
-            android:text="Видалити" />
-
-        <Button
-            android:id="@+id/Next"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:textColor="@color/White"
-            android:layout_gravity="bottom"
-            android:background="@drawable/batton"
-            android:layout_weight="1"
-            android:text="Далі" />
-
-    </LinearLayout>
-
-</LinearLayout>
+</ScrollView>
